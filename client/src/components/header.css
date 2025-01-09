@@ -1,0 +1,63 @@
+.header-container {
+    text-align: center;
+    margin: 20px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center all children (including button) */
+    justify-content: center;
+  }
+  
+  .header-image {
+    width: 9rem; /* Equivalent to 'w-36' */
+    height: 9rem; /* Equivalent to 'h-36' */
+    border-radius: 50%; /* Equivalent to 'rounded-full' */
+    margin-bottom: 1.5rem; /* Equivalent to 'mb-6' */
+  }
+  
+  .header-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .wave-image {
+    width: 2rem; /* Equivalent to 'w-8' */
+    aspect-ratio: 1 / 1; /* Equivalent to 'aspect-square' */
+  }
+  
+  .header-container h2 {
+    font-size: 2rem; /* Adjust font size for responsiveness */
+    font-weight: 600;
+    margin-bottom: 1rem; /* Equivalent to 'mb-4' */
+    color: #444;
+  }
+  
+  .header-container p {
+    margin-bottom: 2rem; /* Equivalent to 'mb-8' */
+    max-width: 600px; /* Equivalent to 'max-w-md' */
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #666;
+  }
+  
+  .header-container button {
+    border: 1px solid #ffffff; /* Equivalent to 'border-gray-500' */
+    border-radius: 999px; /* Equivalent to 'rounded-full' */
+    padding: 0.625rem 2rem; /* Equivalent to 'px-8 py-2.5' */
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ffffff;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Equivalent to 'transition-all' */
+    margin-top: 1rem; /* Add space above the button */
+  }
+  
+  .header-container button:hover {
+    background-color: #f2f2f2; /* Equivalent to 'hover:bg-gray-100' */
+  }
+  

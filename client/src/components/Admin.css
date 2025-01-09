@@ -1,0 +1,123 @@
+/* General reset for margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and overall background */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Dashboard container */
+.admin-dashboard {
+    width: 100%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+/* Header section */
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-header h1 {
+    font-size: 2rem;
+    color: #444;
+}
+
+/* Table container */
+.table-container {
+    overflow-x: auto;
+}
+
+/* Loading and Error messages */
+.loading-message, .error-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #fff;
+    padding: 1rem;
+    background-color: #f0ad4e;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    background-color: #d9534f;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+td {
+    background-color: #fff;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Button styles */
+.details-button {
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.details-button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive styling */
+@media screen and (max-width: 768px) {
+    .admin-dashboard {
+        padding: 1rem;
+    }
+
+    .dashboard-header h1 {
+        font-size: 1.5rem;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    .details-button {
+        padding: 0.4rem 0.8rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .details-button {
+        width: 100%;
+        padding: 0.6rem;
+    }
+}

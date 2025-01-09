@@ -1,0 +1,11 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Ensure full screen height */
+    background-image: url('bg_img.png');
+    background-size: cover;
+    background-position: center;
+  }
+  
