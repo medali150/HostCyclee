@@ -13,6 +13,11 @@ import { ToastContainer} from 'react-toastify';
 import Admin from './components/Admin.jsx';
 import Package from './components/Package.jsx';
 import HostingCycles from './components/showhostingCycleSchema.jsx';
+import Features from './dash/feater.jsx';
+import Footer from './dash/footer.jsx';
+import Hero from './dash/hero.jsx';
+import Aymen from './dash/header.jsx';
+
 
 function App() {
   return (
@@ -33,9 +38,14 @@ function App() {
           <Route path="/User/:userId" element={<User />} />
           <Route path="/Package" element={<Package />} />
           <Route path="/showhostingCycleSchema" element={<HostingCycles />} />
+          <Route path="/Features" element={< Features/>} />
+          <Route path="/Footer" element={<Footer/>} />
+          <Route path="/Eader" element={<Aymen/>} />
+          <Route path="/Hero" element={<Hero/>} />
+       
           
-
-
+          
+          
         </Routes>
       </div>
     </BrowserRouter> 

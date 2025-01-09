@@ -1,14 +1,18 @@
 import React from 'react'
+
 import Navbar from '../components/navbar'
 import Header from '../components/header'
 import './home.css'
 import { useNavigate } from 'react-router-dom'
+import Footer from '../dash/footer'
+import Aymen from '../dash/header'
 const Home = () => {
     const navigate= useNavigate();
   return (
     <div className="home-container">
-      <Navbar/>
+     <Aymen/>
       <Header/>
+      <Footer/>
     </div>
   )
 }
