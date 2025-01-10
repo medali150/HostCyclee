@@ -13,12 +13,13 @@ const [state,setState]=useState('sign up')
 const [name,setname]=useState('')
 const [email,setemail]=useState('')
 const [password,setpassword]=useState('')
+const [country, setCountry] = useState('');
 const onSubitHundler =async(e)=>{
   try {
     e.preventDefault();
     axios.defaults.withCredentials=true;
     if (state==='sign up'){
-     const {data}= await axios.post('http://localhost:4000/api/auth/register',{name,email,password})
+     const {data}= await axios.post('http://localhost:4000/api/auth/register',{name,email,password,Contry: country})
       if (data.success){
         setIsLogin(true)  
         getUserData()
@@ -107,6 +108,20 @@ const handleSubmit = async (e) => {
           value={name}
           />
         </div>
+        <div className="input-container">
+                <label>Country</label>
+                <select
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                >
+                  <option value="">Select Country</option>
+                  <option value="Tunisia">Tunisia</option>
+                  <option value="Morocco">Morocco</option>
+                  <option value="Algerie">Algerie</option>
+                  <option value="Egypt">Egypt</option>
+                  <option value="Libya">Libya</option>
+                </select>
+              </div>
 
        
    </> ) }
@@ -116,6 +131,7 @@ const handleSubmit = async (e) => {
           onChange={(e)=> setpassword(e.target.value)}
           value={password}/>
         </div>
+       
         <div className="input-container">
           <img src="assets\mail_icon.svg" alt="Lock Icon" />
           <input type="email" placeholder="Enter your Email" 

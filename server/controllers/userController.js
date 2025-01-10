@@ -19,7 +19,8 @@ export const getUserData=async(req,res)=>{
               startDate:user.startDate,
               endDate:user.endDate,
               cost:user.cost,
-              email:user.email  
+              email:user.email, 
+              Contry:user.Contry,
             }})
 
         
