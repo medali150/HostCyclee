@@ -5,6 +5,8 @@ import './Admin.css'
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faTachometerAlt, faPlus, faEye, faUserPlus, faUsers } from '@fortawesome/free-solid-svg-icons';
+import Footer from '../dash/footer';
+import Aymen from '../dash/header';
 
 const Admin = () => {
       const [isOpen, setIsOpen] = useState(false);
@@ -51,6 +53,7 @@ const Admin = () => {
                   <td>{new Date(endDate).toLocaleDateString()}</td> <td>{cost && !isNaN(cost) ? `$${cost.toFixed(2)}` : 'N/A'}</td>  <td>{duration}</td>*/
   return (
     <div>
+      <Aymen/>
             <>
             <button
                 onClick={toggleSidebar}
@@ -152,6 +155,7 @@ const Admin = () => {
         )}
       </div>
     </div>
+    
     </div>
   );
 };

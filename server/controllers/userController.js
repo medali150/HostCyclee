@@ -16,8 +16,10 @@ export const getUserData=async(req,res)=>{
               name:user.name,
               isAcconuntVerified:user.isAcconuntVerified,
               isAdmin:user.isAdmin,
-            
-              
+              startDate:user.startDate,
+              endDate:user.endDate,
+              cost:user.cost,
+              email:user.email  
             }})
 
         

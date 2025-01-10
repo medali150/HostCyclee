@@ -9,47 +9,44 @@ import EmailVerify from './pages/EmailVerify';
 import Navbar from './components/navbar.jsx';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './components/header.jsx';
-import { ToastContainer} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import Admin from './components/Admin.jsx';
 import Package from './components/Package.jsx';
 import HostingCycles from './components/showhostingCycleSchema.jsx';
 import Features from './dash/feater.jsx';
 import Footer from './dash/footer.jsx';
 import Hero from './dash/hero.jsx';
-import Aymen from './dash/header.jsx';
-
+import Dash from './dash/dash1.jsx';
+import Compte from './Chat/Compte.jsx';
 
 function App() {
   return (
-    <BrowserRouter> {/* Use BrowserRouter here */}
+    <BrowserRouter>
       <div className="App">
-        <ToastContainer/>
+        <ToastContainer />
         <Routes>
-          <Route path="/" element={<Home/>} />
-          <Route path="/chat" element={<Chat1/>} />
-          <Route path="/Auth" element={<Auth/>} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/Home" element={<Home/>} />
-          <Route path="/resetPassword" element={<ResetPassword/>} />
-          <Route path="/EmailVerify" element={<EmailVerify/>} />
-          <Route path="/navbar" element={<Navbar/>} />
-          <Route path="/header" element={<Header/>} />
-          <Route path="/Admin" element={<Admin/>} />
+          <Route path="/" element={<Home />} />
+          <Route path="/chat" element={<Chat1 />} />
+          <Route path="/Auth" element={<Auth />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/Home" element={<Home />} />
+          <Route path="/resetPassword" element={<ResetPassword />} />
+          <Route path="/EmailVerify" element={<EmailVerify />} />
+          <Route path="/navbar" element={<Navbar />} />
+          <Route path="/header" element={<Header />} />
+          <Route path="/Admin" element={<Admin />} />
           <Route path="/User/:userId" element={<User />} />
           <Route path="/Package" element={<Package />} />
           <Route path="/showhostingCycleSchema" element={<HostingCycles />} />
-          <Route path="/Features" element={< Features/>} />
-          <Route path="/Footer" element={<Footer/>} />
-          <Route path="/Eader" element={<Aymen/>} />
-          <Route path="/Hero" element={<Hero/>} />
-       
-          
-          
-          
+          <Route path="/Features" element={<Features />} />
+          <Route path="/Footer" element={<Footer />} />
+          <Route path="/Header" element={<Header />} />
+          <Route path="/Hero" element={<Hero />} />
+          <Route path="/dash" element={<Dash />} />
+          <Route path="/Compte" element={<Compte />} />
         </Routes>
       </div>
-    </BrowserRouter> 
-
+    </BrowserRouter>
   );
 }
 
