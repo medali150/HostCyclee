@@ -12,6 +12,7 @@ const userSchema=new mongoose.Schema({
     startDate: { type: Date },
     endDate: { type: Date},
     cost: { type: Number},
+    Contry: { type: String, enum: ['Tunisia', 'Morocco','Algerie','Egypt','Libya'] },
     duration: { type: String, enum: ['6 months', '1 year'] },
     image: { type: String, default: '' }
 

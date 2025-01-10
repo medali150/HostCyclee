@@ -5,6 +5,7 @@ import './package.css';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faTachometerAlt, faPlus, faEye, faUserPlus, faUsers} from '@fortawesome/free-solid-svg-icons';
+import Aymen from '../dash/header';
 const Package = () => {
     const [formData, setFormData] = useState({
         namePAckage: '',
@@ -48,6 +49,7 @@ const Package = () => {
 
     return (
         <div>
+            <Aymen />
               <>
             <button
                 onClick={toggleSidebar}

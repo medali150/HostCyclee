@@ -7,8 +7,8 @@ import mongoose from 'mongoose';
 import HostingCycle from '../models/HostingCycle.js'; // Adjust the path as needed
 
 export const register =async(req,res)=>{
-    const {name,email,password}=req.body;
-    if(!name || !email ||!password){
+    const {name,email,password,Contry}=req.body;
+    if(!name || !email ||!password ||!Contry){
         return res.json({success:false,message:'Missing Details'});
     }
     try{
@@ -17,7 +17,7 @@ export const register =async(req,res)=>{
         return res.json({success:false,message:"user already exists"});
        }
      const hashedPassword=await bcrypt.hash(password,10);//Hachage du mot de passe : Utiliser bcrypt pour hacher le mot de passe avant de le stocker.
-     const user =new userModel({name,email,password:hashedPassword});//Création de l'utilisateur : Utiliser le modèle utilisateur pour sauvegarder un nouvel utilisateur dans la base de données.
+     const user =new userModel({name,email,password:hashedPassword,Contry});//Création de l'utilisateur : Utiliser le modèle utilisateur pour sauvegarder un nouvel utilisateur dans la base de données.
      await user.save();
         
      const token=jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:'7d'}); 

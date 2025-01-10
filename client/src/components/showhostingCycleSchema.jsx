@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './show.css';
 import Sidebar from '../Chat/Chat1';
+import Aymen from '../dash/header';
 
 const HostingCycles = () => {
     const [hostingCycles, setHostingCycles] = useState([]);
@@ -49,6 +50,8 @@ const HostingCycles = () => {
     }, []);
 
     return (
+        <div>
+            <Aymen />
         <div className="hosting-cycles">
             <Sidebar/>
             <h1>All Hosting Cycles</h1>
@@ -84,6 +87,7 @@ const HostingCycles = () => {
                     </tbody>
                 </table>
             )}
+        </div>
         </div>
     );
 };
