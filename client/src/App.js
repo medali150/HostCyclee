@@ -18,6 +18,7 @@ import Footer from './dash/footer.jsx';
 import Hero from './dash/hero.jsx';
 import Dash from './dash/dash1.jsx';
 import Compte from './Chat/Compte.jsx';
+import Commerce from './Chat/Commerce.jsx';
 
 function App() {
   return (
@@ -44,6 +45,8 @@ function App() {
           <Route path="/Hero" element={<Hero />} />
           <Route path="/dash" element={<Dash />} />
           <Route path="/Compte" element={<Compte />} />
+          <Route path="/Commerce" element={<Commerce />} />
+          
         </Routes>
       </div>
     </BrowserRouter>

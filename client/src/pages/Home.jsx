@@ -12,7 +12,9 @@ const Home = () => {
   return (
     <div className="home-container">
      <Aymen/>
+     <Header />
       <Hero/>
+      
       <Footer/>
     </div>
   )

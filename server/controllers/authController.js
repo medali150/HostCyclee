@@ -310,10 +310,10 @@ try {
 }
 export const registerHostingCycle = async (req, res) => {
     try {
-      const { namePAckage, startDate, endDate, cost, duration } = req.body;
+      const { namePAckage, startDate, endDate, cost, duration, image} = req.body;
   
       // Validate required fields
-      if (!namePAckage || !startDate || !endDate || !cost || !duration) {
+      if (!namePAckage || !startDate || !endDate || !cost || !duration || !image) {
         return res.status(400).json({ success: false, message: 'Missing required fields' });
       }
   
@@ -324,6 +324,7 @@ export const registerHostingCycle = async (req, res) => {
         endDate,
         cost,
         duration,
+        image
       });
   
       // Save to the database
