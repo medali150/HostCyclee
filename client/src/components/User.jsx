@@ -3,72 +3,73 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const User = () => {
-    const { userId } = useParams();
-    const [user, setUser] = useState(null);
-    const [error, setError] = useState("");
-    const [image, setImage] = useState(null); // State to store selected image
-    const [loading, setLoading] = useState(false); // To track image upload status
+    const { userId } = useParams();  // Extract userId from the URL
+    const [user, setUser] = useState(null);  // State to hold user data
+    const [error, setError] = useState("");  // Error state for displaying errors
+    const [image, setImage] = useState(null);  // Image state for the profile image
+    const [loading, setLoading] = useState(false);  // Loading state for image upload
 
     useEffect(() => {
+        // Fetch user details from the backend when the component mounts
         const fetchUserDetails = async () => {
             try {
                 const response = await axios.get(`http://localhost:4000/api/user/${userId}`);
                 if (response.data.success) {
-                    setUser(response.data.user);
+                    setUser(response.data.user);  // Set user data in state
                 } else {
-                    setError(response.data.message);
+                    setError(response.data.message);  // Set error message if any
                 }
             } catch (err) {
-                setError("Error fetching user details: " + err.message);
+                setError("Error fetching user details: " + err.message);  // Set error if the API request fails
             }
         };
 
-        fetchUserDetails();
-    }, [userId]);
+        fetchUserDetails();  // Call the function to fetch user data
+    }, [userId]);  // Dependency on userId, will re-run when userId changes
 
-    // Handle the image file input
+    // Handle image file selection
     const handleImageChange = (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files[0];  // Get the selected file
         if (file) {
-            setImage(file);
+            setImage(file);  // Set the image state
         }
     };
 
-    // Handle the image upload
-   // Handle the image upload
-   const handleImageUpload = async () => {
-    if (!image) {
-      setError("Please select an image to upload.");
-      return;
-    }
-  
-    const formData = new FormData();
-    formData.append('profileImage', image);
-    
-    // Log FormData contents to check
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-  
-    setLoading(true);
-    try {
-      const response = await axios.post(`http://localhost:4000/api/user/upload-profile-image/${userId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-  
-      if (response.data.success) {
-        // handle success
-      } else {
-        setError(response.data.message);
-      }
-    } catch (err) {
-      setError("Error uploading image: " + err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+    // Upload the profile image to the backend
+    const handleImageUpload = async () => {
+        if (!image) {
+            setError("Please select an image to upload.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('profileImage', image);
+
+        setLoading(true);  // Set loading state to true
+        try {
+            const response = await axios.post(
+                `http://localhost:4000/api/user/upload-profile-image/${userId}`,
+                formData,
+                {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                }
+            );
+
+            if (response.data.success) {
+                setUser((prevUser) => ({
+                    ...prevUser,
+                    image: response.data.user.image,  // Update the user state with the new image URL
+                }));
+            } else {
+                setError(response.data.message);  // Set error if the upload fails
+            }
+        } catch (err) {
+            setError("Error uploading image: " + err.message);  // Set error if API request fails
+        } finally {
+            setLoading(false);  // Set loading state to false
+        }
+    };
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 py-8">
             <div className="bg-white overflow-hidden shadow rounded-lg border max-w-4xl w-full">
@@ -77,7 +78,7 @@ const User = () => {
                         User Profile
                     </h3>
                     <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                        This is some information about the user.
+                        Information about the user and their cart.
                     </p>
                 </div>
                 <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
@@ -88,26 +89,25 @@ const User = () => {
                     )}
                     {user ? (
                         <dl className="sm:divide-y sm:divide-gray-200">
-                            {/* User Profile Information */}
+                            {/* User Information */}
                             <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt className="text-sm font-medium text-gray-500">
-                                    Full name
+                                    Full Name
                                 </dt>
                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     {user.name}
                                 </dd>
                             </div>
-
                             <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt className="text-sm font-medium text-gray-500">
-                                    Email address
+                                    Email Address
                                 </dt>
                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     {user.email}
                                 </dd>
                             </div>
 
-                            {/* Add Profile Image Section */}
+                            {/* Profile Image */}
                             <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt className="text-sm font-medium text-gray-500">
                                     Profile Image
@@ -136,22 +136,23 @@ const User = () => {
                                 </dd>
                             </div>
 
-                            {/* Other User Info */}
+                            {/* Cart Details */}
                             <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt className="text-sm font-medium text-gray-500">
-                                    Start Date
+                                    Cart Items
                                 </dt>
                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    {new Date(user.startDate).toLocaleDateString()}
-                                </dd>
-                            </div>
-
-                            <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                <dt className="text-sm font-medium text-gray-500">
-                                    End Date
-                                </dt>
-                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    {new Date(user.endDate).toLocaleDateString()}
+                                    {user.cart && user.cart.length > 0 ? (
+                                        <ul className="list-disc pl-5">
+                                            {user.cart.map((item, index) => (
+                                                <li key={index}>
+                                                    {item.packageName} - ${item.cost}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <span>No items in the cart.</span>
+                                    )}
                                 </dd>
                             </div>
                         </dl>

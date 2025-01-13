@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { Bell, Calendar, Users, Activity, ChevronRight, Mail, Phone, MapPin, Check } from 'lucide-react';
+import { AppContent } from '../context/Appcontext';
 
 const Hero = () => {
+  const {userData} =useContext(AppContent);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -9,6 +11,7 @@ const Hero = () => {
   };
 
   return (
+    
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -41,8 +44,9 @@ const Hero = () => {
             <span className="block text-blue-600">cycles d'hébergement</span>
           </h1>
           <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-            HeberGest centralise les informations de vos clients et assure un suivi proactif des échéances d'hébergement pour une gestion sans souci.
+            HostCycle centralise les informations de vos clients et assure un suivi proactif des échéances d'hébergement pour une gestion sans souci.
           </p>
+          {!userData && (
           <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
             <div className="rounded-md shadow">
               <a href="#" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
@@ -54,7 +58,7 @@ const Hero = () => {
                 En savoir plus
               </a>
             </div>
-          </div>
+          </div>)}
         </div>
       </section>
 
@@ -65,7 +69,7 @@ const Hero = () => {
             Fonctionnalités principales
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-            Découvrez comment HeberGest peut simplifier votre gestion d'hébergement
+            Découvrez comment HostCycle peut simplifier votre gestion d'hébergement
           </p>
         </div>
         <div className="mt-20 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -230,12 +234,12 @@ const Hero = () => {
             Ce que disent nos clients
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-            Découvrez comment HeberGest a aidé d'autres entreprises à simplifier leur gestion d'hébergement
+            Découvrez comment HostCycle a aidé d'autres entreprises à simplifier leur gestion d'hébergement
           </p>
         </div>
         <div className="mt-20 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           <div className="bg-gray-100 rounded-lg p-8">
-            <p className="text-gray-600 italic">"HeberGest a révolutionné notre façon de gérer les hébergements de nos clients. Nous ne manquons plus jamais une échéance !"</p>
+            <p className="text-gray-600 italic">"HostCycle a révolutionné notre façon de gérer les hébergements de nos clients. Nous ne manquons plus jamais une échéance !"</p>
             <div className="mt-4 flex items-center">
               <img src="/placeholder.svg?height=40&width=40" alt="Sophie Martin" className="w-10 h-10 rounded-full mr-4" />
               <div>
@@ -245,7 +249,7 @@ const Hero = () => {
             </div>
           </div>
           <div className="bg-gray-100 rounded-lg p-8">
-            <p className="text-gray-600 italic">"Grâce à HeberGest, nous avons pu automatiser nos rappels et réduire considérablement le temps passé à gérer les renouvellements."</p>
+            <p className="text-gray-600 italic">"Grâce à HostCycle, nous avons pu automatiser nos rappels et réduire considérablement le temps passé à gérer les renouvellements."</p>
             <div className="mt-4 flex items-center">
               <img src="/placeholder.svg?height=40&width=40" alt="Thomas Dubois" className="w-10 h-10 rounded-full mr-4" />
               <div>
@@ -304,7 +308,7 @@ const Hero = () => {
             <div className="space-y-4">
               <div className="flex items-center">
                 <Mail className="h-6 w-6 text-blue-500 mr-2" />
-                <span>contact@hebergest.com</span>
+                <span>contact@HostCyclegest.com</span>
               </div>
               <div className="flex items-center">
                 <Phone className="h-6 w-6 text-blue-500 mr-2" />
@@ -312,7 +316,7 @@ const Hero = () => {
               </div>
               <div className="flex items-center">
                 <MapPin className="h-6 w-6 text-blue-500 mr-2" />
-                <span>123 Rue de l'Innovation, 75001 Paris, France</span>
+                <span>123 Rue de l'Innovation, 75001 tozeur, tunisie</span>
               </div>
             </div>
           </div>
@@ -358,7 +362,7 @@ const Hero = () => {
             </div>
           </div>
           <div className="mt-8 border-t border-gray-700 pt-8 flex justify-between items-center">
-            <p className="text-base text-gray-400">&copy; 2023 HeberGest, Inc. Tous droits réservés.</p>
+            <p className="text-base text-gray-400">&copy; 2023 HostCycle, Inc. Tous droits réservés.</p>
           </div>
         </div>
       </footer>

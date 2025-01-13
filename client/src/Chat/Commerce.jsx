@@ -1,226 +1,184 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { ShoppingCart } from 'lucide-react';
+import Header from '../dash/header';
+import Footer from '../dash/footer';
 
 const Commerce = () => {
+  const { userId } = useParams();
+  const [hostingCycles, setHostingCycles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [cartLoading, setCartLoading] = useState(false);
+  const [cartError, setCartError] = useState('');
+
+  useEffect(() => {
+    const fetchHostingCycles = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/api/auth/getAllHostingCycles', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        setHostingCycles(response.data.data);
+      } catch (error) {
+        setError('Failed to fetch hosting cycles');
+        console.error('Error fetching hosting cycles:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHostingCycles();
+  }, []);
+
+  const handleAddToCart = async (cycleId) => {
+    setCartLoading(true);
+    setCartError('');
+
+    if (!userId) {
+      setCartError('User not authenticated');
+      setCartLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `http://localhost:4000/api/user/addHostingCycleToCart/${userId}`,
+        { hostingCycleId: cycleId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        alert('Item added to cart successfully!');
+      } else {
+        setCartError('Failed to add item to cart');
+      }
+    } catch (error) {
+      setCartError('Error adding item to cart: ' + (error.response?.data?.message || error.message));
+      console.error("Error details:", error);
+    } finally {
+      setCartLoading(false);
+    }
+  };
+
   return (
     <div>
-        <div class="font-[sans-serif] bg-gray-100">
-      <div class="p-4 mx-auto lg:max-w-7xl md:max-w-4xl sm:max-w-xl max-sm:max-w-sm">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-800 mb-6 sm:mb-10">Premium Sneakers</h2>
+    <div className="min-h-screen bg-gray-100">
+      <Header />
+      <main className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold text-gray-800 mb-8">Hosting Cycles</h1>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-xl:gap-4 gap-6">
-          <div class="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
-            <div class="mb-4 bg-gray-100 rounded p-2">
-              <img src="https://readymadeui.com/images/product9.webp" alt="Product 1"
-                class="aspect-[33/35] w-full object-contain" />
-            </div>
-
-            <div>
-              <div class="flex gap-2">
-                <h5 class="text-base font-bold text-gray-800">Sole Elegance</h5>
-                <h6 class="text-base text-gray-800 font-bold ml-auto">$10</h6>
-              </div>
-              <p class="text-gray-500 text-[13px] mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              <div class="flex items-center gap-2 mt-4">
-                <div
-                  class="bg-pink-100 hover:bg-pink-200 w-12 h-9 flex items-center justify-center rounded cursor-pointer" title="Wishlist">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16px" class="fill-pink-600 inline-block" viewBox="0 0 64 64">
-                    <path
-                      d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z"
-                      data-original="#000000"></path>
-                  </svg>
-                </div>
-                <button type="button" class="text-sm px-2 h-9 font-semibold w-full bg-blue-600 hover:bg-blue-700 text-white tracking-wide ml-auto outline-none border-none rounded">Add to cart</button>
-              </div>
-            </div>
+        {loading && (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
           </div>
+        )}
 
-          <div class="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
-            <div class="mb-4 bg-gray-100 rounded p-2">
-              <img src="https://readymadeui.com/images/product10.webp" alt="Product 2"
-                class="aspect-[33/35] w-full object-contain" />
-            </div>
-
-            <div>
-              <div class="flex gap-2">
-                <h5 class="text-base font-bold text-gray-800">Urban Sneakers</h5>
-                <h6 class="text-base text-gray-800 font-bold ml-auto">$12</h6>
-              </div>
-              <p class="text-gray-500 text-[13px] mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              <div class="flex items-center gap-2 mt-4">
-                <div
-                  class="bg-pink-100 hover:bg-pink-200 w-12 h-9 flex items-center justify-center rounded cursor-pointer" title="Wishlist">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16px" class="fill-pink-600 inline-block" viewBox="0 0 64 64">
-                    <path
-                      d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z"
-                      data-original="#000000"></path>
-                  </svg>
-                </div>
-                <button type="button" class="text-sm px-2 h-9 font-semibold w-full bg-blue-600 hover:bg-blue-700 text-white tracking-wide ml-auto outline-none border-none rounded">Add to cart</button>
-              </div>
-            </div>
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong className="font-bold">Error: </strong>
+            <span className="block sm:inline">{error}</span>
           </div>
+        )}
 
-          <div class="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
-            <div class="mb-4 bg-gray-100 rounded p-2">
-              <img src="https://readymadeui.com/images/product11.webp" alt="Product 3"
-                class="aspect-[33/35] w-full object-contain" />
-            </div>
-
-            <div>
-              <div class="flex gap-2">
-                <h5 class="text-base font-bold text-gray-800">Velvet Boots</h5>
-                <h6 class="text-base text-gray-800 font-bold ml-auto">$14</h6>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {hostingCycles.map((cycle) => (
+            <div key={cycle._id} className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl">
+              <div className="p-4">
+                <img src={cycle.image} alt={cycle.namePAckage} className="w-full h-48 object-cover rounded-md" />
               </div>
-              <p class="text-gray-500 text-[13px] mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              <div class="flex items-center gap-2 mt-4">
-                <div
-                  class="bg-pink-100 hover:bg-pink-200 w-12 h-9 flex items-center justify-center rounded cursor-pointer" title="Wishlist">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16px" class="fill-pink-600 inline-block" viewBox="0 0 64 64">
-                    <path
-                      d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z"
-                      data-original="#000000"></path>
-                  </svg>
+              <div className="p-6">
+                <h2 className="text-xl font-semibold text-gray-800 mb-2">{cycle.namePAckage}</h2>
+                <p className="text-gray-600 mb-4">{cycle.description}</p>
+                <div className="flex justify-between items-center mb-4">
+                  <div>
+                    <span className="text-2xl font-bold text-blue-600">${cycle.cost}</span>
+                    <span className="text-sm text-gray-500 line-through ml-2">${cycle.originalCost}</span>
+                  </div>
+                  <div className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                    Save ${(cycle.originalCost - cycle.cost).toFixed(2)}
+                  </div>
                 </div>
-                <button type="button" class="text-sm px-2 h-9 font-semibold w-full bg-blue-600 hover:bg-blue-700 text-white tracking-wide ml-auto outline-none border-none rounded">Add to cart</button>
+                <button
+                  onClick={() => handleAddToCart(cycle._id)}
+                  disabled={cartLoading}
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out flex items-center justify-center"
+                >
+                  {cartLoading ? (
+                    <span className="flex items-center">
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Adding...
+                    </span>
+                  ) : (
+                    <>
+                      <ShoppingCart className="mr-2" size={20} />
+                      Add to Cart
+                    </>
+                  )}
+                </button>
+                {cartError && <p className="text-red-500 text-sm mt-2">{cartError}</p>}
               </div>
             </div>
-          </div>
-
-          <div class="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
-            <div class="mb-4 bg-gray-100 rounded p-2">
-              <img src="https://readymadeui.com/images/product12.webp" alt="Product 3"
-                class="aspect-[33/35] w-full object-contain" />
-            </div>
-
-            <div>
-              <div class="flex gap-2">
-                <h5 class="text-base font-bold text-gray-800">Summit Hiking</h5>
-                <h6 class="text-base text-gray-800 font-bold ml-auto">$12</h6>
-              </div>
-              <p class="text-gray-500 text-[13px] mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              <div class="flex items-center gap-2 mt-4">
-                <div
-                  class="bg-pink-100 hover:bg-pink-200 w-12 h-9 flex items-center justify-center rounded cursor-pointer" title="Wishlist">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16px" class="fill-pink-600 inline-block" viewBox="0 0 64 64">
-                    <path
-                      d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z"
-                      data-original="#000000"></path>
-                  </svg>
-                </div>
-                <button type="button" class="text-sm px-2 h-9 font-semibold w-full bg-blue-600 hover:bg-blue-700 text-white tracking-wide ml-auto outline-none border-none rounded">Add to cart</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
-            <div class="mb-4 bg-gray-100 rounded p-2">
-              <img src="https://readymadeui.com/images/product13.webp" alt="Product 3"
-                class="aspect-[33/35] w-full object-contain" />
-            </div>
-
-            <div>
-              <div class="flex gap-2">
-                <h5 class="text-base font-bold text-gray-800">Zenith Glow</h5>
-                <h6 class="text-base text-gray-800 font-bold ml-auto">$15</h6>
-              </div>
-              <p class="text-gray-500 text-[13px] mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              <div class="flex items-center gap-2 mt-4">
-                <div
-                  class="bg-pink-100 hover:bg-pink-200 w-12 h-9 flex items-center justify-center rounded cursor-pointer" title="Wishlist">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16px" class="fill-pink-600 inline-block" viewBox="0 0 64 64">
-                    <path
-                      d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z"
-                      data-original="#000000"></path>
-                  </svg>
-                </div>
-                <button type="button" class="text-sm px-2 h-9 font-semibold w-full bg-blue-600 hover:bg-blue-700 text-white tracking-wide ml-auto outline-none border-none rounded">Add to cart</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
-            <div class="mb-4 bg-gray-100 rounded p-2">
-              <img src="https://readymadeui.com/images/product14.webp" alt="Product 3"
-                class="aspect-[33/35] w-full object-contain" />
-            </div>
-
-            <div>
-              <div class="flex gap-2">
-                <h5 class="text-base font-bold text-gray-800">Echo Elegance</h5>
-                <h6 class="text-base text-gray-800 font-bold ml-auto">$14</h6>
-              </div>
-              <p class="text-gray-500 text-[13px] mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              <div class="flex items-center gap-2 mt-4">
-                <div
-                  class="bg-pink-100 hover:bg-pink-200 w-12 h-9 flex items-center justify-center rounded cursor-pointer" title="Wishlist">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16px" class="fill-pink-600 inline-block" viewBox="0 0 64 64">
-                    <path
-                      d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z"
-                      data-original="#000000"></path>
-                  </svg>
-                </div>
-                <button type="button" class="text-sm px-2 h-9 font-semibold w-full bg-blue-600 hover:bg-blue-700 text-white tracking-wide ml-auto outline-none border-none rounded">Add to cart</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
-            <div class="mb-4 bg-gray-100 rounded p-2">
-              <img src="https://readymadeui.com/images/product15.webp" alt="Product 3"
-                class="aspect-[33/35] w-full object-contain" />
-            </div>
-
-            <div>
-              <div class="flex gap-2">
-                <h5 class="text-base font-bold text-gray-800">Pumps</h5>
-                <h6 class="text-base text-gray-800 font-bold ml-auto">$14</h6>
-              </div>
-              <p class="text-gray-500 text-[13px] mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              <div class="flex items-center gap-2 mt-4">
-                <div
-                  class="bg-pink-100 hover:bg-pink-200 w-12 h-9 flex items-center justify-center rounded cursor-pointer" title="Wishlist">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16px" class="fill-pink-600 inline-block" viewBox="0 0 64 64">
-                    <path
-                      d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z"
-                      data-original="#000000"></path>
-                  </svg>
-                </div>
-                <button type="button" class="text-sm px-2 h-9 font-semibold w-full bg-blue-600 hover:bg-blue-700 text-white tracking-wide ml-auto outline-none border-none rounded">Add to cart</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-white rounded p-4 cursor-pointer hover:-translate-y-1 transition-all relative">
-            <div class="mb-4 bg-gray-100 rounded p-2">
-              <img src="https://readymadeui.com/images/product10.webp" alt="Product 3"
-                class="aspect-[33/35] w-full object-contain" />
-            </div>
-
-            <div>
-              <div class="flex gap-2">
-                <h5 class="text-base font-bold text-gray-800">Blaze Burst</h5>
-                <h6 class="text-base text-gray-800 font-bold ml-auto">$14</h6>
-              </div>
-              <p class="text-gray-500 text-[13px] mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              <div class="flex items-center gap-2 mt-4">
-                <div
-                  class="bg-pink-100 hover:bg-pink-200 w-12 h-9 flex items-center justify-center rounded cursor-pointer" title="Wishlist">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16px" class="fill-pink-600 inline-block" viewBox="0 0 64 64">
-                    <path
-                      d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z"
-                      data-original="#000000"></path>
-                  </svg>
-                </div>
-                <button type="button" class="text-sm px-2 h-9 font-semibold w-full bg-blue-600 hover:bg-blue-700 text-white tracking-wide ml-auto outline-none border-none rounded">Add to cart</button>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
+      </main>
+     
     </div>
-      
-    </div>
-  )
-}
+    <footer className="bg-gray-800 text-white">
+        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Société</h3>
+              <ul className="mt-4 space-y-4">
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">À propos</a></li>
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">Blog</a></li>
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">Emplois</a></li>
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">Presse</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Support</h3>
+              <ul className="mt-4 space-y-4">
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">Centre d'aide</a></li>
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">Documentation</a></li>
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">Guides</a></li>
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">API Status</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Légal</h3>
+              <ul className="mt-4 space-y-4">
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">Confidentialité</a></li>
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">Conditions</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Social</h3>
+              <ul className="mt-4 space-y-4">
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">Facebook</a></li>
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">Twitter</a></li>
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">LinkedIn</a></li>
+              </ul>
+            </div>
+          </div>
+          
+        </div>
+      </footer>
+     <Footer />
+    
+     </div>
+   
+  );
+};
 
-export default Commerce
+export default Commerce;
+

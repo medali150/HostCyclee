@@ -310,10 +310,10 @@ try {
 }
 export const registerHostingCycle = async (req, res) => {
     try {
-      const { namePAckage, startDate, endDate, cost, duration, image} = req.body;
+      const { namePAckage, startDate, endDate, cost, duration, image,description} = req.body;
   
       // Validate required fields
-      if (!namePAckage || !startDate || !endDate || !cost || !duration || !image) {
+      if (!namePAckage || !startDate || !endDate || !cost || !duration || !image || !description) {
         return res.status(400).json({ success: false, message: 'Missing required fields' });
       }
   
@@ -324,7 +324,8 @@ export const registerHostingCycle = async (req, res) => {
         endDate,
         cost,
         duration,
-        image
+        image,
+        description,
       });
   
       // Save to the database
@@ -361,6 +362,21 @@ export const getAllHostingCycles = async (req, res) => {
       });
     }
   };
+  export const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedUser = await userModel.findByIdAndDelete(id); // Changez User par userModel
+  
+        // If the user wasn't found
+        if (!deletedUser) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+  
+        res.json({ success: true, message: 'User deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
   export const deleteHostingCycle = async (req, res) => {
     try {
       const { id } = req.params; // Get the ID from the route parameters
@@ -389,6 +405,7 @@ export const getAllHostingCycles = async (req, res) => {
       });
     }
   };
+  
   export const verifyAdmin = async (req, res) => {
     try {
       const userId = req.session.userId; // Assuming you're storing the user ID in the session
@@ -411,7 +428,77 @@ export const getAllHostingCycles = async (req, res) => {
       return res.status(500).json({ success: false, message: error.message });
     }
   };
+  // Add an item to the user's cart// Adjust path if needed
+
+  // Add an item to the user's cart
+  export const removePackageFromCart = async (req, res) => {
+    try {
+        const { userId, packageId } = req.body; // Expecting userId and packageId in the request body
+
+        // Find the user by ID
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        // Filter out the package by its ID
+        user.cart = user.cart.filter(pkg => pkg.id !== packageId);
+        await user.save();
+
+        res.json({
+            success: true,
+            message: "Package removed successfully",
+            cart: user.cart, // Return updated cart
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+  // Endpoint to simulate user clicking 'Add to Cart' and receiving the updated cart
+  // Assuming this is the endpoint the frontend hits when the user clicks the 'Add to Cart' button.
   
+
+// Get the user's cart
+export const getUserCart = async (req, res) => {
+    const { userId } = req.body; // Assuming userId is passed in the request body
+
+    try {
+        // Find the user and retrieve the cart
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // Respond with the user's cart data
+        res.json({
+            success: true,
+            cart: user.cart
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+export const deleteAdmin = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deletedAdmin = await Admin.findByIdAndDelete(id);
+  
+      // If the admin wasn't found
+      if (!deletedAdmin) {
+        return res.status(404).json({ success: false, message: 'Admin not found' });
+      }
+  
+      res.json({ success: true, message: 'Admin deleted successfully' });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
+    }
+  };
+  
+  // Delete a user
+  
+
 /***************************************Update user Role “user” <-> “admin”***********************************
 // Update user role
 exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {

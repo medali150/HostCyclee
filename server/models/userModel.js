@@ -14,7 +14,16 @@ const userSchema=new mongoose.Schema({
     cost: { type: Number},
     Contry: { type: String, enum: ['Tunisia', 'Morocco','Algerie','Egypt','Libya'] },
     duration: { type: String, enum: ['6 months', '1 year'] },
-    image: { type: String, default: '' }
+    image: { type: String, default: '' },
+    cart: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'HostingCycle',
+        },
+      ],
+    github: { type: String, default: '' },
+
+   
 
 })
 const userModel = mongoose.models.user || mongoose.model('user',userSchema)

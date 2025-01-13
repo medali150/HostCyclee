@@ -29,8 +29,8 @@ function Footer() {
             </div>
           </div>
   
-          <div class="mt-12">
-            <p class='text-gray-400 text-sm'>© ReadymadeUI. All rights reserved.</p>
+          <div className="mt-8 border-t border-gray-700 pt-8 flex justify-between items-center">
+            <p className="text-base text-gray-400 ">&copy; 2025 HostCycle, Inc. Tous droits réservés.</p>
           </div>
         </div>
       </footer>

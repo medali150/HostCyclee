@@ -7,6 +7,7 @@ const hostingCycleSchema = new mongoose.Schema({
   cost: { type: Number, required: true },
   duration: { type: String, enum: ['6 months', '1 year'], required: true },
   image: { type: String, required: false },
+  description:{type:String}
 });
 
 const HostingCycle = mongoose.model('HostingCycle', hostingCycleSchema);

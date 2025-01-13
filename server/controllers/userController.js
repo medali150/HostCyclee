@@ -2,32 +2,38 @@ import userModel from "../models/userModel.js";
 
 
 
-export const getUserData=async(req,res)=>{
-    try {
-        const {userId}=req.body;
-        const user=await userModel.findById(userId)
-        if (!user) {
-            return res.json({success:false,message:"user not found "})
-            
-        }
-        res.json({success:true,
-            userData:{
-              
-              name:user.name,
-              isAcconuntVerified:user.isAcconuntVerified,
-              isAdmin:user.isAdmin,
-              startDate:user.startDate,
-              endDate:user.endDate,
-              cost:user.cost,
-              email:user.email, 
-              Contry:user.Contry,
-            }})
+export const getUserData = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const user = await userModel.findById(userId).populate('cart'); // Populate the cart with HostingCycle data
 
-        
-    } catch (error) {
-      return res.json({success:false,message:error.message})
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
     }
-}
+
+    res.json({
+      success: true,
+      userData: {
+        name: user.name,
+        isAcconuntVerified: user.isAcconuntVerified,
+        isAdmin: user.isAdmin,
+        startDate: user.startDate,
+        endDate: user.endDate,
+        cost: user.cost,
+        email: user.email,
+        Contry: user.Contry,
+        cart: user.cart.map(item => ({
+          packageName: item.packageName,
+          cost: item.cost,
+          duration: item.duration,
+          description: item.description,  // Assuming HostingCycle has these fields
+        }))
+      }
+    });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
 
 
 // Get all users for the admin dashboard
@@ -78,6 +84,7 @@ export const getUserById = async (req, res) => {
               endDate: user.endDate,
               cost: user.cost,
               duration: user.duration,
+              cart: user.cart,
               createdAt: user.createdAt,
               updatedAt: user.updatedAt
           }
@@ -166,7 +173,8 @@ export const uploadProfileImage = async (req, res) => {
         duration: updatedUser.duration,
         createdAt: updatedUser.createdAt,
         updatedAt: updatedUser.updatedAt,
-        image: updatedUser.image, // Add the image field to the response
+        image: updatedUser.image, 
+        cart: user.cart,// Add the image field to the response
       }
     });
   } catch (error) {
@@ -178,3 +186,5 @@ export const uploadProfileImage = async (req, res) => {
 app.post('/upload-profile-image/:userId', upload.single('profileImage'), uploadProfileImage);
 
 // Get all users for the admin dashboard
+
+

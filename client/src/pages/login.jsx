@@ -87,14 +87,13 @@ const handleSubmit = async (e) => {
 
  
   return (
-    <div className="login-container">
-    <img
-    onClick={()=>navigate('/Home')}
-      src="assets/logo.svg"
-      alt="Logo"
-      className="login-logo"
-      // Add functionality if needed
-    />
+    <div className="login-container bg-white" style={{ backgroundColor: 'white' }}>
+  
+    
+    <div className="flex-shrink-0">
+  <span className="login-logo text-2xl font-bold text-black-600" alt="Logo" onClick={() => navigate('/Home')}>HostCycle</span>
+</div>
+
     <div className="login-content">
       <h2>{state === 'sign up' ? 'Create Account' : 'Login to Your Account'}</h2>
       <p>{state === 'sign up' ? 'Create your account' : 'Login to your account!'}</p>

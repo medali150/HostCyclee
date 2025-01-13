@@ -3,6 +3,7 @@ import axios from 'axios';
 import './show.css';
 import Sidebar from '../Chat/Chat1';
 import Aymen from '../dash/header';
+import Footer from '../dash/footer';
 
 const HostingCycles = () => {
     const [hostingCycles, setHostingCycles] = useState([]);
@@ -15,7 +16,7 @@ const HostingCycles = () => {
             setLoading(true);
             const response = await axios.get('http://localhost:4000/api/auth/getAllHostingCycles', {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
             setHostingCycles(response.data.data);
@@ -31,7 +32,7 @@ const HostingCycles = () => {
         try {
             const response = await axios.delete(`http://localhost:4000/api/auth/hostingCycles/${id}`, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
 
@@ -52,42 +53,57 @@ const HostingCycles = () => {
     return (
         <div>
             <Aymen />
-        <div className="hosting-cycles">
-            <Sidebar/>
-            <h1>All Hosting Cycles</h1>
-            {loading ? (
-                <p>Loading...</p>
-            ) : error ? (
-                <p>{error}</p>
-            ) : (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Package Name</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Cost</th>
-                            <th>Duration</th>
-                            <th>Actions</th> {/* Added Actions column */}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {hostingCycles.map((cycle) => (
-                            <tr key={cycle._id}>
-                                <td>{cycle.namePAckage}</td>
-                                <td>{new Date(cycle.startDate).toLocaleDateString()}</td>
-                                <td>{new Date(cycle.endDate).toLocaleDateString()}</td>
-                                <td>{cycle.cost}</td>
-                                <td>{cycle.duration}</td>
-                                <td>
-                                    <button onClick={() => deleteHostingCycle(cycle._id)}>Delete</button> {/* Delete button */}
-                                </td>
+            <div className="hosting-cycles">
+                <Sidebar />
+                <h1>All Hosting Cycles</h1>
+                {loading ? (
+                    <p>Loading...</p>
+                ) : error ? (
+                    <p>{error}</p>
+                ) : (
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Package Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Cost</th>
+                                <th>Duration</th>
+                                <th>Image</th>
+                                <th>Actions</th> {/* Added Actions column */}
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
-        </div>
+                        </thead>
+                        <tbody>
+                            {hostingCycles.map((cycle) => (
+                                <tr key={cycle._id}>
+                                    <td>{cycle.namePAckage}</td>
+                                    <td>{new Date(cycle.startDate).toLocaleDateString()}</td>
+                                    <td>{new Date(cycle.endDate).toLocaleDateString()}</td>
+                                    <td>{cycle.cost}</td>
+                                    <td>{cycle.duration}</td>
+                                    <td>{cycle.description}</td>
+                                    <td>
+                                        {cycle.image ? (
+                                            <img
+                                                src={cycle.image}
+                                                alt="Cycle"
+                                                className="cycle-image"
+                                                style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                                            />
+                                        ) : (
+                                            'No Image'
+                                        )}
+                                    </td>
+                                    <td>
+                                        <button onClick={() => deleteHostingCycle(cycle._id)}>Delete</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+            </div>
+            
         </div>
     );
 };
