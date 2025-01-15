@@ -5,8 +5,7 @@ function Footer() {
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div class="sm:col-span-2 max-w-sm">
               <h4 class="text-base font-semibold mb-6 text-white">About Us</h4>
-              <p class="text-gray-400 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean gravida, mi eu
-                pulvinar cursus, sem elit interdum mauris.</p>
+              <p class="text-gray-400 text-sm">HostCycle centralise les informations de vos clients et assure un suivi proactif des échéances d'hébergement pour une gestion sans souci.</p>
             </div>
   
             <div>
