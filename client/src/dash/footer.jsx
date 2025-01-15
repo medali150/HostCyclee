@@ -23,7 +23,7 @@ function Footer() {
               <h4 class="text-base font-semibold mb-6 text-white">Contact Us</h4>
               <p class="text-gray-400 text-sm">123 Main Street</p>
               <p class="text-gray-400 text-sm">City, State, Country</p>
-              <p class="text-gray-400 text-sm">contact@example.com</p>
+              <p class="text-gray-400 text-sm">ITQANLABS@GMAIL;COM</p>
               <p class="text-gray-400 text-sm">+1 234 567 890</p>
             </div>
           </div>
