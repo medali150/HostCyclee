@@ -19,6 +19,8 @@ import Hero from './dash/hero.jsx';
 import Dash from './dash/dash1.jsx';
 import Compte from './Chat/Compte.jsx';
 import Commerce from './Chat/Commerce.jsx';
+import WebsiteFormModal from './Chat/WebsiteFormModal.jsx';
+import Ahmed from './Chat/test.jsx';
 
 function App() {
   return (
@@ -46,6 +48,10 @@ function App() {
           <Route path="/dash" element={<Dash />} />
           <Route path="/Compte" element={<Compte />} />
           <Route path="/Commerce" element={<Commerce />} />
+          <Route path="/WebsiteFormModal" element={<WebsiteFormModal/>} />
+
+          <Route path="/Ahmed" element={<Ahmed/>} />
+          
           
         </Routes>
       </div>

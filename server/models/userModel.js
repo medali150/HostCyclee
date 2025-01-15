@@ -22,6 +22,14 @@ const userSchema=new mongoose.Schema({
         },
       ],
     github: { type: String, default: '' },
+    namewebsite: { type: String, default: '' },
+    websites: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "website", // Reference to the website schema
+      },
+    ],
+
 
    
 

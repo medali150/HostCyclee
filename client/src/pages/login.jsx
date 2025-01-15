@@ -1,157 +1,158 @@
-import React, { useContext, useState } from 'react'
-import './login.css'
-import { useNavigate } from 'react-router-dom'
-import { AppContent } from '../context/Appcontext'
-
-import axios from 'axios'
-
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AppContent } from '../context/Appcontext';
+import axios from 'axios';
 import { toast } from 'react-toastify';
+
 const Login = () => {
-  const navigate =useNavigate()
-  const {backendUrl ,setIsLogin , getUserData}= useContext(AppContent);
-const [state,setState]=useState('sign up') 
-const [name,setname]=useState('')
-const [email,setemail]=useState('')
-const [password,setpassword]=useState('')
-const [country, setCountry] = useState('');
-const onSubitHundler =async(e)=>{
-  try {
+  const navigate = useNavigate();
+  const { backendUrl, setIsLogin, getUserData } = useContext(AppContent);
+  const [state, setState] = useState('sign up');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [Contry, setContry] = useState('');
+
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
-    axios.defaults.withCredentials=true;
-    if (state==='sign up'){
-     const {data}= await axios.post('http://localhost:4000/api/auth/register',{name,email,password,Contry: country})
-      if (data.success){
-        setIsLogin(true)  
-        getUserData()
-        navigate('/Home')
-      }else{
-        toast.error(data.message)
+    try {
+      axios.defaults.withCredentials = true;
+      if (state === 'sign up') {
+        const { data } = await axios.post(`http://localhost:4000/api/auth/register`, {
+          name,
+          email,
+          password,
+          Contry,
+        });
+        if (data.success) {
+          setIsLogin(true);
+          getUserData();
+          navigate('/Home');
+        } else {
+          toast.error(data.message);
+        }
+      } else if (state === 'login') {
+        const { data } = await axios.post(`http://localhost:4000/api/auth/login`, {
+          email,
+          password,
+        });
+        if (data.success) {
+          setIsLogin(true);
+          getUserData();
+          navigate('/Home');
+        } else {
+          toast.error(data.message);
+        }
       }
-    } else {
-      if (state==='login'){
-        const {data}= await axios.post('http://localhost:4000/api/auth/login',{email,password})
-         if (data.success) {
-          setIsLogin(true)
-          getUserData()
-          navigate('/Home')
-         }else{
-           toast.error(data.message)
-         }
-       }
-      
-      
-      
+    } catch (error) {
+      toast.error('Something went wrong. Please try again.');
     }
-  } catch (error) {
-    
-  }
-}
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData((prevData) => ({
-      ...prevData,
-      [name]: value
-  }));
-};
-const [isOpen, setIsOpen] = useState(false);
+  };
 
-const toggleSidebar = () => {
-   setIsOpen(!isOpen);
-};
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  try {
-      const response = await axios.post('http://localhost:4000/api/auth/registerHostingCycle', formData, {
-          headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-      });
-
-      if (response.data.success) {
-          alert('Hosting cycle added successfully');
-      } else {
-          alert(`Error: ${response.data.message}`);
-      }
-  } catch (error) {
-      alert('Server error: Unable to register hosting cycle');
-  }
-};
-  const [formData, setFormData] = useState({
-        namePAckage: '',
-        startDate: '',
-        endDate: '',
-        cost: '',
-        duration: ''
-    });
-
- 
   return (
-    <div className="login-container bg-white" style={{ backgroundColor: 'white' }}>
-  
-    
-    <div className="flex-shrink-0">
-  <span className="login-logo text-2xl font-bold text-black-600" alt="Logo" onClick={() => navigate('/Home')}>HostCycle</span>
-</div>
-
-    <div className="login-content">
-      <h2>{state === 'sign up' ? 'Create Account' : 'Login to Your Account'}</h2>
-      <p>{state === 'sign up' ? 'Create your account' : 'Login to your account!'}</p>
-      <form className="login-form" onSubmit={onSubitHundler}>
-        { state==='sign up' &&(
-          <>
-        <div className="input-container">
-          <img src="assets/person_icon.svg" alt="Person Icon" />
-          <input type="text" placeholder="Enter your username" 
-          onChange={(e)=> setname(e.target.value)}
-          value={name}
-          />
-        </div>
-        <div className="input-container">
-                <label>Country</label>
-                <select
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
+    <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+        <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+          <div className="max-w-md mx-auto">
+            <h1 className="text-2xl font-semibold">
+              {state === 'sign up' ? 'Create Account' : 'Login'}
+            </h1>
+            <form onSubmit={onSubmitHandler} className="divide-y divide-gray-200 space-y-6">
+              {state === 'sign up' && (
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-cyan-500"
+                    placeholder="Username"
+                  />
+                  <label
+                    className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                  >
+                    Username
+                  </label>
+                </div>
+              )}
+              <div className="relative">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-cyan-500"
+                  placeholder="Email Address"
+                />
+                <label
+                  className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
                 >
-                  <option value="">Select Country</option>
-                  <option value="Tunisia">Tunisia</option>
-                  <option value="Morocco">Morocco</option>
-                  <option value="Algerie">Algerie</option>
-                  <option value="Egypt">Egypt</option>
-                  <option value="Libya">Libya</option>
-                </select>
+                  Email Address
+                </label>
               </div>
-
-       
-   </> ) }
-        <div className="input-container">
-          <img src="assets/lock_icon.svg" alt="Lock Icon" />
-          <input type="password" placeholder="Enter your password" 
-          onChange={(e)=> setpassword(e.target.value)}
-          value={password}/>
+              <div className="relative">
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-cyan-500"
+                  placeholder="Password"
+                />
+                <label
+                  className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                >
+                  Password
+                </label>
+              </div>
+              {state === 'sign up' && (
+                <div className="relative">
+                  <select
+                    value={Contry}
+                    onChange={(e) => setContry(e.target.value)}
+                    className="w-full border-b-2 border-gray-300 focus:outline-none focus:border-cyan-500"
+                  >
+                    <option value="">Select Country</option>
+                    <option value="Tunisia">Tunisia</option>
+                    <option value="Morocco">Morocco</option>
+                    <option value="Algeria">Algeria</option>
+                    <option value="Egypt">Egypt</option>
+                    <option value="Libya">Libya</option>
+                  </select>
+                </div>
+              )}
+              <div className="relative">
+                <button type="submit" className="w-full bg-black text-white rounded-md px-4 py-2 hover:bg-gray-800">
+                  {state === 'sign up' ? 'Sign Up' : 'Login'}
+                </button>
+              </div>
+            </form>
+            <div className="text-center mt-4">
+              {state === 'sign up' ? (
+                <p>
+                  Already have an account?{' '}
+                  <span
+                    onClick={() => setState('login')}
+                    className="text-cyan-500 cursor-pointer"
+                  >
+                    Login here
+                  </span>
+                </p>
+              ) : (
+                <p>
+                  Don't have an account?{' '}
+                  <span
+                    onClick={() => setState('sign up')}
+                    className="text-cyan-500 cursor-pointer"
+                  >
+                    Sign up here
+                  </span>
+                </p>
+              )}
+            </div>
+          </div>
         </div>
-       
-        <div className="input-container">
-          <img src="assets\mail_icon.svg" alt="Lock Icon" />
-          <input type="email" placeholder="Enter your Email" 
-          onChange={(e)=> setemail(e.target.value)}
-          value={email}/>
-        </div>
-        <p className='' onClick={()=>navigate('/Resetpassword')}>forget password</p>
-        <button type="submit" className="submit-button">
-          {state}
-        </button>
-      </form>
-      {state ==='sign up' ? (<p>Already have an account ?{' '}<span onClick={()=>setState('login')}> login here</span></p>
-      )
-      :
-      (<p>Don't have an account ?{' '}<span onClick={()=>setState('sign up')}>sign here</span></p>
-        )}
-      
-      
+      </div>
     </div>
-  </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

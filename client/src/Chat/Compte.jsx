@@ -1,28 +1,14 @@
-import React from 'react';
-import { User, Mail, Calendar, DollarSign, Clock, ImageIcon } from 'lucide-react';
-import Navbar from '../components/navbar';
-import Aymen from '../dash/header'
-import { useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
+import { User, Mail, Calendar, DollarSign, Clock, Pencil, Globe, ExternalLink, Trash } from 'lucide-react';
 import { AppContent } from '../context/Appcontext';
+import Aymen from '../dash/header';
 
-const Compte = ({ user }) => {
+const UserAccount = () => {
+  const { userData, setUserData } = useContext(AppContent);
 
-  const { userData, setIsLogin, setUserData } = useContext(AppContent);
-  // This is a placeholder. In a real application, you would fetch the user data from your backend.
-  const placeholderUser = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    isAcconuntVerified: true,
-    isAdmin: false,
-    startDate: new Date("2023-01-01"),
-    endDate: new Date("2023-12-31"),
-    cost: 99.99,
-    duration: "1 year",
-    image: "/placeholder.svg?height=200&width=200"
-  };
-
-  // Use the placeholder data if no user is provided
-  
+  useEffect(() => {
+    console.log("User Data: ", userData);
+  }, [userData]);
 
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('fr-FR', {
@@ -32,99 +18,120 @@ const Compte = ({ user }) => {
     });
   };
 
+  const InfoItem = ({ icon: Icon, label, value }) => (
+    <div className="flex items-center justify-between py-3 border-b last:border-b-0">
+      <div className="flex items-center text-sm font-medium text-gray-600">
+        <Icon className="mr-2 h-5 w-5 text-gray-400" />
+        {label}
+      </div>
+      <div className="text-sm text-gray-900">{value}</div>
+    </div>
+  );
+
+  // Function to handle deleting the website
+  const handleDeleteWebsite = async (websiteId) => {
+    try {
+      // Assuming the DELETE API is /delete-website/{userId}/{websiteId}
+      const response = await fetch(`http://localhost:4000/api/auth/delete-website/${userData._id}/${websiteId}`, {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+      if (data.success) {
+        // Update the userData after deleting the website
+        const updatedWebsites = userData.websites.filter(website => website._id !== websiteId);
+        setUserData({ ...userData, websites: updatedWebsites });
+        alert('Website deleted successfully');
+      } else {
+        alert('Failed to delete website');
+      }
+    } catch (error) {
+      console.error("Error deleting website:", error);
+      alert('An error occurred while deleting the website');
+    }
+  };
+
   return (
     <div>
-    <Aymen/>
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-        
-      <div className="max-w-3xl mx-auto">
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-          <div className="px-4 py-5 sm:px-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">Informations du <span>{userData.name}</span></h3>
-            <p className="mt-1 max-w-2xl text-sm text-gray-500">Détails personnels et informations sur l'abonnement.</p>
-          </div>
-          <div className="border-t border-gray-200">
-            <dl>
-              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500 flex items-center">
-                  <User className="mr-2 h-5 w-5 text-gray-400" /> Nom
-                </dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{userData.name}</dd>
-              </div>
-              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500 flex items-center">
-                  <Mail className="mr-2 h-5 w-5 text-gray-400" /> Adresse e-mail
-                </dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{userData.email}</dd>
-              </div>
-              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">Compte vérifié</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {userData.isAcconuntVerified ? (
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                      Vérifié
-                    </span>
-                  ) : (
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                      Non vérifié
-                    </span>
-                  )}
-                </dd>
-              </div>
-              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">Statut administrateur</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {userData.isAdmin ? (
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
-                      Administrateur
-                    </span>
-                  ) : (
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                      Utilisateur standard
-                    </span>
-                  )}
-                </dd>
-              </div>
-              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500 flex items-center">
-                  <Calendar className="mr-2 h-5 w-5 text-gray-400" /> Date de début
-                </dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{formatDate(userData.startDate)}</dd>
-              </div>
-              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500 flex items-center">
-                  <Calendar className="mr-2 h-5 w-5 text-gray-400" /> Date de fin
-                </dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{formatDate(userData.endDate)}</dd>
-              </div>
-              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500 flex items-center">
-                  <DollarSign className="mr-2 h-5 w-5 text-gray-400" /> Contry
-                </dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{userData.Contry} </dd>
-              </div>
-              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500 flex items-center">
-                  <Clock className="mr-2 h-5 w-5 text-gray-400" /> Durée
-                </dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{userData.duration}</dd>
-              </div>
-              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500 flex items-center">
-                  <ImageIcon className="mr-2 h-5 w-5 text-gray-400" /> Image de profil
-                </dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <img src={userData.image} alt="Profile" className="h-24 w-24 rounded-full" />
-                </dd>
-              </div>
-            </dl>
+      <Aymen />
+      <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-3xl font-bold text-gray-900 mb-8">Account Dashboard</h1>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="bg-white shadow rounded-lg p-6">
+              <h2 className="text-xl font-semibold mb-4">User Information</h2>
+              <InfoItem icon={User} label="Name" value={userData.name} />
+              <InfoItem icon={Mail} label="Email" value={userData.email} />
+              <InfoItem icon={Calendar} label="Start Date" value={formatDate(userData.startDate)} />
+              <InfoItem icon={Calendar} label="End Date" value={formatDate(userData.endDate)} />
+              <InfoItem icon={DollarSign} label="Subscription" value={userData.subscription} />
+              <InfoItem icon={Clock} label="Duration" value={`${userData.duration} months`} />
+            </div>
+            <div className="bg-white shadow rounded-lg p-6 lg:col-span-2">
+  <h2 className="text-xl font-semibold mb-4">Your Websites</h2>
+  {userData.websites && userData.websites.length > 0 ? (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm text-left text-gray-500">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th scope="col" className="px-6 py-3">Website Name</th>
+            <th scope="col" className="px-6 py-3">URL</th>
+            <th scope="col" className="px-6 py-3">Description</th>
+            <th scope="col" className="px-6 py-3">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {userData.websites.map((website, index) => (
+            <tr key={index} className="bg-white border-b hover:bg-gray-50">
+              <td className="px-6 py-4 font-medium text-gray-900">{website.name}</td>
+              <td className="px-6 py-4">
+                <a
+                  href={website.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline flex items-center"
+                >
+                  {website.url}
+                  <ExternalLink className="ml-1 h-4 w-4" />
+                </a>
+              </td>
+              <td className="px-6 py-4">{website.description}</td>
+              <td className="px-6 py-4 flex items-center">
+                <button className="bg-black text-white hover:bg-gray-800 px-3 py-2 rounded flex items-center mr-4">
+                  <Pencil className="mr-1 h-4 w-4" />
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDeleteWebsite(website._id)} // Correctly passing the website._id here
+                  className="bg-red-600 text-white hover:bg-red-700 px-3 py-2 rounded flex items-center"
+                >
+                  <Trash className="mr-1 h-4 w-4" />
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+              ) : (
+                <div className="text-center py-8">
+                  <Globe className="mx-auto h-12 w-12 text-gray-400" />
+                  <h3 className="mt-2 text-sm font-medium text-gray-900">No websites</h3>
+                  <p className="mt-1 text-sm text-gray-500">Get started by adding your first website.</p>
+                  <div className="mt-6">
+                    <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                      <Globe className="mr-2 h-4 w-4" />
+                      Add Website
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
     </div>
-    </div>
   );
 };
 
-export default Compte;
-
+export default UserAccount;

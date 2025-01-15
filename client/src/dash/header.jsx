@@ -1,113 +1,95 @@
-'use client'
+import React, { useContext, useState } from 'react'; import { useNavigate } from 'react-router-dom'; import { AppContent } from '../context/Appcontext'; import axios from 'axios'; import { toast } from 'react-toastify';
 
-import React, { useContext, useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import axios from 'axios'
-import { toast } from 'react-toastify'
-import { AppContent } from '../context/Appcontext'
-import { ChevronDown, LogOut, Mail, User } from 'lucide-react'
+const Aymen = () => { const navigate = useNavigate(); 
+  const { userData, setIsLogin, setUserData } = useContext(AppContent); 
+  const [isAdmin, setIsAdmin] = useState(false);
 
-const Aymen = () => {
-  const navigate = useNavigate()
-  const { userData, setIsLogin, setUserData } = useContext(AppContent)
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+// Check if user is admin
 
-  const sendVerificationOTP = async () => {
+const sendVerificationOTP = async () => {
     try {
-      const { data } = await axios.post('http://localhost:4000/api/auth/sendVerifyOtp')
-      if (data.success) {
-        toast.success(data.message)
-        navigate('/EmailVerify')
-      } else {
-        toast.error(data.message)
-      }
+        const { data } = await axios.post('http://localhost:4000/api/auth/sendVerifyOtp');
+        if (data.success) {
+            toast.success(data.message);
+            navigate('/EmailVerify');
+        } else {
+            toast.error(data.message);
+        }
     } catch (error) {
-      toast.error(error.message)
+        toast.error(error.message);
     }
-  }
+};
 
-  const logout = async () => {
+const logout = async () => {
     try {
-      const { data } = await axios.post('http://localhost:4000/api/auth/logout')
-      if (data.success) {
-        setIsLogin(false)
-        setUserData(null)
-        navigate('/Home')
-      }
+        const { data } = await axios.post('http://localhost:4000/api/auth/logout');
+        if (data.success) {
+            setIsLogin(false);
+            setUserData(null);
+            navigate('/Home');
+        }
     } catch (error) {
-      toast.error(error.message)
+        toast.error(error.message);
     }
-  }
+};
 
-  return (
-    <nav className="bg-gradient-to-r from-blue-500 to-indigo-600 shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-        <div className="flex-shrink-0">
-            <span className="text-2xl font-bold text-black-600">HostCycle</span>
-            </div>
+return (
+    <div>
+        <nav className='flex shadow-[0px_0px_16px_rgba(17,_17,_26,_0.1)] py-4 px-4 sm:px-6 bg-white font-sans min-h-[70px] tracking-wide relative z-50'>
+            <div className='flex flex-wrap items-center justify-between gap-4 w-full max-w-screen-xl mx-auto'>
+            <a href="javascript:void(0)" className="max-sm:hidden">
+    <span className="text-lg font-bold text-blue-500">HOSTCYCLE</span>
+</a>
 
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              <Link to="/Home" className="text-white hover:bg-blue-600 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition duration-300">Home</Link>
-              <Link to="/Commerce" className="text-white hover:bg-blue-600 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition duration-300">News</Link>
-              {userData && (
-                <Link to="/Compte" className="text-white hover:bg-blue-600 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition duration-300">Account</Link>
-              )}
-              {userData?.isAdmin && (
-                <Link to="/Admin" className="text-white hover:bg-blue-600 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition duration-300">Dashboard</Link>
-              )}
-            </div>
-          </div>
-          <div className="hidden md:block">
-            <div className="ml-4 flex items-center md:ml-6">
-              {userData ? (
-                <div className="relative">
-                  <button
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="flex items-center text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-lg px-5 py-2.5 text-center transition duration-300"
-                  >
-                    <User className="mr-2 h-5 w-5" />
-                    {userData.name}
-                    <ChevronDown className="ml-2 h-5 w-5" />
-                  </button>
-                  {isDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                      {!userData.isAcconuntVerified && (
-                        <button
-                          onClick={sendVerificationOTP}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition duration-300"
-                        >
-                          <Mail className="inline mr-2 h-4 w-4" /> Verify Email
-                        </button>
-                      )}
-                      <button
-                        onClick={logout}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition duration-300"
-                      >
-                        <LogOut className="inline mr-2 h-4 w-4" /> Logout
-                      </button>
-                    </div>
-                  )}
+               
+
+                <div id="collapseMenu" className='max-lg:hidden lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50'>
+                    <ul className='lg:flex gap-x-5 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
+                        <li className='mb-6 hidden max-lg:block'>
+                            <a href="javascript:void(0)">
+                                <img src="https://readymadeui.com/readymadeui.svg" alt="logo" className='w-36' />
+                            </a>
+                        </li>
+                        <li className='max-lg:border-b max-lg:py-3 px-3'>
+                            <a href="/Home" className='hover:text-[#007bff] text-[#007bff] font-bold block text-base'>Home</a>
+                        </li>
+                        <li className='max-lg:border-b max-lg:py-3 px-3'>
+                            <a href='/Commerce' className='hover:text-[#007bff] text-gray-600 font-bold block text-base'>News</a>
+                        </li>
+
+                        {userData ? (
+                            <>
+                                <li className='max-lg:border-b max-lg:py-3 px-3'>
+                                    <a href='/Compte' className='hover:text-[#007bff] text-gray-600 font-bold block text-base'>Compte</a>
+                                </li>
+                                {userData.isAdmin && (
+                                    <li className='max-lg:border-b max-lg:py-3 px-3'>
+                                        <a href='/Admin ' className='hover:text-[#007bff] text-gray-600 font-bold block text-base'>Dashboard</a>
+                                    </li>
+                                )}
+                                <li className="user-info">
+                                    <span>{userData.name[0].toUpperCase()}</span>
+                                    <div className="user-dropdown">
+                                        <ul>
+                                        {!userData.isAcconuntVerified && (
+                  <li onClick={sendVerificationOTP}>Verify Email</li>
+                )}
+                                            <li onClick={logout}>Logout</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </>
+                        ) : (
+                            <button className="login-button" onClick={() => navigate('/Login')}>
+                                Login <img src="assets/arrow_icon.svg" alt="" />
+                            </button>
+                        )}
+                    </ul>
                 </div>
-              ) : (
-                <button
-  onClick={() => navigate('/Login')}
-  className="text-white bg-white hover:bg-gray-100 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-lg px-5 py-2.5 text-center inline-flex items-center transition duration-300"
->
-                  Login
-                  <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                  </svg>
-                </button>
-              )}
             </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-  )
-}
+        </nav>
+    </div>
+);
+};
 
-export default Aymen
-
+export default Aymen;

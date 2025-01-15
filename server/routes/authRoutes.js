@@ -1,6 +1,7 @@
 import express from 'express';
-import {  deleteAdmin, deleteHostingCycle, deleteUser, getAllHostingCycles,  isAuthenticated, login, logout, register, registerHostingCycle, resetPassword, sendResetOtp, sendVerifyOtp, verifyAdmin, verifyEmail } from '../controllers/authController.js';
+import {  addHostingCycleToCart, deleteAdmin, deleteHostingCycle, deleteUser, deleteWebsite, getAllHostingCycles,  isAuthenticated, login, logout, register, registerHostingCycle, registerWebsite, resetPassword, sendResetOtp, sendVerifyOtp, verifyAdmin, verifyEmail } from '../controllers/authController.js';
 import userAuth from '../middleware/userAuth.js';
+import { addnamewebsite } from '../controllers/userController.js';
 
 
 const authRouter = express.Router(); // Correction du nom du routeur
@@ -49,6 +50,10 @@ authRouter.get('/verifyAdmin', verifyAdmin);
 
 authRouter.delete('/admin/:id', deleteAdmin); 
 // Cart Routes
+authRouter.post("/addHostingCycleToCart/:userId",userAuth,addHostingCycleToCart);
+authRouter.post("/addnamewebsite/:userId",userAuth,addnamewebsite);
+authRouter.post("/registerWebsite", registerWebsite);
+authRouter.delete("/delete-website/:userId/:websiteId", deleteWebsite);
 
 
 export default authRouter;

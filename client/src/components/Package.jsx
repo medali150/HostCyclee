@@ -14,7 +14,8 @@ const Package = () => {
         endDate: '',
         cost: '',
         duration: '',
-        image: '' // Added field for image URL
+        image: '', // Added field for image URL
+        description: '' // Added field for description
     });
 
     const handleChange = (e) => {
@@ -52,9 +53,10 @@ const Package = () => {
     };
 
     return (
-        <div>
-            <Aymen />
-            <>
+        <><Aymen />
+        <div className="flex justify-center items-center min-h-screen bg-gray-100">
+            <div className="w-full max-w-xl bg-white p-6 rounded-lg shadow-lg">
+                
                 <button
                     onClick={toggleSidebar}
                     aria-controls="default-sidebar"
@@ -111,82 +113,96 @@ const Package = () => {
                         </ul>
                     </div>
                 </aside>
-            </>
-            <div className="admin-dashboard">
-                <h1>Admin Dashboard</h1>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>Package Name</label>
-                        <input
-                            type="text"
-                            name="namePAckage"
-                            value={formData.namePAckage}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <label>Start Date</label>
-                        <input
-                            type="date"
-                            name="startDate"
-                            value={formData.startDate}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <label>End Date</label>
-                        <input
-                            type="date"
-                            name="endDate"
-                            value={formData.endDate}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <label>Cost</label>
-                        <input
-                            type="number"
-                            name="cost"
-                            value={formData.cost}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <label>Duration</label>
-                        <select
-                            name="duration"
-                            value={formData.duration}
-                            onChange={handleChange}
+
+                <div className="admin-dashboard">
+                    <h1 className="text-center text-3xl font-bold mb-6">Add Hosting Cycle</h1>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="form-group">
+                            <label className="block text-lg font-semibold mb-2">Package Name</label>
+                            <input
+                                type="text"
+                                name="namePAckage"
+                                value={formData.namePAckage}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label className="block text-lg font-semibold mb-2">Start Date</label>
+                            <input
+                                type="date"
+                                name="startDate"
+                                value={formData.startDate}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label className="block text-lg font-semibold mb-2">End Date</label>
+                            <input
+                                type="date"
+                                name="endDate"
+                                value={formData.endDate}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label className="block text-lg font-semibold mb-2">Cost</label>
+                            <input
+                                type="number"
+                                name="cost"
+                                value={formData.cost}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label className="block text-lg font-semibold mb-2">Duration</label>
+                            <select
+                                name="duration"
+                                value={formData.duration}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            >
+                                <option value="">Select Duration</option>
+                                <option value="6 months">6 months</option>
+                                <option value="1 year">1 year</option>
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label className="block text-lg font-semibold mb-2">Image URL</label>
+                            <input
+                                type="text"
+                                name="image"
+                                value={formData.image}
+                                onChange={handleChange}
+                                placeholder="Enter image URL"
+                                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label className="block text-lg font-semibold mb-2">Description</label>
+                            <input
+                                type="text"
+                                name="description"
+                                value={formData.description}
+                                onChange={handleChange}
+                                placeholder="Enter your description"
+                                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="w-full py-3 mt-4 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         >
-                            <option value="">Select Duration</option>
-                            <option value="6 months">6 months</option>
-                            <option value="1 year">1 year</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Image URL</label> {/* Added image URL input */}
-                        <input
-                            type="text"
-                            name="image"
-                            value={formData.image}
-                            onChange={handleChange}
-                            placeholder="Enter image URL"
-                        />
-                    </div>
-                    <div>
-                        <label>description</label> {/* Added image URL input */}
-                        <input
-                            type="text"
-                            name="description"
-                            value={formData.description}
-                            onChange={handleChange}
-                            placeholder="Enter yuor description !"
-                        />
-                    </div>
-                    <button type="submit">Add Hosting Cycle</button>
-                </form>
+                            Add Hosting Cycle
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
+        </>
     );
 };
 

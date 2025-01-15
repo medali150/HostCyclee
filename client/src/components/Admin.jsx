@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faPlus, faEye, faUsers } from '@fortawesome/free-solid-svg-icons';
 import Footer from '../dash/footer';
 import Aymen from '../dash/header';
+import Sidebar from '../Chat/Chat1';
+
 
 const Admin = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -66,7 +68,9 @@ const Admin = () => {
 
   return (
     <div>
-     
+      <Aymen/>
+    <div>
+     <Sidebar/>
       <>
         <button
           onClick={toggleSidebar}
@@ -168,6 +172,7 @@ const Admin = () => {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 };

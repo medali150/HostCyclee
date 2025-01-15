@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faTachometerAlt, faPlus, faEye, faUserPlus, faUsers} from '@fortawesome/free-solid-svg-icons';
+import Aymen from '../dash/header';
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +13,10 @@ const Sidebar = () => {
     };
 
     return (
-        <>
+        
+        <div>
+        
+        
             <button
                 onClick={toggleSidebar}
                 aria-controls="default-sidebar"
@@ -69,7 +73,10 @@ const Sidebar = () => {
                                     </ul>
                                 </div>
             </aside>
-        </>
+        
+        
+        </div>
+       
     );
 };
 

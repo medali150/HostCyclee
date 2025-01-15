@@ -5,6 +5,7 @@ import transporter from '../config/nodemailer.js';
 import { SchemaTypeOptions } from 'mongoose';
 import mongoose from 'mongoose';
 import HostingCycle from '../models/HostingCycle.js'; // Adjust the path as needed
+import websiteModel from '../models/websiteSchema.js';
 
 export const register =async(req,res)=>{
     const {name,email,password,Contry}=req.body;
@@ -180,12 +181,67 @@ export const sendVerifyOtp= async(req,res)=>{
         user.verifyotpexpireAt=Date.now()+24*60*60*1000;
         await user.save();
         //save user in the database 
-        const mailoptions={
-            from:process.env.SENDER_EMAIL,
-            to:user.email,
-            subject:'welcome to our app',
-            text:`your otp is ${otp}`
-        }
+        const mailoptions = {
+          from: process.env.SENDER_EMAIL, // Ensure this environment variable is set
+          to: user.email, // Ensure 'user.email' exists and is valid
+          subject: 'Account Verification',
+          html: `
+              <html>
+                  <head>
+                      <style>
+                          body {
+                              font-family: Arial, sans-serif;
+                              background-color: #f4f4f4;
+                              margin: 0;
+                              padding: 20px;
+                          }
+                          .container {
+                              background-color: #ffffff;
+                              padding: 20px;
+                              border-radius: 5px;
+                              box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                          }
+                          h1 {
+                              color: #333333;
+                              text-align: center;
+                          }
+                          p {
+                              color: #555555;
+                              line-height: 1.6;
+                          }
+                          .otp {
+                              color: blue;
+                              font-weight: bold;
+                              font-size: 1.5em;
+                          }
+                          .footer {
+                              text-align: center;
+                              margin-top: 20px;
+                              font-size: 0.9em;
+                              color: #888888;
+                          }
+                      </style>
+                  </head>
+                  <body>
+                      <div class="container">
+                          <h1>Welcome to Our App!</h1>
+                          <p>Dear ${user.name},</p>
+                          <p>Thank you for registering with us. We are excited to have you onboard.</p>
+                          <p>To complete your registration, please verify your account using the One Time Password (OTP) provided below:</p>
+                          <p class="otp">Your OTP is: ${otp}</p>
+                          <p>This OTP is valid for a short time, so please use it as soon as possible.</p>
+                          <p>If you did not request this, please ignore this email.</p>
+                          <p>If you have any questions, feel free to reach out to our support team.</p>
+                          <p>Thank you for choosing our service!</p>
+                      </div>
+                      <div class="footer">
+                          <p>&copy; ${new Date().getFullYear()} Our App. All rights reserved.</p>
+                      </div>
+                  </body>
+              </html>
+          `
+      };
+      
 
         await transporter.sendMail((mailoptions),(error,info)=>{
             if (error){
@@ -495,9 +551,136 @@ export const deleteAdmin = async (req, res) => {
       res.status(500).json({ success: false, message: err.message });
     }
   };
+  export const addHostingCycleToCart = async (req, res) => {
+    try {
+      const { userId } = req.params; // Fetch userId from route params
+      const { hostingCycleId } = req.body; // Fetch hostingCycleId from request body
   
+      // Validate userId and hostingCycleId
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ success: false, message: "Invalid userId" });
+      }
+      if (!mongoose.Types.ObjectId.isValid(hostingCycleId)) {
+        return res.status(400).json({ success: false, message: "Invalid hostingCycleId" });
+      }
+  
+      // Check if the user exists
+      const user = await userModel.findById(userId);
+      if (!user) {
+        return res.status(404).json({ success: false, message: "User not found" });
+      }
+  
+      // Check if the hosting cycle exists
+      const hostingCycle = await HostingCycle.findById(hostingCycleId);
+      if (!hostingCycle) {
+        return res.status(404).json({ success: false, message: "HostingCycle not found" });
+      }
+  
+      // Add the hosting cycle to the user's cart
+      user.cart.push(hostingCycle._id);
+  
+      // Save the updated user
+      await user.save();
+  
+      // Return the updated cart information
+      res.json({
+        success: true,
+        message: "HostingCycle added to cart successfully",
+        cart: user.cart, // You can populate this if you want detailed cart info
+      });
+    } catch (error) {
+      console.error("Error in addHostingCycleToCart:", error.message);
+      return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+  };
   // Delete a user
+
+
+
+export const registerWebsite = async (req, res) => {
+    const { name, url, description, ownerId } = req.body;
   
+    // Check if all required fields are provided
+    if (!name || !url || !ownerId) {
+      return res.json({ success: false, message: "Missing required fields" });
+    }
+  
+    try {
+      // Check if the website with the same URL already exists
+      const existingWebsite = await websiteModel.findOne({ url });
+      if (existingWebsite) {
+        return res.json({ success: false, message: "Website already exists." });
+      }
+  
+      // Create a new website entry
+      const newWebsite = new websiteModel({
+        name,
+        url,
+        description,
+        owner: ownerId,
+      });
+  
+      await newWebsite.save();
+  
+      // Find the user and add the new website's ID to their websites array
+      const user = await userModel.findById(ownerId);
+      if (!user) {
+        return res.json({ success: false, message: "User not found." });
+      }
+  
+      // Add the new website to the user's websites array
+      user.websites.push(newWebsite._id);
+  
+      await user.save();
+  
+      // Return success response with the newly created website
+      return res.json({
+        success: true,
+        message: "Website registered successfully",
+        website: newWebsite,
+      });
+    } catch (error) {
+      // Return error response if something goes wrong
+      return res.json({ success: false, message: error.message });
+    }
+  };
+  export const deleteWebsite = async (req, res) => {
+    const { userId, websiteId } = req.params; // Get userId and websiteId from params
+  
+    try {
+      // Remove the website from the user's websites array
+      const user = await userModel.findByIdAndUpdate(
+        userId,
+        { $pull: { websites: websiteId } }, // $pull removes the websiteId from the array
+        { new: true } // Return the updated user
+      );
+  
+      if (!user) {
+        return res.status(404).json({ success: false, message: "User not found" });
+      }
+  
+      // Optionally, delete the website document itself from the website collection
+      const website = await websiteModel.findByIdAndDelete(websiteId);
+  
+      if (!website) {
+        return res.status(404).json({ success: false, message: "Website not found" });
+      }
+  
+      // Return a success response
+      res.json({
+        success: true,
+        message: "Website successfully deleted from the user and the collection",
+        user: {
+          id: user._id,
+          websites: user.websites, // The updated list of websites for the user
+        }
+      });
+  
+    } catch (error) {
+      console.error("Error deleting website:", error);
+      return res.status(500).json({ success: false, message: error.message });
+    }
+  };
 
 /***************************************Update user Role “user” <-> “admin”***********************************
 // Update user role

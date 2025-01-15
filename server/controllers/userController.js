@@ -5,7 +5,7 @@ import userModel from "../models/userModel.js";
 export const getUserData = async (req, res) => {
   try {
     const { userId } = req.body;
-    const user = await userModel.findById(userId).populate('cart'); // Populate the cart with HostingCycle data
+    const user = await userModel.findById(userId).populate('cart').populate('websites');; // Populate the cart with HostingCycle data
 
     if (!user) {
       return res.json({ success: false, message: "User not found" });
@@ -14,6 +14,9 @@ export const getUserData = async (req, res) => {
     res.json({
       success: true,
       userData: {
+        github:user.github,
+        namewebsite:user.namewebsite ,
+        _id: user._id,
         name: user.name,
         isAcconuntVerified: user.isAcconuntVerified,
         isAdmin: user.isAdmin,
@@ -26,7 +29,14 @@ export const getUserData = async (req, res) => {
           packageName: item.packageName,
           cost: item.cost,
           duration: item.duration,
-          description: item.description,  // Assuming HostingCycle has these fields
+          description: item.description, 
+          // Assuming HostingCycle has these fields
+        })),
+        websites: user.websites.map(website => ({
+          _id: website._id,
+          name: website.name,
+          url: website.url,
+          description: website.description,
         }))
       }
     });
@@ -86,7 +96,8 @@ export const getUserById = async (req, res) => {
               duration: user.duration,
               cart: user.cart,
               createdAt: user.createdAt,
-              updatedAt: user.updatedAt
+              updatedAt: user.updatedAt,
+              
           }
       });
   } catch (error) {
@@ -175,6 +186,7 @@ export const uploadProfileImage = async (req, res) => {
         updatedAt: updatedUser.updatedAt,
         image: updatedUser.image, 
         cart: user.cart,// Add the image field to the response
+        
       }
     });
   } catch (error) {
@@ -184,6 +196,32 @@ export const uploadProfileImage = async (req, res) => {
 
 // Use the middleware to handle image upload
 app.post('/upload-profile-image/:userId', upload.single('profileImage'), uploadProfileImage);
+export const addnamewebsite= async (req, res) => {
+  const { namewebsite, github } = req.body;
+  const userId = req.params.userId;
+
+  if (!namewebsite || !github) {
+    return res.status(400).json({ success: false, message: "Namewebsite and GitHub are required." });
+  }
+
+  try {
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+
+    // Save website details to user account
+    user.namewebsite = namewebsite;
+    user.github = github;
+
+    await user.save();
+
+    res.status(200).json({ success: true, message: "Hosting cycle added to cart and details saved." });
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    res.status(500).json({ success: false, message: "Server error." });
+  }
+};
 
 // Get all users for the admin dashboard
 

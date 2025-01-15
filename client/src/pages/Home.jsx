@@ -14,9 +14,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <Aymen/>
-      {userData && (
-        <Header />
-     )}
+    
      
       <Hero/>
       

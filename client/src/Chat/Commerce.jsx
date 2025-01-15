@@ -1,67 +1,93 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { ShoppingCart } from 'lucide-react';
-import Header from '../dash/header';
-import Footer from '../dash/footer';
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import Header from "../dash/header";
+import Footer from "../dash/footer";
+import { AppContent } from "../context/Appcontext";
 
 const Commerce = () => {
-  const { userId } = useParams();
   const [hostingCycles, setHostingCycles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [cartLoading, setCartLoading] = useState(false);
-  const [cartError, setCartError] = useState('');
+  const [cartError, setCartError] = useState("");
+  
+  const [showForm, setShowForm] = useState(false);  // Show the form when clicked
+  const [formData, setFormData] = useState({
+    namewebsite: "",
+    github: "",
+  });
 
+  const { userData, setIsLogin, setUserData } = useContext(AppContent);
+
+  // Fetch hosting cycles
   useEffect(() => {
     const fetchHostingCycles = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/api/auth/getAllHostingCycles', {
+        const response = await axios.get("http://localhost:4000/api/auth/getAllHostingCycles", {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
         setHostingCycles(response.data.data);
       } catch (error) {
-        setError('Failed to fetch hosting cycles');
-        console.error('Error fetching hosting cycles:', error);
+        setError("Failed to fetch hosting cycles");
+        console.error("Error fetching hosting cycles:", error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchHostingCycles();
   }, []);
 
-  const handleAddToCart = async (cycleId) => {
-    setCartLoading(true);
-    setCartError('');
-
-    if (!userId) {
-      setCartError('User not authenticated');
-      setCartLoading(false);
+  // Add hosting cycle to cart
+  const handleAddToCart = (hostingCycleId) => {
+    if (!userData || !userData._id) {
+      setCartError("User is not logged in or user ID is missing.");
       return;
     }
 
+    // Show form to enter website details
+    setShowForm(true);
+  };
+
+  // Handle form submission
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.namewebsite || !formData.github) {
+      setCartError("Please fill out all fields.");
+      return;
+    }
+
+    setCartLoading(true);
+    setCartError("");
+
     try {
       const response = await axios.post(
-        `http://localhost:4000/api/user/addHostingCycleToCart/${userId}`,
-        { hostingCycleId: cycleId },
+        `http://localhost:4000/api/auth/registerWebsite`,
+        {
+          name: formData.namewebsite,
+          url: formData.github, // Assuming GitHub URL is used for the website URL
+          description: formData.description || "", // Optional description
+          ownerId: userData._id, // Use the logged-in user's ID as the owner
+        },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
 
       if (response.data.success) {
-        alert('Item added to cart successfully!');
+        alert("Website registered successfully!");
+        setShowForm(false); // Hide the form
+        setFormData({ namewebsite: "", github: "", description: "" }); // Reset form data
       } else {
-        setCartError('Failed to add item to cart');
+        setCartError(response.data.message);
       }
     } catch (error) {
-      setCartError('Error adding item to cart: ' + (error.response?.data?.message || error.message));
-      console.error("Error details:", error);
+      console.error("Error registering website:", error.response?.data || error.message);
+      setCartError("Error registering website. Please try again.");
     } finally {
       setCartLoading(false);
     }
@@ -69,116 +95,87 @@ const Commerce = () => {
 
   return (
     <div>
-    <div className="min-h-screen bg-gray-100">
       <Header />
-      <main className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">Hosting Cycles</h1>
+      <div className="font-sans py-4 mx-auto lg:max-w-4xl max-w-lg md:max-w-full">
+        <h2 className="text-2xl font-extrabold text-gray-800 mb-6">Hosting Cycles</h2>
 
-        {loading && (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
-        )}
+        {loading && <div>Loading...</div>}
+        {error && <div className="text-red-600">{error}</div>}
 
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <strong className="font-bold">Error: </strong>
-            <span className="block sm:inline">{error}</span>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
           {hostingCycles.map((cycle) => (
-            <div key={cycle._id} className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl">
-              <div className="p-4">
-                <img src={cycle.image} alt={cycle.namePAckage} className="w-full h-48 object-cover rounded-md" />
+            <div key={cycle._id} className="bg-gray-200 flex flex-col rounded-md">
+              <div className="p-4 sm:p-6">
+                <img src={cycle.image} alt={cycle.namePAckage} className="w-full aspect-[230/220] object-contain" />
               </div>
-              <div className="p-6">
-                <h2 className="text-xl font-semibold text-gray-800 mb-2">{cycle.namePAckage}</h2>
-                <p className="text-gray-600 mb-4">{cycle.description}</p>
-                <div className="flex justify-between items-center mb-4">
-                  <div>
-                    <span className="text-2xl font-bold text-blue-600">${cycle.cost}</span>
-                    <span className="text-sm text-gray-500 line-through ml-2">${cycle.originalCost}</span>
-                  </div>
-                  <div className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                    Save ${(cycle.originalCost - cycle.cost).toFixed(2)}
-                  </div>
-                </div>
+              <div className="flex flex-col h-full text-center bg-gray-100 p-4">
+                <h1 className="text-sm font-bold">{cycle.namePAckage}</h1>
+                <p className="text-sm ">{cycle.description}</p>
+                <h4 className="text-sm font-bold mt-4">
+                  ${cycle.cost} <strike>${cycle.originalCost}</strike>
+                </h4>
                 <button
-                  onClick={() => handleAddToCart(cycle._id)}
-                  disabled={cartLoading}
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out flex items-center justify-center"
-                >
-                  {cartLoading ? (
-                    <span className="flex items-center">
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Adding...
-                    </span>
-                  ) : (
-                    <>
-                      <ShoppingCart className="mr-2" size={20} />
-                      Add to Cart
-                    </>
-                  )}
-                </button>
-                {cartError && <p className="text-red-500 text-sm mt-2">{cartError}</p>}
+    type="button"
+    onClick={() => handleAddToCart(cycle._id)}
+    className="w-full mt-6 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 disabled:bg-blue-300"   disabled={cartLoading}
+>
+    {cartLoading ? "Adding..." : "Add to Cart"}
+</button>
+
+                {cartError && <div className="text-red-600 mt-2">{cartError}</div>}
               </div>
             </div>
           ))}
         </div>
-      </main>
-     
-    </div>
-    <footer className="bg-gray-800 text-white">
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Société</h3>
-              <ul className="mt-4 space-y-4">
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">À propos</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Blog</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Emplois</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Presse</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Support</h3>
-              <ul className="mt-4 space-y-4">
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Centre d'aide</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Documentation</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Guides</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">API Status</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Légal</h3>
-              <ul className="mt-4 space-y-4">
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Confidentialité</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Conditions</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Social</h3>
-              <ul className="mt-4 space-y-4">
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Facebook</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Twitter</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">LinkedIn</a></li>
-              </ul>
-            </div>
+
+        {/* Show the form when `showForm` is true */}
+        {showForm && (
+          <div className="mt-6 bg-white p-4 rounded-md shadow-md">
+            <h3 className="text-lg font-semibold">Enter Website Details</h3>
+            <form onSubmit={handleFormSubmit}>
+              <div className="mt-4">
+                <label className="block text-sm font-medium">Website Name</label>
+                <input
+                  type="text"
+                  value={formData.namewebsite}
+                  onChange={(e) => setFormData({ ...formData, namewebsite: e.target.value })}
+                  className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md"
+                  required
+                />
+              </div>
+              <div className="mt-4">
+                <label className="block text-sm font-medium">GitHub Account</label>
+                <input
+                  type="text"
+                  value={formData.github}
+                  onChange={(e) => setFormData({ ...formData, github: e.target.value })}
+                  className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md"
+                  required
+                />
+              </div>
+              <div className="mt-4">
+                <label className="block text-sm font-medium">Description (Optional)</label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <button
+                type="submit"
+                className="mt-6 w-full bg-blue-500 text-white py-2 rounded-md"
+                disabled={cartLoading}
+              >
+                {cartLoading ? "Saving..." : "Save and Register Website"}
+              </button>
+            </form>
+            {cartError && <div className="text-red-600 mt-2">{cartError}</div>}
           </div>
-          
-        </div>
-      </footer>
-     <Footer />
-    
-     </div>
-   
+        )}
+      </div>
+      <Footer />
+    </div>
   );
 };
 
 export default Commerce;
-
