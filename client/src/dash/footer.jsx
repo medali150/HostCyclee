@@ -24,7 +24,7 @@ function Footer() {
               <p class="text-gray-400 text-sm">123 Main Street</p>
               <p class="text-gray-400 text-sm">City, State, Country</p>
               <p class="text-gray-400 text-sm">ITQANLABS@GMAIL;COM</p>
-              <p class="text-gray-400 text-sm">+1 234 567 890</p>
+              <p class="text-gray-400 text-sm">+216 234 567 890</p>
             </div>
           </div>
   
