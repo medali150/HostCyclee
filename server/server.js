@@ -9,7 +9,7 @@ connectDB();
 const app =express();
 const port =process.env.port || 4000;
 
-const allowedOrigins=['http://localhost:3000']
+const allowedOrigins=['https://host-cycle-ji9x-jc6rrgn9k-aymens-projects-9ad69811.vercel.app']
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({origin :allowedOrigins, credentials:true}));
