@@ -23,7 +23,7 @@ const Commerce = () => {
   useEffect(() => {
     const fetchHostingCycles = async () => {
       try {
-        const response = await axios.get("https://host-cycle-ji9x.vercel.app/api/auth/getAllHostingCycles", {
+        const response = await axios.get("https://host-cycle-ji9x-jc6rrgn9k-aymens-projects-9ad69811.vercel.app/api/auth/getAllHostingCycles", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -64,7 +64,7 @@ const Commerce = () => {
 
     try {
       const response = await axios.post(
-        `https://host-cycle-ji9x.vercel.app/api/auth/registerWebsite`,
+        `https://host-cycle-ji9x-jc6rrgn9k-aymens-projects-9ad69811.vercel.app/api/auth/registerWebsite`,
         {
           name: formData.namewebsite,
           url: formData.github, // Assuming GitHub URL is used for the website URL

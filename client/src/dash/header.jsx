@@ -8,7 +8,7 @@ const Aymen = () => { const navigate = useNavigate();
 
 const sendVerificationOTP = async () => {
     try {
-        const { data } = await axios.post('https://host-cycle-ji9x.vercel.app/api/auth/sendVerifyOtp');
+        const { data } = await axios.post('https://host-cycle-ji9x-jc6rrgn9k-aymens-projects-9ad69811.vercel.app/api/auth/sendVerifyOtp');
         if (data.success) {
             toast.success(data.message);
             navigate('/EmailVerify');
@@ -22,7 +22,7 @@ const sendVerificationOTP = async () => {
 
 const logout = async () => {
     try {
-        const { data } = await axios.post('https://host-cycle-ji9x.vercel.app/api/auth/logout');
+        const { data } = await axios.post('https://host-cycle-ji9x-jc6rrgn9k-aymens-projects-9ad69811.vercel.app/api/auth/logout');
         if (data.success) {
             setIsLogin(false);
             setUserData(null);

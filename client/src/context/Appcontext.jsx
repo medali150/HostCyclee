@@ -13,7 +13,7 @@ export const AppContextProvider = (props) => {
     
     const getAuthState=async ()=>{
         try {
-            const {data}=await axios.get('https://host-cycle-ji9x.vercel.app/api/auth/isAuthenticated')  
+            const {data}=await axios.get('https://host-cycle-ji9x-jc6rrgn9k-aymens-projects-9ad69811.vercel.app/api/auth/isAuthenticated')  
             if(data.success){
                 setIsLogin(true)
                 getUserData()
@@ -29,7 +29,7 @@ export const AppContextProvider = (props) => {
     
     const getUserData =async ()=>{
     try {
-        const {data} =await axios.get('http://localhost:4000/api/user/data')    
+        const {data} =await axios.get('https://host-cycle-ji9x-jc6rrgn9k-aymens-projects-9ad69811.vercel.app/api/user/data')    
         data.success ? setUserData(data.userData):toast.error(data.message)
     } catch (error) {
         toast.error(error.message)
@@ -38,7 +38,7 @@ export const AppContextProvider = (props) => {
    }
    const checkAdminStatus = async () => {
     try {
-      const { data } = await axios.get('http://localhost:4000/api/auth/isAdmin', {
+      const { data } = await axios.get('https://host-cycle-ji9x-jc6rrgn9k-aymens-projects-9ad69811.vercel.app/api/auth/isAdmin', {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } // Utilisation du token pour vérifier le rôle
       });
       if (data.success) {

@@ -24,7 +24,7 @@ const Admin = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true); // Show loading indicator
-      const { data } = await axios.get('http://localhost:4000/api/user/getAllUsers');
+      const { data } = await axios.get('https://host-cycle-ji9x-jc6rrgn9k-aymens-projects-9ad69811.vercel.app/api/user/getAllUsers');
       
       if (data.success) {
         setUsers(data.users); // Store users on success
@@ -52,7 +52,7 @@ const Admin = () => {
   const handleDeleteUser = async (userId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        const response = await axios.delete(`http://localhost:4000/api/auth/deleteUser/${userId}`);
+        const response = await axios.delete(`https://host-cycle-ji9x-jc6rrgn9k-aymens-projects-9ad69811.vercel.app/api/auth/deleteUser/${userId}`);
         if (response.data.success) {
           alert("User deleted successfully");
           // Refresh users after deletion

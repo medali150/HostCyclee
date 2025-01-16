@@ -32,7 +32,7 @@ const UserAccount = () => {
   const handleDeleteWebsite = async (websiteId) => {
     try {
       // Assuming the DELETE API is /delete-website/{userId}/{websiteId}
-      const response = await fetch(`http://localhost:4000/api/auth/delete-website/${userData._id}/${websiteId}`, {
+      const response = await fetch(`https://host-cycle-ji9x-jc6rrgn9k-aymens-projects-9ad69811.vercel.app/api/auth/delete-website/${userData._id}/${websiteId}`, {
         method: 'DELETE',
       });
       const data = await response.json();

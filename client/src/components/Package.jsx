@@ -36,7 +36,7 @@ const Package = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('https://host-cycle-ji9x.vercel.app/api/auth/registerHostingCycle', formData, {
+            const response = await axios.post('https://host-cycle-ji9x-jc6rrgn9k-aymens-projects-9ad69811.vercel.app/api/auth/registerHostingCycle', formData, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
