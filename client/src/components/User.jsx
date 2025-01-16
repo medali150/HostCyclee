@@ -13,7 +13,7 @@ const User = () => {
         // Fetch user details from the backend when the component mounts
         const fetchUserDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:4000/api/user/${userId}`);
+                const response = await axios.get(`https://host-cycle-ji9x.vercel.app/api/user/${userId}`);
                 if (response.data.success) {
                     setUser(response.data.user);  // Set user data in state
                 } else {
@@ -48,7 +48,7 @@ const User = () => {
         setLoading(true);  // Set loading state to true
         try {
             const response = await axios.post(
-                `http://localhost:4000/api/user/upload-profile-image/${userId}`,
+                `https://host-cycle-ji9x.vercel.app/api/user/upload-profile-image/${userId}`,
                 formData,
                 {
                     headers: { 'Content-Type': 'multipart/form-data' },
@@ -114,7 +114,7 @@ const User = () => {
                                 </dt>
                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     <img
-                                        src={user.image ? `http://localhost:4000/${user.image}` : 'https://via.placeholder.com/150'}
+                                        src={user.image ? `https://host-cycle-ji9x.vercel.app/${user.image}` : 'https://via.placeholder.com/150'}
                                         alt="Profile"
                                         className="w-20 h-20 rounded-full object-cover"
                                     />

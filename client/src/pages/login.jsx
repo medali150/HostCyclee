@@ -18,7 +18,7 @@ const Login = () => {
     try {
       axios.defaults.withCredentials = true;
       if (state === 'sign up') {
-        const { data } = await axios.post(`http://localhost:4000/api/auth/register`, {
+        const { data } = await axios.post(`https://host-cycle-ji9x.vercel.app/api/auth/register`, {
           name,
           email,
           password,
@@ -32,7 +32,7 @@ const Login = () => {
           toast.error(data.message);
         }
       } else if (state === 'login') {
-        const { data } = await axios.post(`http://localhost:4000/api/auth/login`, {
+        const { data } = await axios.post(`https://host-cycle-ji9x.vercel.app/api/auth/login`, {
           email,
           password,
         });

@@ -13,7 +13,7 @@ export const AppContextProvider = (props) => {
     
     const getAuthState=async ()=>{
         try {
-            const {data}=await axios.get('http://localhost:4000/api/auth/isAuthenticated')  
+            const {data}=await axios.get('https://host-cycle-ji9x.vercel.app/api/auth/isAuthenticated')  
             if(data.success){
                 setIsLogin(true)
                 getUserData()

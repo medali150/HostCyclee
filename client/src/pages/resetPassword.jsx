@@ -37,7 +37,7 @@ const ResetPassword = () => {
       const otp=otpArray.join('')
  
       //send otp to backend
-      const {data}=await axios.post('http://localhost:4000/api/auth/verifyEmail',{otp})
+      const {data}=await axios.post('https://host-cycle-ji9x.vercel.app/api/auth/verifyEmail',{otp})
       if(data.success){
         toast.success(data.message)
         getUserData()
@@ -53,7 +53,7 @@ const ResetPassword = () => {
   const onSubmitEmail=async(e)=>{
     e.preventDefault();
     try {
-      const {data}=await axios.post('http://localhost:4000/api/auth/sendResetOtp',{email})
+      const {data}=await axios.post('https://host-cycle-ji9x.vercel.app/api/auth/sendResetOtp',{email})
     data.success ? toast.success(data.message):toast.error(data.message)
     data.success && setIsEmailSent(true)
     } catch (error) {
@@ -64,7 +64,7 @@ const ResetPassword = () => {
 const onSubmitOTP=async(e)=>{
   e.preventDefault();
   try {
-    const {data}=await axios.post('http://localhost:4000/api/auth/sendResetOtp',{email})
+    const {data}=await axios.post('https://host-cycle-ji9x.vercel.app/api/auth/sendResetOtp',{email})
     const otpArray=inputsRef.current.map(e=>e.value);
     setotp(otpArray.join(''))
     setIsotpSubmitted(true)
@@ -77,7 +77,7 @@ const onSubmitNewPassword=async(e)=>{
 
   e.preventDefault();
   try {
-    const {data}=await axios.post('http://localhost:4000/api/auth/resetPassword',{email,otp,newPassword})
+    const {data}=await axios.post('https://host-cycle-ji9x.vercel.app/api/auth/resetPassword',{email,otp,newPassword})
     data.success ? toast.success(data.message):toast.error(data.message) 
     data.success && navigate('/Login') 
 }catch (error) {
