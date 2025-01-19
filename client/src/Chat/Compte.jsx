@@ -28,16 +28,13 @@ const UserAccount = () => {
     </div>
   );
 
-  // Function to handle deleting the website
   const handleDeleteWebsite = async (websiteId) => {
     try {
-      // Assuming the DELETE API is /delete-website/{userId}/{websiteId}
-      const response = await fetch(`https://host-cycle-ji9x-jc6rrgn9k-aymens-projects-9ad69811.vercel.app/api/auth/delete-website/${userData._id}/${websiteId}`, {
+      const response = await fetch(`http://localhost:4000/api/auth/delete-website/${userData._id}/${websiteId}`, {
         method: 'DELETE',
       });
       const data = await response.json();
       if (data.success) {
-        // Update the userData after deleting the website
         const updatedWebsites = userData.websites.filter(website => website._id !== websiteId);
         setUserData({ ...userData, websites: updatedWebsites });
         alert('Website deleted successfully');
@@ -58,70 +55,76 @@ const UserAccount = () => {
           <h1 className="text-3xl font-bold text-gray-900 mb-8">Account Dashboard</h1>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="bg-white shadow rounded-lg p-6">
-              <h2 className="text-xl font-semibold mb-4">User Information</h2>
-              <InfoItem icon={User} label="Name" value={userData.name} />
+              <h2 className="text-xl font-semibold mb-4">Informations utilisateur</h2>
+              <InfoItem icon={User} label="Nom" value={userData.name} />
               <InfoItem icon={Mail} label="Email" value={userData.email} />
-              <InfoItem icon={Calendar} label="Start Date" value={formatDate(userData.startDate)} />
-              <InfoItem icon={Calendar} label="End Date" value={formatDate(userData.endDate)} />
-              <InfoItem icon={DollarSign} label="Subscription" value={userData.subscription} />
-              <InfoItem icon={Clock} label="Duration" value={`${userData.duration} months`} />
+              <InfoItem icon={Calendar} label="Début de l'abonnement" value={formatDate(userData.startDate)} />
+              <InfoItem icon={DollarSign} label="Pays" value={userData.Contry} />
+              <InfoItem icon={Clock} label="Durée" value={`${userData.duration} months`} />
+              <InfoItem
+                icon={Globe}
+                label="Nombre de sites Web"
+                value={userData.websites ? userData.websites.length : 0}
+              />
             </div>
             <div className="bg-white shadow rounded-lg p-6 lg:col-span-2">
-  <h2 className="text-xl font-semibold mb-4">Your Websites</h2>
-  {userData.websites && userData.websites.length > 0 ? (
-    <div className="overflow-x-auto">
-      <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-          <tr>
-            <th scope="col" className="px-6 py-3">Website Name</th>
-            <th scope="col" className="px-6 py-3">URL</th>
-            <th scope="col" className="px-6 py-3">Description</th>
-            <th scope="col" className="px-6 py-3">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {userData.websites.map((website, index) => (
-            <tr key={index} className="bg-white border-b hover:bg-gray-50">
-              <td className="px-6 py-4 font-medium text-gray-900">{website.name}</td>
-              <td className="px-6 py-4">
-                <a
-                  href={website.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline flex items-center"
-                >
-                  {website.url}
-                  <ExternalLink className="ml-1 h-4 w-4" />
-                </a>
-              </td>
-              <td className="px-6 py-4">{website.description}</td>
-              <td className="px-6 py-4 flex items-center">
-                <button className="bg-black text-white hover:bg-gray-800 px-3 py-2 rounded flex items-center mr-4">
-                  <Pencil className="mr-1 h-4 w-4" />
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDeleteWebsite(website._id)} // Correctly passing the website._id here
-                  className="bg-red-600 text-white hover:bg-red-700 px-3 py-2 rounded flex items-center"
-                >
-                  <Trash className="mr-1 h-4 w-4" />
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+              <h2 className="text-xl font-semibold mb-4">Vos sites Web</h2>
+              {userData.websites && userData.websites.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left text-gray-500">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                      <tr>
+                        <th scope="col" className="px-6 py-3">Nom du site Web</th>
+                        <th scope="col" className="px-6 py-3">URL</th>
+                        <th scope="col" className="px-6 py-3">Description</th>
+                        <th scope="col" className="px-6 py-3">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {userData.websites.map((website, index) => (
+                        <tr key={index} className="bg-white border-b hover:bg-gray-50">
+                          <td className="px-6 py-4 font-medium text-gray-900">{website.name}</td>
+                          <td className="px-6 py-4">
+                            <a
+                              href={website.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:underline flex items-center"
+                            >
+                              {website.url}
+                              <ExternalLink className="ml-1 h-4 w-4" />
+                            </a>
+                          </td>
+                          <td className="px-6 py-4">{website.description}</td>
+                          <td className="px-6 py-4 flex items-center">
+                            <button className="bg-black text-white hover:bg-gray-800 px-3 py-2 rounded flex items-center mr-4">
+                              <Pencil className="mr-1 h-4 w-4" />
+                              Modifier
+                            </button>
+                            <button
+                              onClick={() => handleDeleteWebsite(website._id)}
+                              className="bg-red-600 text-white hover:bg-red-700 px-3 py-2 rounded flex items-center"
+                            >
+                              <Trash className="mr-1 h-4 w-4" />
+                              Supprimer
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               ) : (
                 <div className="text-center py-8">
                   <Globe className="mx-auto h-12 w-12 text-gray-400" />
-                  <h3 className="mt-2 text-sm font-medium text-gray-900">No websites</h3>
-                  <p className="mt-1 text-sm text-gray-500">Get started by adding your first website.</p>
+                  <h3 className="mt-2 text-sm font-medium text-gray-900">
+                    Aucun site Web
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-500">Commencez par ajouter votre premier site Web.</p>
                   <div className="mt-6">
                     <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
                       <Globe className="mr-2 h-4 w-4" />
-                      Add Website
+                      Ajouter un site Web
                     </button>
                   </div>
                 </div>

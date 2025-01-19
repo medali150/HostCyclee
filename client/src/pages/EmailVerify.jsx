@@ -27,7 +27,7 @@ const EmailVerify = () => {
       const otp=otpArray.join('')
  
       //send otp to backend
-      const {data}=await axios.post('https://host-cycle-ji9x-jc6rrgn9k-aymens-projects-9ad69811.vercel.app/api/auth/verifyEmail',{otp})
+      const {data}=await axios.post('http://localhost:4000/api/auth/verifyEmail',{otp})
       if(data.success){
         toast.success(data.message)
         getUserData()
