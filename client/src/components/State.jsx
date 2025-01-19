@@ -17,7 +17,7 @@ const StatsSection = () => {
       try {
         setLoading(true);
         const userResponse = await axios.get('http://localhost:4000/api/user/getAllUsers');
-        const websiteResponse = await axios.get('http://localhost:4000/api/website/getAllWebsites');
+        const websiteResponse = await axios.get('http://localhost:4000/api/auth/getAllWebsites');
         const packageResponse = await axios.get('http://localhost:4000/api/package/getAllPackages');
 
         setStats({
