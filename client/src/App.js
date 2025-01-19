@@ -21,14 +21,16 @@ import Compte from './Chat/Compte.jsx';
 import Commerce from './Chat/Commerce.jsx';
 import WebsiteFormModal from './Chat/WebsiteFormModal.jsx';
 import Ahmed from './Chat/test.jsx';
+import StatsSection from './components/State.jsx';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter> 
       <div className="App">
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/StatsSection" element={<StatsSection />} />
           <Route path="/chat" element={<Chat1 />} />
           <Route path="/Auth" element={<Auth />} />
           <Route path="/login" element={<Login />} />
