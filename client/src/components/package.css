@@ -32,7 +32,7 @@
 
 .admin-dashboard button {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color:rgb(62, 139, 255);
     color: white;
     border: none;
     border-radius: 4px;
@@ -40,5 +40,5 @@
 }
 
 .admin-dashboard button:hover {
-    background-color: #45a049;
+    background-color:rgb(0, 0, 0);
 }

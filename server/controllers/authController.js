@@ -102,7 +102,7 @@ export const register = async (req, res) => {
                       </div>
                       <div class="footer">
                           <p>Stay connected with us!</p>
-                          <p><a href="https://www.example.com">Visit our website</a></p>
+                          <p><a href="#">Visit our website</a></p>
                       </div>
                   </div>
               </body>

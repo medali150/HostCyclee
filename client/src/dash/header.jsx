@@ -54,7 +54,8 @@ return (
                             <a href="/Home" className='hover:text-[#007bff] text-[#007bff] font-bold block text-base'>Home</a>
                         </li>
                         <li className='max-lg:border-b max-lg:py-3 px-3'>
-                            <a href='/Commerce' className='hover:text-[#007bff] text-gray-600 font-bold block text-base'>News</a>
+                            <a href='/Commerce' className='hover:text-[#007bff] text-gray-600 font-bold block text-base'>
+                            Nouvelles</a>
                         </li>
 
                         {userData ? (

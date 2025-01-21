@@ -1,180 +1,183 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom'; // Import useNavigate for navigation
-import './Admin.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faPlus, faEye, faUsers } from '@fortawesome/free-solid-svg-icons';
-import Footer from '../dash/footer';
-import Aymen from '../dash/header';
-import Sidebar from '../Chat/Chat1';
-
+import React, { useEffect, useState } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faUsers, faSearch } from "@fortawesome/free-solid-svg-icons"
+import Aymen from "../dash/header"
+import Sidebar from "../Chat/Chat1"
 
 const Admin = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [users, setUsers] = useState([]); // State to store users
-  const [error, setError] = useState(null); // State to store error message
-  const [loading, setLoading] = useState(true); // State to manage loading state
-  const navigate = useNavigate(); // Instantiate useNavigate for navigation
+  const [users, setUsers] = useState([])
+  const [filteredUsers, setFilteredUsers] = useState([])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const navigate = useNavigate()
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
-
-  // Function to fetch users data
   const fetchUsers = async () => {
     try {
-      setLoading(true); // Show loading indicator
-      const { data } = await axios.get('http://localhost:4000/api/user/getAllUsers');
-      
+      setLoading(true)
+      const { data } = await axios.get("http://localhost:4000/api/user/getAllUsers")
+
       if (data.success) {
-        setUsers(data.users); // Store users on success
+        setUsers(data.users)
+        setFilteredUsers(data.users)
       } else {
-        setError(data.message); // Set error if API fails
+        setError(data.message)
       }
     } catch (err) {
-      setError(`Error fetching users: ${err.message}`); // Catch and display error
+      setError(`Error fetching users: ${err.message}`)
     } finally {
-      setLoading(false); // Hide loading indicator once request completes
+      setLoading(false)
     }
-  };
+  }
 
-  // Fetch users on component mount
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    fetchUsers()
+  }, [])
 
-  // Navigate to user details page
+  useEffect(() => {
+    const filtered = users.filter((user) => user.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    setFilteredUsers(filtered)
+  }, [searchTerm, users])
+
   const handleViewDetails = (userId) => {
-    navigate(`/User/${userId}`);
-  };
+    navigate(`/User/${userId}`)
+  }
 
-  // Function to delete a user
   const handleDeleteUser = async (userId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        const response = await axios.delete(`http://localhost:4000/api/auth/deleteUser/${userId}`);
+        const response = await axios.delete(`http://localhost:4000/api/auth/deleteUser/${userId}`)
         if (response.data.success) {
-          alert("User deleted successfully");
-          // Refresh users after deletion
-          fetchUsers();
+          alert("User deleted successfully")
+          fetchUsers()
         } else {
-          alert(response.data.message);
+          alert(response.data.message)
         }
       } catch (err) {
-        alert("Error deleting user: " + err.message);
+        alert("Error deleting user: " + err.message)
       }
     }
-  };
+  }
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value)
+  }
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen)
+  }
 
   return (
-    <div>
-      <Aymen/>
-    <div>
-     <Sidebar/>
-      <>
-        <button
-          onClick={toggleSidebar}
-          aria-controls="default-sidebar"
-          type="button"
-          className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-        >
-          <span className="sr-only">Open sidebar</span>
-          <svg
-            className="w-6 h-6"
-            aria-hidden="true"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      <Aymen />
+      <div className="flex flex-1">
+        <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <div className="flex-1 p-4 md:p-8 sm:ml-64">
+          <button
+            onClick={toggleSidebar}
+            className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
           >
-            <path
-              clipRule="evenodd"
-              fillRule="evenodd"
-              d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-            />
-          </svg>
-        </button>
+            <span className="sr-only">Toggle Sidebar</span>
+            <svg
+              className="w-6 h-6"
+              aria-hidden="true"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clipRule="evenodd"
+                fillRule="evenodd"
+                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+              />
+            </svg>
+          </button>
 
-        <aside
-          id="default-sidebar"
-          className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0`}
-          aria-label="Sidebar"
-        >
-          <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-            <ul className="space-y-2 font-medium">
-              <li>
-                <Link to="/Admin" className="flex items-center p-2 text-gray-900 rounded-lg">
-                  <FontAwesomeIcon icon={faTachometerAlt} className="me-2" />
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link to="/Package" className="flex items-center p-2 text-gray-900 rounded-lg">
-                  <FontAwesomeIcon icon={faPlus} className="me-2" />
-                  Add package
-                </Link>
-              </li>
-              <li>
-                <Link to="/showhostingCycleSchema" className="flex items-center p-2 text-gray-900 rounded-lg">
-                  <FontAwesomeIcon icon={faEye} className="me-2" />
-                  See package
-                </Link>
-              </li>
-              <li>
-                <Link to="/Admin" className="flex items-center p-2 text-gray-900 rounded-lg">
-                  <FontAwesomeIcon icon={faUsers} className="me-2" />
-                  See Users
-                </Link>
-              </li>
-            </ul>
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
+            <div className="mt-4 bg-white rounded-lg shadow p-4 inline-block">
+              <div className="flex items-center space-x-4">
+                <FontAwesomeIcon icon={faUsers} className="text-blue-500 text-3xl" />
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-700">Total Users</h2>
+                  <p className="text-2xl font-bold text-blue-600">{loading ? "Loading..." : users.length}</p>
+                </div>
+              </div>
+            </div>
           </div>
-        </aside>
-      </>
-  
-      <div className="admin-dashboard">
-        <div className="dashboard-header">
-          <h1>Admin Dashboard</h1>
-        </div>
 
-        {loading && <div className="loading-message">Loading users...</div>}
-        {error && !loading && <div className="error-message">{error}</div>}
+          <div className="mb-4 relative">
+            <input
+              type="text"
+              placeholder="Search users by name"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              className="w-full px-4 py-2 pl-10 pr-4 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring"
+            />
+            <FontAwesomeIcon
+              icon={faSearch}
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            />
+          </div>
 
-        <div className="table-container">
-          {users.length > 0 ? (
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Admin</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map(({ id, name, email, isAdmin }) => (
-                  <tr key={id}>
-                    <td>{name}</td>
-                    <td>{email}</td>
-                    <td>{isAdmin ? 'Yes' : 'No'}</td>
-                    <td>
-                      <button onClick={() => handleViewDetails(id)} className="details-button ">
-                        View Details
-                      </button>
-                      <button onClick={() => handleDeleteUser(id)} className="button">
-                        Delete
-                      </button>
-                    </td>
+          {loading && <div className="text-center text-gray-600">Loading users...</div>}
+          {error && !loading && <div className="text-center text-red-500 mb-4">{error}</div>}
+
+          <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left text-gray-500">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">
+                      Name
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Email
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Admin
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      <span className="sr-only">Actions</span>
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            !loading && <div>No users found.</div>
-          )}
+                </thead>
+                <tbody>
+                  {filteredUsers.map(({ id, name, email, isAdmin }) => (
+                    <tr key={id} className="bg-white border-b hover:bg-gray-50">
+                      <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                        {name}
+                      </th>
+                      <td className="px-6 py-4">{email}</td>
+                      <td className="px-6 py-4">{isAdmin ? "Yes" : "No"}</td>
+                      <td className="px-6 py-4 text-right">
+                        <button
+                          onClick={() => handleViewDetails(id)}
+                          className="font-medium text-blue-600 hover:underline mr-2"
+                        >
+                          View Details
+                        </button>
+                        <button
+                          onClick={() => handleDeleteUser(id)}
+                          className="font-medium text-red-600 hover:underline"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    </div>
-  );
-};
+  )
+}
 
-export default Admin;
+export default Admin
+
