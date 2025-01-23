@@ -15,6 +15,7 @@ export const getUserData = async (req, res) => {
       success: true,
       userData: {
         github:user.github,
+        image:user.image,
         namewebsite:user.namewebsite ,
         _id: user._id,
         name: user.name,
@@ -59,6 +60,7 @@ export const getAllUsers = async (req, res) => {
             success: true,
             users: users.map(user => ({
                 id: user._id,
+                image:user.image,
                 name: user.name,
                 email: user.email,
                 isAccountVerified: user.isAcconuntVerified,
@@ -86,6 +88,7 @@ export const getUserById = async (req, res) => {
           success: true,
           user: {
               id: user._id,
+              image:user.image,
               name: user.name,
               email: user.email,
               isAccountVerified: user.isAcconuntVerified,
@@ -97,6 +100,20 @@ export const getUserById = async (req, res) => {
               cart: user.cart,
               createdAt: user.createdAt,
               updatedAt: user.updatedAt,
+              Contry: user.Contry,
+        cart: user.cart.map(item => ({
+          packageName: item.packageName,
+          cost: item.cost,
+          duration: item.duration,
+          description: item.description, 
+          // Assuming HostingCycle has these fields
+        })),
+        websites: user.websites.map(website => ({
+          _id: website._id,
+          name: website.name,
+          url: website.url,
+          description: website.description,
+        }))
               
           }
       });

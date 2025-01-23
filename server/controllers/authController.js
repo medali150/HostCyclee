@@ -6,7 +6,6 @@ import { SchemaTypeOptions } from 'mongoose';
 import mongoose from 'mongoose';
 import HostingCycle from '../models/HostingCycle.js'; // Adjust the path as needed
 import websiteModel from '../models/websiteSchema.js';
-
 export const register = async (req, res) => {
   const { name, email, password, Contry } = req.body;
   if (!name || !email || !password || !Contry) {
@@ -19,11 +18,22 @@ export const register = async (req, res) => {
       }
 
       const hashedPassword = await bcrypt.hash(password, 10); // Hash password
+
+      // Select a random image
+      const images = [
+          "https://easydrawingart.com/wp-content/uploads/2019/08/How-to-draw-an-anime-face.jpg",
+           "https://easydrawingart.com/wp-content/uploads/2019/07/how-to-draw-an-anime-head.jpg.webp",
+           "https://www.shutterstock.com/image-vector/young-man-anime-style-character-260nw-2294151255.jpg" ,
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv-KkmfHGvaGDR_7YIRH5Mn8vUcyNf0-Wswg&s"
+      ];
+      const randomImage = images[Math.floor(Math.random() * images.length)];
+
       const user = new userModel({
           name,
           email,
           password: hashedPassword,
           Contry,
+          image: randomImage, // Assign random image
           startDate: Date.now() // Set the start date to the current time
       });
 

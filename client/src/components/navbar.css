@@ -14,8 +14,8 @@
 }
 
 body {
-  background: var(--home-bg); /* Set the home page background to black */
-  color: white;
+  /* Set the home page background to black */
+ 
   min-height: 100vh;
 }
 

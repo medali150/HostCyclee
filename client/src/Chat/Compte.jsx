@@ -1,10 +1,11 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { User, Mail, Calendar, DollarSign, Clock, Pencil, Globe, ExternalLink, Trash } from 'lucide-react';
 import { AppContent } from '../context/Appcontext';
 import Aymen from '../dash/header';
 
 const UserAccount = () => {
   const { userData, setUserData } = useContext(AppContent);
+  const [showDescription, setShowDescription] = useState(null); // État pour gérer quelle description afficher
 
   useEffect(() => {
     console.log("User Data: ", userData);
@@ -47,6 +48,10 @@ const UserAccount = () => {
     }
   };
 
+  const toggleDescription = (index) => {
+    setShowDescription((prevIndex) => (prevIndex === index ? null : index));
+  };
+
   return (
     <div>
       <Aymen />
@@ -56,6 +61,13 @@ const UserAccount = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="bg-white shadow rounded-lg p-6">
               <h2 className="text-xl font-semibold mb-4">Informations utilisateur</h2>
+              <div className="flex items-center justify-center mb-4">
+                <img 
+                  src={userData.image || "https://via.placeholder.com/150"} // Display the user's image or a default placeholder
+                  alt="User Avatar"
+                  className="h-24 w-24 rounded-full object-cover"
+                />
+              </div>
               <InfoItem icon={User} label="Nom" value={userData.name} />
               <InfoItem icon={Mail} label="Email" value={userData.email} />
               <InfoItem icon={Calendar} label="Début de l'abonnement" value={formatDate(userData.startDate)} />
@@ -76,7 +88,6 @@ const UserAccount = () => {
                       <tr>
                         <th scope="col" className="px-6 py-3">Nom du site Web</th>
                         <th scope="col" className="px-6 py-3">URL</th>
-                        <th scope="col" className="px-6 py-3">Description</th>
                         <th scope="col" className="px-6 py-3">Action</th>
                       </tr>
                     </thead>
@@ -95,11 +106,12 @@ const UserAccount = () => {
                               <ExternalLink className="ml-1 h-4 w-4" />
                             </a>
                           </td>
-                          <td className="px-6 py-4">{website.description}</td>
                           <td className="px-6 py-4 flex items-center">
-                            <button className="bg-black text-white hover:bg-gray-800 px-3 py-2 rounded flex items-center mr-4">
-                              <Pencil className="mr-1 h-4 w-4" />
-                              Modifier
+                            <button
+                              className="bg-gray-600 text-white hover:bg-gray-800 px-3 py-2 rounded mr-4"
+                              onClick={() => toggleDescription(index)}
+                            >
+                              {showDescription === index ? 'Masquer la description' : 'Afficher la description'}
                             </button>
                             <button
                               onClick={() => handleDeleteWebsite(website._id)}
@@ -109,6 +121,13 @@ const UserAccount = () => {
                               Supprimer
                             </button>
                           </td>
+                          {showDescription === index && (
+                            <tr>
+                              <td colSpan="3" className="px-6 py-4 text-gray-700">
+                                {website.description}
+                              </td>
+                            </tr>
+                          )}
                         </tr>
                       ))}
                     </tbody>

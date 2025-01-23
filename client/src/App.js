@@ -22,6 +22,7 @@ import Commerce from './Chat/Commerce.jsx';
 import WebsiteFormModal from './Chat/WebsiteFormModal.jsx';
 import Ahmed from './Chat/test.jsx';
 import StatsSection from './components/State.jsx';
+import ChatBot from './Chatbot/Chatbot.jsx';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/ChatBot" element={<ChatBot />} />
           <Route path="/StatsSection" element={<StatsSection />} />
           <Route path="/chat" element={<Chat1 />} />
           <Route path="/Auth" element={<Auth />} />
