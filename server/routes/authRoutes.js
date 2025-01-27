@@ -1,5 +1,5 @@
 import express from 'express';
-import {  addHostingCycleToCart, deleteAdmin, deleteHostingCycle, deleteUser, deleteWebsite, getAllHostingCycles,  isAuthenticated, login, logout, register, registerHostingCycle, registerWebsite, resetPassword, sendResetOtp, sendVerifyOtp, verifyAdmin, verifyEmail } from '../controllers/authController.js';
+import {  addHostingCycleToCart, deleteAdmin, deleteHostingCycle, deleteUser, deleteWebsite, getAllHostingCycles,  isAuthenticated, login, logout, makeAdmin, register, registerHostingCycle, registerWebsite, resetPassword, sendResetOtp, sendVerifyOtp, verifyAdmin, verifyEmail } from '../controllers/authController.js';
 import userAuth from '../middleware/userAuth.js';
 import { addnamewebsite } from '../controllers/userController.js';
 
@@ -56,6 +56,7 @@ authRouter.post("/registerWebsite", registerWebsite);
 authRouter.delete("/delete-website/:userId/:websiteId", deleteWebsite);
 
 
+authRouter.put("/makeAdmin/:id", makeAdmin);
 export default authRouter;
 
 

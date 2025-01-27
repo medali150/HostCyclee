@@ -4,7 +4,7 @@
     justify-content: center;
     min-height: 100vh;
     padding: 1.5rem; /* Equivalent to 'px-6' */
-    background: linear-gradient(to bottom right, #bfdbfe, #c084fc); /* Equivalent to 'bg-gradient-to-br from-blue-200 to-purple-400' */
+    background: linear-gradient(to bottom right,rgb(255, 255, 255),rgb(255, 255, 255)); /* Equivalent to 'bg-gradient-to-br from-blue-200 to-purple-400' */
     position: relative;
   }
   

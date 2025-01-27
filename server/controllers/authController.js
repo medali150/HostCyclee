@@ -6,6 +6,7 @@ import { SchemaTypeOptions } from 'mongoose';
 import mongoose from 'mongoose';
 import HostingCycle from '../models/HostingCycle.js'; // Adjust the path as needed
 import websiteModel from '../models/websiteSchema.js';
+import cron from "node-cron";
 export const register = async (req, res) => {
   const { name, email, password, Contry } = req.body;
   if (!name || !email || !password || !Contry) {
@@ -700,7 +701,95 @@ export const registerWebsite = async (req, res) => {
       return res.status(500).json({ success: false, message: error.message });
     }
   };
+  export const makeAdmin = async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      // Find the user by ID
+      const user = await userModel.findById(id);
+      if (!user) {
+        return res.status(404).json({ success: false, message: "User not found" });
+      }
+  
+      // Update the user's isAdmin field
+      user.isAdmin = true;
+      await user.save();
+  
+      res.status(200).json({ 
+        success: true, 
+        message: "User promoted to admin successfully", 
+        data: user 
+      });
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        message: error.message 
+      });
+    }
+  };
 
+
+  const checkAndSendNotifications = async () => {
+    try {
+      console.log("Running hosting cycle notification check...");
+      
+      // Find users with hosting cycles close to expiry
+      const users = await userModel.find({ cart: { $exists: true, $not: { $size: 0 } } }).populate("cart");
+      const today = new Date();
+  
+      for (const user of users) {
+        for (const hostingCycle of user.cart) {
+          const expiryDate = new Date(hostingCycle.endDate);
+          const timeDiff = expiryDate - today;
+          const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Calculate days left
+  
+          if (daysLeft === 1) {
+            // Configure mail transporter
+            const transporter = nodemailer.createTransport({
+              service: "gmail",
+              auth: {
+                user: process.env.SENDER_EMAIL,
+                pass: process.env.EMAIL_PASSWORD,
+              },
+            });
+  
+            // Email options
+            const mailOptions = {
+              from: process.env.SENDER_EMAIL,
+              to: user.email,
+              subject: "Hosting Cycle Expiry Notification",
+              html: `
+                <p>Dear ${user.name},</p>
+                <p>Your hosting cycle for "${hostingCycle.namePAckage}" will expire tomorrow (${hostingCycle.endDate}).</p>
+                <p>Please take necessary action to renew your hosting cycle to avoid interruptions.</p>
+                <p>Thank you for using our services!</p>
+              `,
+            };
+  
+            // Send the email
+            await transporter.sendMail(mailOptions);
+            console.log(`Notification sent to ${user.email} for hosting cycle "${hostingCycle.namePAckage}"`);
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error in checkAndSendNotifications:", error.message);
+    }
+  };
+  
+  // Schedule the cron job to run daily at midnight
+  cron.schedule("0 0 * * *", async () => {
+    await checkAndSendNotifications();
+  });
+  console.log("Cron job for hosting cycle notifications scheduled.");
+  cron.schedule('* * * * *', async () => {
+    await checkAndSendNotifications();
+  });
+  
+
+
+
+  
 /***************************************Update user Role “user” <-> “admin”***********************************
 // Update user role
 exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {

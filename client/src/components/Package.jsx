@@ -95,19 +95,19 @@ const Package = () => {
                             <li>
                                 <Link to="/Package" className="flex items-center p-2 text-gray-900 rounded-lg">
                                     <FontAwesomeIcon icon={faPlus} className="me-2" />
-                                    Add package
+                                    Ajouter un paquet
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/showhostingCycleSchema" className="flex items-center p-2 text-gray-900 rounded-lg">
                                     <FontAwesomeIcon icon={faEye} className="me-2" />
-                                    See package
+                                    Voir le forfait
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/Admin" className="flex items-center p-2 text-gray-900 rounded-lg">
                                     <FontAwesomeIcon icon={faUsers} className="me-2" />
-                                    See Users
+                                    Voir les utilisateurs
                                 </Link>
                             </li>
                         </ul>

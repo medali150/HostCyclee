@@ -135,7 +135,9 @@ const Login = () => {
                   >
                     Login here
                   </span>
+                 
                 </p>
+                
               ) : (
                 <p>
                   Don't have an account?{' '}
@@ -144,7 +146,8 @@ const Login = () => {
                     className="text-cyan-500 cursor-pointer"
                   >
                     Sign up here
-                  </span>
+                  </span><br />
+                  <span className='text-cyan-500 cursor-pointer' onClick={()=>navigate('/Resetpassword')}>forget password</span>
                 </p>
               )}
             </div>

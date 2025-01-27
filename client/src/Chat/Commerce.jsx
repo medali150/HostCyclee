@@ -1,25 +1,25 @@
-import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
-import Header from "../dash/header";
-import Footer from "../dash/footer";
-import { AppContent } from "../context/Appcontext";
+import React, { useContext, useEffect, useState } from "react"
+import axios from "axios"
+import { AppContent } from "../context/Appcontext"
+import Footer from "../dash/footer"
+import Header from "../dash/header"
 
 const Commerce = () => {
-  const [hostingCycles, setHostingCycles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [cartLoading, setCartLoading] = useState(false);
-  const [cartError, setCartError] = useState("");
-  
-  const [showForm, setShowForm] = useState(false);  // Show the form when clicked
+  const [hostingCycles, setHostingCycles] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+  const [cartLoading, setCartLoading] = useState(false)
+  const [cartError, setCartError] = useState("")
+
+  const [showForm, setShowForm] = useState(false)
   const [formData, setFormData] = useState({
     namewebsite: "",
     github: "",
-  });
+    description: "",
+  })
 
-  const { userData, setIsLogin, setUserData } = useContext(AppContent);
+  const { userData, setIsLogin, setUserData } = useContext(AppContent)
 
-  // Fetch hosting cycles
   useEffect(() => {
     const fetchHostingCycles = async () => {
       try {
@@ -27,155 +27,180 @@ const Commerce = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        });
-        setHostingCycles(response.data.data);
+        })
+        setHostingCycles(response.data.data)
       } catch (error) {
-        setError("Failed to fetch hosting cycles");
-        console.error("Error fetching hosting cycles:", error);
+        setError("Failed to fetch hosting cycles")
+        console.error("Error fetching hosting cycles:", error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchHostingCycles();
-  }, []);
+    }
+    fetchHostingCycles()
+  }, [])
 
-  // Add hosting cycle to cart
   const handleAddToCart = (hostingCycleId) => {
     if (!userData || !userData._id) {
-      setCartError("User is not logged in or user ID is missing.");
-      return;
+      setCartError("User is not logged in or user ID is missing.")
+      return
     }
+    setShowForm(true)
+  }
 
-    // Show form to enter website details
-    setShowForm(true);
-  };
-
-  // Handle form submission
   const handleFormSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!formData.namewebsite || !formData.github) {
-      setCartError("Please fill out all fields.");
-      return;
+      setCartError("Please fill out all fields.")
+      return
     }
 
-    setCartLoading(true);
-    setCartError("");
+    setCartLoading(true)
+    setCartError("")
 
     try {
       const response = await axios.post(
         `http://localhost:4000/api/auth/registerWebsite`,
         {
           name: formData.namewebsite,
-          url: formData.github, // Assuming GitHub URL is used for the website URL
-          description: formData.description || "", // Optional description
-          ownerId: userData._id, // Use the logged-in user's ID as the owner
+          url: formData.github,
+          description: formData.description || "",
+          ownerId: userData._id,
         },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
-      );
+        },
+      )
 
       if (response.data.success) {
-        alert("Website registered successfully!");
-        setShowForm(false); // Hide the form
-        setFormData({ namewebsite: "", github: "", description: "" }); // Reset form data
+        alert("Website registered successfully!")
+        setShowForm(false)
+        setFormData({ namewebsite: "", github: "", description: "" })
       } else {
-        setCartError(response.data.message);
+        setCartError(response.data.message)
       }
     } catch (error) {
-      console.error("Error registering website:", error.response?.data || error.message);
-      setCartError("Error registering website. Please try again.");
+      console.error("Error registering website:", error.response?.data || error.message)
+      setCartError("Error registering website. Please try again.")
     } finally {
-      setCartLoading(false);
+      setCartLoading(false)
     }
-  };
+  }
 
   return (
-    <div>
-      <Header />
-      <div className="font-sans py-4 mx-auto lg:max-w-4xl max-w-lg md:max-w-full">
-        <h2 className="text-2xl font-extrabold text-gray-800 mb-6">Hosting Cycles</h2>
+    <div className="min-h-screen bg-gray-100">
+      <Header/>
+      <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Hosting 
+      Cycles d'hébergement</h1>
+      <div className="container mx-auto px-4 py-8">
+        
 
-        {loading && <div>Loading...</div>}
-        {error && <div className="text-red-600">{error}</div>}
+        {loading && <div className="text-center text-xl text-gray-600">Loading...</div>}
+        {error && <div className="text-center text-xl text-red-600">{error}</div>}
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {hostingCycles.map((cycle) => (
-            <div key={cycle._id} className="bg-gray-200 flex flex-col rounded-md">
-              <div className="p-4 sm:p-6">
-                <img src={cycle.image} alt={cycle.namePAckage} className="w-full aspect-[230/220] object-contain" />
-              </div>
-              <div className="flex flex-col h-full text-center bg-gray-100 p-4">
-                <h1 className="text-sm font-bold">{cycle.namePAckage}</h1>
-                <p className="text-sm ">{cycle.description}</p>
-                <h4 className="text-sm font-bold mt-4">
-                  ${cycle.cost} <strike>${cycle.originalCost}</strike>
-                </h4>
+            <div
+              key={cycle._id}
+              className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105"
+            >
+              <div className="p-6">
+                <img
+                  src={cycle.image || "/placeholder.svg"}
+                  alt={cycle.namePAckage}
+                  className="w-full h-48 object-contain mb-4"
+                />
+                <h3 className="text-2xl font-bold text-gray-800 mb-2">{cycle.namePAckage}</h3>
+                <p className="text-gray-600 mb-4">{cycle.description}</p>
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-3xl font-bold text-green-600">${cycle.cost}</span>
+                  <span className="text-xl text-gray-500 line-through">${cycle.originalCost}</span>
+                </div>
                 <button
-    type="button"
-    onClick={() => handleAddToCart(cycle._id)}
-    className="w-full mt-6 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 disabled:bg-blue-300"   disabled={cartLoading}
->
-    {cartLoading ? "Adding..." : "Add to Cart"}
-</button>
-
-                {cartError && <div className="text-red-600 mt-2">{cartError}</div>}
+                  type="button"
+                  onClick={() => handleAddToCart(cycle._id)}
+                  className="w-full py-3 bg-blue-600 text-white text-lg font-semibold rounded-md hover:bg-blue-700 transition duration-300 ease-in-out disabled:bg-blue-400"
+                  disabled={cartLoading}
+                >
+                  {cartLoading ? "Adding..." : "Add to Cart"}
+                </button>
+                {cartError && <div className="text-red-600 mt-2 text-center">{cartError}</div>}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Show the form when `showForm` is true */}
         {showForm && (
-          <div className="mt-6 bg-white p-4 rounded-md shadow-md">
-            <h3 className="text-lg font-semibold">Enter Website Details</h3>
-            <form onSubmit={handleFormSubmit}>
-              <div className="mt-4">
-                <label className="block text-sm font-medium">Website Name</label>
-                <input
-                  type="text"
-                  value={formData.namewebsite}
-                  onChange={(e) => setFormData({ ...formData, namewebsite: e.target.value })}
-                  className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md"
-                  required
-                />
-              </div>
-              <div className="mt-4">
-                <label className="block text-sm font-medium">GitHub Account</label>
-                <input
-                  type="text"
-                  value={formData.github}
-                  onChange={(e) => setFormData({ ...formData, github: e.target.value })}
-                  className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md"
-                  required
-                />
-              </div>
-              <div className="mt-4">
-                <label className="block text-sm font-medium">Description (Optional)</label>
-                <textarea
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md"
-                />
-              </div>
-              <button
-                type="submit"
-                className="mt-6 w-full bg-blue-500 text-white py-2 rounded-md"
-                disabled={cartLoading}
-              >
-                {cartLoading ? "Saving..." : "Save and Register Website"}
-              </button>
-            </form>
-            {cartError && <div className="text-red-600 mt-2">{cartError}</div>}
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-lg p-8 max-w-md w-full">
+              <h3 className="text-2xl font-bold mb-4">Enter Website Details</h3>
+              <form onSubmit={handleFormSubmit}>
+                <div className="mb-4">
+                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="namewebsite">
+                    Website Name
+                  </label>
+                  <input
+                    id="namewebsite"
+                    type="text"
+                    value={formData.namewebsite}
+                    onChange={(e) => setFormData({ ...formData, namewebsite: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="github">
+                    GitHub Account
+                  </label>
+                  <input
+                    id="github"
+                    type="text"
+                    value={formData.github}
+                    onChange={(e) => setFormData({ ...formData, github: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+                    Description (Optional)
+                  </label>
+                  <textarea
+                    id="description"
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    rows={3}
+                  />
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setShowForm(false)}
+                    className="mr-2 px-4 py-2 text-gray-600 bg-gray-200 rounded-md hover:bg-gray-300 transition duration-300 ease-in-out"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 ease-in-out disabled:bg-blue-400"
+                    disabled={cartLoading}
+                  >
+                    {cartLoading ? "Saving..." : "Save and Register Website"}
+                  </button>
+                </div>
+              </form>
+              {cartError && <div className="text-red-600 mt-2 text-center">{cartError}</div>}
+            </div>
           </div>
         )}
       </div>
-      <Footer />
+      <Footer/>
     </div>
-  );
-};
+  )
+}
 
-export default Commerce;
+export default Commerce
+

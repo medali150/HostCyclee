@@ -69,7 +69,21 @@ const Admin = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)
   }
-
+  const handleMakeAdmin = async (userId) => {
+    if (window.confirm("Are you sure you want to promote this user to admin?")) {
+      try {
+        const response = await axios.put(`http://localhost:4000/api/auth/makeAdmin/${userId}`);
+        if (response.data.success) {
+          alert("User promoted to admin successfully!");
+          fetchUsers(); // Refresh user list
+        } else {
+          alert(response.data.message);
+        }
+      } catch (err) {
+        alert("Error promoting user to admin: " + err.message);
+      }
+    }
+  };
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <Aymen />
@@ -154,19 +168,28 @@ const Admin = () => {
                       <td className="px-6 py-4">{email}</td>
                       <td className="px-6 py-4">{isAdmin ? "Yes" : "No"}</td>
                       <td className="px-6 py-4 text-right">
-                        <button
-                          onClick={() => handleViewDetails(id)}
-                          className="font-medium text-blue-600 hover:underline mr-2"
-                        >
-                          View Details
-                        </button>
-                        <button
-                          onClick={() => handleDeleteUser(id)}
-                          className="font-medium text-red-600 hover:underline"
-                        >
-                          Delete
-                        </button>
-                      </td>
+  <button
+    onClick={() => handleViewDetails(id)}
+    className="font-medium text-blue-600 hover:underline mr-2"
+  >
+    View Details
+  </button>
+  {!isAdmin && (
+    <button
+      onClick={() => handleMakeAdmin(id)}
+      className="font-medium text-black hover:underline mr-2"
+
+  >
+      Promote to Admin
+    </button>
+  )}
+  <button
+    onClick={() => handleDeleteUser(id)}
+    className="font-medium text-red-600 hover:underline"
+  >
+    Delete
+  </button>
+</td>
                     </tr>
                   ))}
                 </tbody>

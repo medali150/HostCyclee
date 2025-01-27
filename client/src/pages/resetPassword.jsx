@@ -86,17 +86,12 @@ const onSubmitNewPassword=async(e)=>{
 }}
   return (
     <div className="login-container">
-      <img
-        onClick={() => navigate('/Home')}
-        src="assets/logo.svg"
-        alt="Logo"
-        className="login-logo"
-      />
+      
          {!isEmailSent && (
       <form
-        className="bg-slate-900 p-8 rounded-lg shadow-lg w-96 text-sm"
-        onSubmit={onSubmitEmail}
-      >
+  className="bg-black p-8 rounded-lg shadow-lg w-96 text-sm"
+  onSubmit={onSubmitEmail}
+>
         <h1 className="text-white text-2xl font-semibold text-center mb-4">
           reset password
         </h1>
@@ -112,7 +107,7 @@ const onSubmitNewPassword=async(e)=>{
          <input 
   type="email" 
   name="email" 
-  value={email}
+  value={email} 
   onChange={(e) => setEmail(e.target.value)}
   placeholder="Email ID" 
   className="input-field flex-1 p-2 border border-gray-300 rounded-l"

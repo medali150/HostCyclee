@@ -4,7 +4,7 @@
     justify-content: center;
     min-height: 100vh;
     padding: 1.5rem; /* Equivalent to 'px-6' */
-    background: linear-gradient(to bottom right, #bfdbfe, #c084fc); /* Equivalent to 'bg-gradient-to-br from-blue-200 to-purple-400' */
+    background: linear-gradient(to bottom right,rgb(255, 255, 255),rgb(255, 255, 255)); /* Equivalent to 'bg-gradient-to-br from-blue-200 to-purple-400' */
     position: relative;
   }
   
@@ -155,7 +155,7 @@
   button {
     width: 100%;
     padding: 0.75rem 0; /* Equivalent to py-3 */
-    background: linear-gradient(to right, #6366f1, #312e81); /* Gradient from indigo-500 to indigo-900 */
+    background: linear-gradient(to right, #6366f1,rgb(0, 0, 0)); /* Gradient from indigo-500 to indigo-900 */
     color: white; /* Text color */
     border-radius: 9999px; /* Full rounding for the "rounded-full" effect */
     font-size: 1rem; /* Optional: Adjust font size */

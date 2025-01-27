@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react';
+import React, { useState,useContext ,useEffect} from 'react';
 import { Bell, Calendar, Users, Activity, ChevronRight, Mail, Phone, MapPin, Check } from 'lucide-react';
 import { AppContent } from '../context/Appcontext';
 
@@ -9,6 +9,38 @@ const Hero = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  const [text, setText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [index, setIndex] = useState(0);
+
+  const phrases = [
+    `Comment vas-tu ${userData?.name || 'visiteur'}?`
+  ];
+
+  useEffect(() => {
+    const handleTyping = () => {
+      const currentPhrase = phrases[index % phrases.length];
+      const isTypingComplete = text === currentPhrase;
+
+      if (isTypingComplete && !isDeleting) {
+        setTimeout(() => setIsDeleting(true), 1000); // Pause before deleting
+      } else if (isDeleting && text === '') {
+        setIsDeleting(false);
+        setIndex((prevIndex) => prevIndex + 1);
+      } else {
+        const updatedText = isDeleting
+          ? currentPhrase.substring(0, text.length - 1)
+          : currentPhrase.substring(0, text.length + 1);
+        setText(updatedText);
+      }
+    };
+
+    const typingSpeed = isDeleting ? 50 : 150; // Faster when deleting
+    const timer = setTimeout(handleTyping, typingSpeed);
+
+    return () => clearTimeout(timer);
+  }, [text, isDeleting, index]);
+
 
   return (
     
@@ -48,12 +80,16 @@ const Hero = () => {
             HostCycle centralise les informations de vos clients et assure un suivi proactif des échéances d'hébergement pour une gestion sans souci.
           </p></>) : ( 
             <>
-            <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            <span className="block">
-            Comment vas-tu  {userData.name} </span>
-            <span className="block text-blue-600">
-            Êtes-vous prêt à commencer avec nous ?</span>
-          </h1>
+          <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+          {text}
+          
+          <span className="blinking-cursor">|</span>
+          <h1><span className="block text-blue-600">
+          Êtes-vous prêt à commencer avec nous ?</span></h1>
+          
+       
+          
+        </h1>
           <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
             HostCycle centralise les informations de vos clients et assure un suivi proactif des échéances d'hébergement pour une gestion sans souci.
           </p>
