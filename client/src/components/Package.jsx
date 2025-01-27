@@ -158,7 +158,7 @@ const Package = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label className="block text-lg font-semibold mb-2">Duration</label>
+                            <label className="block text-lg font-semibold mb-2">Durée</label>
                             <select
                                 name="duration"
                                 value={formData.duration}
