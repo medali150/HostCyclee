@@ -148,7 +148,8 @@ const Package = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label className="block text-lg font-semibold mb-2">Cost</label>
+                            <label className="block text-lg font-semibold mb-2">
+                            Coût</label>
                             <input
                                 type="number"
                                 name="cost"
