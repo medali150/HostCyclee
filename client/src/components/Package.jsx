@@ -138,7 +138,8 @@ const Package = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label className="block text-lg font-semibold mb-2">End Date</label>
+                            <label className="block text-lg font-semibold mb-2">
+                            Date de fin</label>
                             <input
                                 type="date"
                                 name="endDate"
