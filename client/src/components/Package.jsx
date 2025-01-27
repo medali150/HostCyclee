@@ -165,9 +165,9 @@ const Package = () => {
                                 onChange={handleChange}
                                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                             >
-                                <option value="">Select Duration</option>
-                                <option value="6 months">6 months</option>
-                                <option value="1 year">1 year</option>
+                                <option value="">Sélectionnez la durée</option>
+                                <option value="6 months">6 mois</option>
+                                <option value="1 year">1 an</option>
                             </select>
                         </div>
                         <div className="form-group">
