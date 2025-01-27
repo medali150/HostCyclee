@@ -196,7 +196,8 @@ const Package = () => {
                             type="submit"
                             className="w-full py-3 mt-4 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         >
-                            Add Hosting Cycle
+                            
+Ajouter un cycle d'hébergement
                         </button>
                     </form>
                 </div>
