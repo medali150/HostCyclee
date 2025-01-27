@@ -115,10 +115,11 @@ const Package = () => {
                 </aside>
 
                 <div className="admin-dashboard">
-                    <h1 className="text-center text-3xl font-bold mb-6">Add Hosting Cycle</h1>
+                    <h1 className="text-center text-3xl font-bold mb-6">
+                    Ajouter un cycle d'hébergement</h1>
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="form-group">
-                            <label className="block text-lg font-semibold mb-2">Package Name</label>
+                            <label className="block text-lg font-semibold mb-2">Nom du paquet</label>
                             <input
                                 type="text"
                                 name="namePAckage"
@@ -128,7 +129,8 @@ const Package = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label className="block text-lg font-semibold mb-2">Start Date</label>
+                            <label className="block text-lg font-semibold mb-2">
+                            Date de début</label>
                             <input
                                 type="date"
                                 name="startDate"
