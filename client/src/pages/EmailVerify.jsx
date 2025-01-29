@@ -42,12 +42,7 @@ const EmailVerify = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <img
-        onClick={() => navigate("/Home")}
-        src="/assets/logo.svg"
-        alt="Logo"
-        className="w-24 h-24 mb-8 cursor-pointer"
-      />
+    
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
         <form onSubmit={onSubmitHandler} className="space-y-4">
           <h1 className="text-2xl font-semibold text-center mb-4">Email Verify OTP</h1>
