@@ -404,14 +404,14 @@ const Hero = () => {
             <div>
               <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Social</h3>
               <ul className="mt-4 space-y-4">
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Facebook</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Twitter</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">LinkedIn</a></li>
+                <li><a href="https://www.facebook.com/ITQANdo/" className="text-base text-gray-300 hover:text-white">Facebook</a></li>
+                <li><a href="https://x.com/Tenaris/status/1755712733440352559?mx=2#" className="text-base text-gray-300 hover:text-white">Twitter</a></li>
+                <li><a href="https://tn.linkedin.com/company/itqanlabs" className="text-base text-gray-300 hover:text-white">LinkedIn</a></li>
               </ul>
             </div>
           </div>
           <div className="mt-8 border-t border-gray-700 pt-8 flex justify-between items-center">
-            <p className="text-base text-gray-400">&copy; 2023 HostCycle, Inc. Tous droits réservés.</p>
+            <p className="text-base text-gray-400"></p>
           </div>
         </div>
       </footer>

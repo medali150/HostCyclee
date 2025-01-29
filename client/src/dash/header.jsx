@@ -81,12 +81,15 @@ return (
                                 </li>
                             </>
                         ) : (
+                            
+                            <li className='max-lg:border-b max-lg:py-3 px-3'>
+
                             <button
   className="login-button bg-blue text-white py-2 px-4 hover:bg-blue-500"
   onClick={() => navigate('/Login')}
 >
   Login <img src="assets/arrow_icon.svg" alt="" />
-</button>
+</button></li>
 
                           
                         )}

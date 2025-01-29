@@ -118,6 +118,7 @@ const Commerce = () => {
                   <span className="text-3xl font-bold text-green-600">${cycle.cost}</span>
                   <span className="text-xl text-gray-500 line-through">${cycle.originalCost}</span>
                 </div>
+                {userData ? (
                 <button
                   type="button"
                   onClick={() => handleAddToCart(cycle._id)}
@@ -125,7 +126,14 @@ const Commerce = () => {
                   disabled={cartLoading}
                 >
                   {cartLoading ? "Adding..." : "Add to Cart"}
-                </button>
+                </button>):(<button
+                  type="button"
+                  
+                  className="w-full py-3 bg-blue-600 text-white text-lg font-semibold rounded-md hover:bg-blue-700 transition duration-300 ease-in-out disabled:bg-blue-400"
+                  disabled={cartLoading}
+                >
+                  {cartLoading ? "Adding..." : "Si vous souhaitez plus d'informations, abonnez-vous avec nous"}
+                </button>)}
                 {cartError && <div className="text-red-600 mt-2 text-center">{cartError}</div>}
               </div>
             </div>

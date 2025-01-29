@@ -78,7 +78,7 @@ export const register = async (req, res) => {
                           margin-bottom: 30px;
                       }
                       .header h1 {
-                          color: #ff6347;
+                          color:rgb(0, 41, 174);
                           font-size: 2.5em;
                       }
                       .content {
@@ -97,7 +97,7 @@ export const register = async (req, res) => {
                           color: #888;
                       }
                       .footer a {
-                          color: #ff6347;
+                          color:rgb(0, 41, 174);
                           text-decoration: none;
                       }
                   </style>
@@ -333,9 +333,36 @@ export const sendResetOtp=async(req,res)=>{
         const mailoptions={
             from:process.env.SENDER_EMAIL,
             to:user.email,
-            subject:'welcome to our app',
-            text:`your otp is ${otp}
-            use this otp to proceed with resetting your password `
+            subject: 'Password Reset',
+            html: `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Password Reset</title>
+                </head>
+                <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f8f8; border-radius: 5px;">
+                        <tr>
+                            <td style="padding: 20px;">
+                                <h1 style="color: #4a4a4a; text-align: center; margin-bottom: 20px;">Password Reset</h1>
+                                <p style="margin-bottom: 15px;">Hello,</p>
+                                <p style="margin-bottom: 15px;">We received a request to reset your password. Use the following OTP (One-Time Password) to proceed with resetting your password:</p>
+                                <div style="background-color: #e8e8e8; border-radius: 5px; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; letter-spacing: 5px; margin-bottom: 20px;">
+                                    ${otp}
+                                </div>
+                                <p style="margin-bottom: 15px;">This OTP is valid for 15 minutes. If you didn't request a password reset, please ignore this email or contact our support team if you have any concerns.</p>
+                                <p style="margin-bottom: 15px;">Best regards,<br>Your App Team</p>
+                            </td>
+                        </tr>
+                    </table>
+                    <p style="text-align: center; font-size: 12px; color: #888; margin-top: 20px;">
+                        This is an automated message, please do not reply to this email.
+                    </p>
+                </body>
+                </html>
+            `
         }
 
         await transporter.sendMail((mailoptions),(error,info)=>{
@@ -614,9 +641,6 @@ export const deleteAdmin = async (req, res) => {
     }
   };
   // Delete a user
-
-
-
 export const registerWebsite = async (req, res) => {
     const { name, url, description, ownerId } = req.body;
   

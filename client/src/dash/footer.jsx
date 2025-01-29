@@ -11,11 +11,10 @@ function Footer() {
             <div>
               <h4 class="text-base font-semibold mb-6 text-white">Services</h4>
               <ul class="space-y-3">
-                <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white text-sm">Web Development</a></li>
-                <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white text-sm">Mobile App Development</a>
+                <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white text-sm">Real-time collaboration and preview features</a></li>
+                <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white text-sm">build and deploy web projects with ease</a>
                 </li>
-                <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white text-sm">UI/UX Design</a></li>
-                <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white text-sm">Digital Marketing</a></li>
+                <li><a href="javascript:void(0)" class="text-gray-400 hover:text-white text-sm">Easy integration with your backend</a></li>
               </ul>
             </div>
   

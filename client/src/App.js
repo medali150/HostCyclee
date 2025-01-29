@@ -23,6 +23,7 @@ import WebsiteFormModal from './Chat/WebsiteFormModal.jsx';
 import Ahmed from './Chat/test.jsx';
 import StatsSection from './components/State.jsx';
 import ChatBot from './Chatbot/Chatbot.jsx';
+import News1 from './auth/news1.jsx';
 
 function App() {
   return (
@@ -30,6 +31,8 @@ function App() {
       <div className="App">
         <ToastContainer />
         <Routes>
+        <Route path="/news1" element={<News1 />} />
+
           <Route path="/" element={<Home />} />
           <Route path="/ChatBot" element={<ChatBot />} />
           <Route path="/StatsSection" element={<StatsSection />} />
