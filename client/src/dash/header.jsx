@@ -57,7 +57,6 @@ return (
                             <a href='/Commerce' className='hover:text-[#007bff] text-gray-600 font-bold block text-base'>
                             Nouvelles</a>
                         </li>
-                        
 
                         {userData ? (
                             <>
@@ -70,9 +69,8 @@ return (
                                     </li>
                                 )}
                                 <li className="user-info">
-                                    <p><span>{userData.name[0].toUpperCase()}</span>
-                                    <span> <img src={userData.image} alt="User Avatar" className="w-8 h-8 rounded-full ml-2" /></span>
-                                    </p>  <div className="user-dropdown">
+                                    <span>{userData.name[0].toUpperCase()}</span>
+                                    <div className="user-dropdown">
                                         <ul>
                                         {!userData.isAcconuntVerified && (
                   <li onClick={sendVerificationOTP}>Verify Email</li>
@@ -84,14 +82,12 @@ return (
                             </>
                         ) : (
                             
-                            <li className='max-lg:border-b max-lg:py-3 px-6 flex items-center gap-x-2'>
                             <button
-                              className="login-button bg-blue text-white py-2 px-4 hover:bg-blue-500 flex items-center"
-                              onClick={() => navigate('/Login')}
-                            >
-                              Login <img src="assets/arrow_icon.svg" alt="" className="ml-2" />
-                            </button>
-                          </li>
+  className="login-button bg-blue text-white py-2 px-4 hover:bg-blue-500"
+  onClick={() => navigate('/Login')}
+>
+  Login <img src="assets/arrow_icon.svg" alt="" />
+</button>
 
                           
                         )}
