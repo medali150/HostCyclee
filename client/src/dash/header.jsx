@@ -71,7 +71,7 @@ return (
                                 )}
                                 <li className="user-info">
                                     <span>{userData.name[0].toUpperCase()}</span>
-                                    <span><img src='${userData.image}' alt="" className="ml-2" /></span>
+                                    <span><img src={userData.image} alt="" className="ml-2" /></span>
                                     <div className="user-dropdown">
                                         <ul>
                                         {!userData.isAcconuntVerified && (
