@@ -70,9 +70,9 @@ return (
                                     </li>
                                 )}
                                 <li className="user-info">
-                                    <span>{userData.name[0].toUpperCase()}</span>
-                                    <span><img src={userData.image} alt="" className="ml-2" /></span>
-                                    <div className="user-dropdown">
+                                    <p><span>{userData.name[0].toUpperCase()}</span>
+                                    <span> <img src={userData.image} alt="User Avatar" className="w-8 h-8 rounded-full ml-2" /></span>
+                                    </p>  <div className="user-dropdown">
                                         <ul>
                                         {!userData.isAcconuntVerified && (
                   <li onClick={sendVerificationOTP}>Verify Email</li>
