@@ -82,14 +82,14 @@ return (
                             </>
                         ) : (
                             
-                            <li className='max-lg:border-b max-lg:py-3 px-3'>
-
+                            <li className='max-lg:border-b max-lg:py-3 px-3 flex items-center gap-x-2'>
                             <button
-  className="login-button bg-blue text-white py-2 px-4 hover:bg-blue-500"
-  onClick={() => navigate('/Login')}
->
-  Login <img src="assets/arrow_icon.svg" alt="" />
-</button></li>
+                              className="login-button bg-blue text-white py-2 px-4 hover:bg-blue-500 flex items-center"
+                              onClick={() => navigate('/Login')}
+                            >
+                              Login <img src="assets/arrow_icon.svg" alt="" className="ml-2" />
+                            </button>
+                          </li>
 
                           
                         )}
