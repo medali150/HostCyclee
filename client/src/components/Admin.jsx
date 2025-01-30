@@ -116,7 +116,7 @@ const Admin = () => {
               <div className="flex items-center space-x-4">
                 <FontAwesomeIcon icon={faUsers} className="text-blue-500 text-3xl" />
                 <div>
-                  <h2 className="text-xl font-semibold text-gray-700">Total Users</h2>
+                  <h2 className="text-xl font-semibold text-gray-700">Nombre total d'utilisateurs</h2>
                   <p className="text-2xl font-bold text-blue-600">{loading ? "Loading..." : users.length}</p>
                 </div>
               </div>
@@ -126,7 +126,7 @@ const Admin = () => {
           <div className="mb-4 relative">
             <input
               type="text"
-              placeholder="Search users by name"
+              placeholder="Rechercher des utilisateurs par nom"
               value={searchTerm}
               onChange={handleSearchChange}
               className="w-full px-4 py-2 pl-10 pr-4 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring"
@@ -146,7 +146,7 @@ const Admin = () => {
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                   <tr>
                     <th scope="col" className="px-6 py-3">
-                      Name
+                    Nom
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Email
@@ -180,7 +180,7 @@ const Admin = () => {
       className="font-medium text-black hover:underline mr-2"
 
   >
-      Promouvoir au rang d'administrateur
+      transformer en administrateur
     </button>
   )}
   <button

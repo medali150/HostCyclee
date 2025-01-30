@@ -56,7 +56,7 @@ const Login = () => {
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <div className="max-w-md mx-auto">
             <h1 className="text-2xl font-semibold">
-              {state === 'sign up' ? 'Create Account' : 'Login'}
+              {state === 'sign up' ? 'Créer un compte' : 'Se connecter'}
             </h1>
             <form onSubmit={onSubmitHandler} className="divide-y divide-gray-200 space-y-6">
               {state === 'sign up' && (
@@ -71,7 +71,7 @@ const Login = () => {
                   <label
                     className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
                   >
-                    Username
+                    Nom
                   </label>
                 </div>
               )}
@@ -86,7 +86,7 @@ const Login = () => {
                 <label
                   className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
                 >
-                  Email Address
+                  Email 
                 </label>
               </div>
               <div className="relative">
@@ -100,7 +100,7 @@ const Login = () => {
                 <label
                   className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
                 >
-                  Password
+                  Mot De Pass
                 </label>
               </div>
               {state === 'sign up' && (
@@ -110,7 +110,7 @@ const Login = () => {
                     onChange={(e) => setContry(e.target.value)}
                     className="w-full border-b-2 border-gray-300 focus:outline-none focus:border-cyan-500"
                   >
-                    <option value="">Select Country</option>
+                    <option value="">Select Pays</option>
                     <option value="Tunisia">Tunisia</option>
                     <option value="Morocco">Morocco</option>
                     <option value="Algeria">Algeria</option>
@@ -128,19 +128,19 @@ const Login = () => {
             <div className="text-center mt-4">
               {state === 'sign up' ? (
                 <p>
-                  Already have an account?{' '}
+                 Vous avez déjà un compte?{' '}
                   <span
                     onClick={() => setState('login')}
                     className="text-cyan-500 cursor-pointer"
                   >
-                    Login here
+                    Connectez-vous ici
                   </span>
                  
                 </p>
                 
               ) : (
                 <p>
-                  Don't have an account?{' '}
+                  Vous n'avez pas de compte ?{' '}
                   <span
                     onClick={() => setState('sign up')}
                     className="text-cyan-500 cursor-pointer"

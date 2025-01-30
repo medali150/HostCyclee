@@ -92,8 +92,8 @@ const Commerce = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <Header/>
-      <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Hosting 
-      Cycles d'hébergement</h1>
+      <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Offres
+      </h1>
       <div className="container mx-auto px-4 py-8">
         
 
