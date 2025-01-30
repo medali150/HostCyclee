@@ -172,7 +172,7 @@ const Admin = () => {
     onClick={() => handleViewDetails(id)}
     className="font-medium text-blue-600 hover:underline mr-2"
   >
-    View Details
+    Voir les détails
   </button>
   {!isAdmin && (
     <button
