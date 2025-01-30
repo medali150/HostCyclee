@@ -125,7 +125,7 @@ const Commerce = () => {
                   className="w-full py-3 bg-blue-600 text-white text-lg font-semibold rounded-md hover:bg-blue-700 transition duration-300 ease-in-out disabled:bg-blue-400"
                   disabled={cartLoading}
                 >
-                  {cartLoading ? "Adding..." : "Add to Cart"}
+                  {cartLoading ? "Adding..." : "Héberger votre site"}
                 </button>):(<button
                   type="button"
                   
