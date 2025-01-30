@@ -180,7 +180,7 @@ const Admin = () => {
       className="font-medium text-black hover:underline mr-2"
 
   >
-      Promote to Admin
+      Promouvoir au rang d'administrateur
     </button>
   )}
   <button
