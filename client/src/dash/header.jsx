@@ -51,7 +51,7 @@ return (
                             </a>
                         </li>
                         <li className='max-lg:border-b max-lg:py-3 px-3'>
-                            <a href="/Home" className='hover:text-[#007bff] text-[#007bff] font-bold block text-base'>Home</a>
+                            <a href="/Home" className='hover:text-[#007bff] text-[#007bff] font-bold block text-base'>Accueil</a>
                         </li>
                         <li className='max-lg:border-b max-lg:py-3 px-3'>
                             <a href='/Commerce' className='hover:text-[#007bff] text-gray-600 font-bold block text-base'>
