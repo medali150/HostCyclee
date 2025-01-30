@@ -65,7 +65,7 @@ const ResetPassword = () => {
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
         {!isEmailSent && (
           <form onSubmit={onSubmitEmail} className="space-y-4">
-            <h1 className="text-2xl font-semibold text-center mb-4">Reset Password</h1>
+            <h1 className="text-2xl font-semibold text-center mb-4">Réinitialiser le mot de passe</h1>
             <p className="text-center mb-6 text-gray-600">Enter your registered email address.</p>
             <div className="flex items-center border rounded-md overflow-hidden">
               <input
@@ -86,7 +86,7 @@ const ResetPassword = () => {
         {isEmailSent && !isOtpSubmitted && (
           <form onSubmit={onSubmitOTP} className="space-y-4">
             <h1 className="text-2xl font-semibold text-center mb-4">Verify OTP</h1>
-            <p className="text-center mb-6 text-gray-600">Enter the 6-digit code sent to your email.</p>
+            <p className="text-center mb-6 text-gray-600">Saisissez le code à 6 chiffres envoyé à votre adresse e-mail.</p>
             <div className="flex justify-between mb-4">
               {Array(6)
                 .fill(0)
@@ -107,15 +107,15 @@ const ResetPassword = () => {
               type="submit"
               className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
             >
-              Verify OTP
+              Vérifier l'OTP
             </button>
           </form>
         )}
 
         {isOtpSubmitted && (
           <form onSubmit={onSubmitNewPassword} className="space-y-4">
-            <h1 className="text-2xl font-semibold text-center mb-4">New Password</h1>
-            <p className="text-center mb-6 text-gray-600">Enter your new password below.</p>
+            <h1 className="text-2xl font-semibold text-center mb-4">Nouveau mot de passe</h1>
+            <p className="text-center mb-6 text-gray-600">Entrez votre nouveau mot de passe ci-dessous.</p>
             <div className="flex items-center border rounded-md overflow-hidden">
               <input
                 type="password"
@@ -126,7 +126,7 @@ const ResetPassword = () => {
                 required
               />
               <button type="submit" className="bg-blue-500 text-white px-4 py-2 hover:bg-blue-600 transition-colors">
-                Submit
+              Soumettre
               </button>
             </div>
           </form>
