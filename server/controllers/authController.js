@@ -314,71 +314,71 @@ export const isAuthenticated=async(req,res)=>{
         return res.json({success:false,message:error.message})
     }
 }
-export const sendResetOtp=async(req,res)=>{
-    const {email}=req.body;
-    if (!email) {
-        return res.json({success:false,message:"email is required"})
-        
-    }
-    try {
-        const user=await userModel.findOne({email});
-        if (!user) {
-            return res.json({success:false,message:"user not found"})
-        }
-        const otp = String(Math.floor(100000+Math.random()*900000));
-        user.resetOtp=otp; //kol utilisateur 3an7otlah otp wou mba3ed fi verification 3an9aren bih 
-        user.resetOtpExpireAt=Date.now()+15*60*1000;
-        await user.save();
-        //save user in the database 
-        const mailoptions={
-            from:process.env.SENDER_EMAIL,
-            to:user.email,
-            subject: 'Password Reset',
-            html: `
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Password Reset</title>
-                </head>
-                <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-                    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f8f8; border-radius: 5px;">
-                        <tr>
-                            <td style="padding: 20px;">
-                                <h1 style="color: #4a4a4a; text-align: center; margin-bottom: 20px;">Password Reset</h1>
-                                <p style="margin-bottom: 15px;">Hello,</p>
-                                <p style="margin-bottom: 15px;">We received a request to reset your password. Use the following OTP (One-Time Password) to proceed with resetting your password:</p>
-                                <div style="background-color: #e8e8e8; border-radius: 5px; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; letter-spacing: 5px; margin-bottom: 20px;">
-                                    ${otp}
-                                </div>
-                                <p style="margin-bottom: 15px;">This OTP is valid for 15 minutes. If you didn't request a password reset, please ignore this email or contact our support team if you have any concerns.</p>
-                                <p style="margin-bottom: 15px;">Best regards,<br>Your App Team</p>
-                            </td>
-                        </tr>
-                    </table>
-                    <p style="text-align: center; font-size: 12px; color: #888; margin-top: 20px;">
-                        This is an automated message, please do not reply to this email.
-                    </p>
-                </body>
-                </html>
-            `
-        }
+export const sendResetOtp = async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+      return res.json({ success: false, message: "Email is required" });
+  }
+  try {
+      const user = await userModel.findOne({ email });
+      if (!user) {
+          return res.json({ success: false, message: "User not found" });
+      }
+      const otp = String(Math.floor(100000 + Math.random() * 900000));
+      user.resetOtp = otp;
+      user.resetOtpExpireAt = Date.now() + 15 * 60 * 1000;
+      await user.save();
 
-        await transporter.sendMail((mailoptions),(error,info)=>{
-            if (error){
-                return res.json({success:false,message:error.message});
-            }else{
-                console.log('Email sent: ' + info.response);
-                return res.json({success:true})
-            }
-        });
-        return res.json({success:true,message:"otp sent to your email"})
-        
-    } catch (error) {
-        return res.json({success:false,message:error.message})
-    }
-}
+      const mailoptions = {
+          from: process.env.SENDER_EMAIL,
+          to: user.email,
+          subject: 'Password Reset',
+          html: `
+              <!DOCTYPE html>
+              <html lang="en">
+              <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Password Reset</title>
+              </head>
+              <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+                  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f8f8; border-radius: 5px;">
+                      <tr>
+                          <td style="padding: 20px;">
+                              <h1 style="color: #4a4a4a; text-align: center; margin-bottom: 20px;">Password Reset</h1>
+                              <p style="margin-bottom: 15px;">Hello,</p>
+                              <p style="margin-bottom: 15px;">We received a request to reset your password. Use the following OTP (One-Time Password) to proceed with resetting your password:</p>
+                              <div style="background-color: #e8e8e8; border-radius: 5px; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; letter-spacing: 5px; margin-bottom: 20px;">
+                                  ${otp}
+                              </div>
+                              <p style="margin-bottom: 15px;">This OTP is valid for 15 minutes. If you didn't request a password reset, please ignore this email or contact our support team if you have any concerns.</p>
+                              <p style="margin-bottom: 15px;">Best regards,<br>Your App Team</p>
+                          </td>
+                      </tr>
+                  </table>
+                  <p style="text-align: center; font-size: 12px; color: #888; margin-top: 20px;">
+                      This is an automated message, please do not reply to this email.
+                  </p>
+              </body>
+              </html>
+          `
+      };
+
+      // Send the email and respond to the client within the callback
+      await transporter.sendMail(mailoptions, (error, info) => {
+          if (error) {
+              return res.json({ success: false, message: error.message });
+          } else {
+              console.log('Email sent: ' + info.response);
+              return res.json({ success: true, message: "OTP sent to your email" });
+          }
+      });
+
+  } catch (error) {
+      return res.json({ success: false, message: error.message });
+  }
+};
+
 //reset user password 
 export const resetPassword=async (req,res)=>{
     const {email ,otp,newPassword}=req.body;
