@@ -10,7 +10,7 @@ const Aymen = () => {
   const { userData, setIsLogin, setUserData } = useContext(AppContent)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
-  const [dropdownTimer, setDropdownTimer] = useState<NodeJS.Timeout | null>(null)
+  const [dropdownTimer, setDropdownTimer] = useState(null)
 
   const sendVerificationOTP = async () => {
     try {
