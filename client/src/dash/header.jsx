@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react"
+import { useContext, useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { AppContent } from "../context/Appcontext"
 import axios from "axios"
@@ -10,7 +10,8 @@ const Aymen = () => {
   const { userData, setIsLogin, setUserData } = useContext(AppContent)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
-  const [dropdownTimer, setDropdownTimer] = useState(null)
+  const dropdownRef = useRef(null)
+  const buttonRef = useRef(null)
 
   const sendVerificationOTP = async () => {
     try {
@@ -34,6 +35,7 @@ const Aymen = () => {
       if (data.success) {
         setIsLogin(false)
         setUserData(null)
+        setShowDropdown(false)
         navigate("/Home")
       }
     } catch (error) {
@@ -41,22 +43,26 @@ const Aymen = () => {
     }
   }
 
-  const handleMouseEnter = () => {
-    setShowDropdown(true)
-    if (dropdownTimer) clearTimeout(dropdownTimer)
-    setDropdownTimer(setTimeout(() => setShowDropdown(false), 1000))
-  }
-
-  const handleMouseLeave = () => {
-    if (dropdownTimer) clearTimeout(dropdownTimer)
-    setDropdownTimer(setTimeout(() => setShowDropdown(false), 1000))
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown)
   }
 
   useEffect(() => {
-    return () => {
-      if (dropdownTimer) clearTimeout(dropdownTimer)
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false)
+      }
     }
-  }, [dropdownTimer])
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
 
   return (
     <div>
@@ -102,14 +108,14 @@ const Aymen = () => {
                   )}
                   <li className="relative">
                     <button
+                      ref={buttonRef}
                       className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center"
-                      onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}
+                      onClick={toggleDropdown}
                     >
                       {userData.name[0].toUpperCase()}
                     </button>
                     {showDropdown && (
-                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
+                      <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
                         <ul className="py-2">
                           {!userData.isAcconuntVerified && (
                             <li onClick={sendVerificationOTP} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
