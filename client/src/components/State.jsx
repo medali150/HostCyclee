@@ -16,9 +16,9 @@ const StatsSection = () => {
     const fetchStats = async () => {
       try {
         setLoading(true);
-        const userResponse = await axios.get('http://localhost:4000/api/user/getAllUsers');
-        const websiteResponse = await axios.get('http://localhost:4000/api/auth/getAllWebsites');
-        const packageResponse = await axios.get('http://localhost:4000/api/package/getAllPackages');
+        const userResponse = await axios.get('https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/user/getAllUsers');
+        const websiteResponse = await axios.get('https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/getAllWebsites');
+        const packageResponse = await axios.get('https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/package/getAllPackages');
 
         setStats({
           users: userResponse.data.users.length,
