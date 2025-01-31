@@ -14,7 +14,7 @@ const Navbar = () => {
  
   const sendVerificationOTP = async () => {
     try {
-      const { data } = await axios.post('http://localhost:4000/api/auth/sendVerifyOtp');
+      const { data } = await axios.post('https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/sendVerifyOtp');
       if (data.success) {
         toast.success(data.message);
         navigate('/EmailVerify');
@@ -28,7 +28,7 @@ const Navbar = () => {
 
   const logout = async () => {
     try {
-      const { data } = await axios.post('http://localhost:4000/api/auth/logout');
+      const { data } = await axios.post('https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/logout');
       if (data.success) {
         setIsLogin(false);
         setUserData(null);
