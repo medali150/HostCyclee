@@ -52,7 +52,7 @@ const ResetPassword = () => {
   const onSubmitNewPassword = async (e) => {
     e.preventDefault()
     try {
-      const { data } = await axios.post(`http://localhost:4000/api/auth/resetPassword`, { email, otp, newPassword })
+      const { data } = await axios.post(`https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/resetPassword`, { email, otp, newPassword })
       data.success ? toast.success(data.message) : toast.error(data.message)
       data.success && navigate("/Login")
     } catch (error) {
