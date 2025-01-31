@@ -17,7 +17,7 @@ const HostingCycles = () => {
   const fetchHostingCycles = async () => {
     try {
       setLoading(true)
-      const response = await axios.get("http://localhost:4000/api/auth/getAllHostingCycles", {
+      const response = await axios.get("https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/getAllHostingCycles", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
