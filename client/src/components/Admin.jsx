@@ -18,7 +18,15 @@ const Admin = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true)
-      const { data } = await axios.get("https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/user/getAllUsers")
+      const token = localStorage.getItem("authToken") || "";  // Get the token from localStorage
+      const { data } = await axios.get(
+        "https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/user/getAllUsers",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,  // Add the token to the headers
+          },
+        }
+      )
 
       if (data.success) {
         setUsers(data.users)
@@ -38,7 +46,9 @@ const Admin = () => {
   }, [])
 
   useEffect(() => {
-    const filtered = users.filter((user) => user.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    const filtered = users.filter((user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
     setFilteredUsers(filtered)
   }, [searchTerm, users])
 
@@ -49,7 +59,15 @@ const Admin = () => {
   const handleDeleteUser = async (userId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        const response = await axios.delete(`https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/deleteUser/${userId}`)
+        const token = localStorage.getItem("authToken") || "";  // Get the token from localStorage
+        const response = await axios.delete(
+          `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/deleteUser/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,  // Add the token to the headers
+            },
+          }
+        )
         if (response.data.success) {
           alert("User deleted successfully")
           fetchUsers()
@@ -69,21 +87,32 @@ const Admin = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)
   }
+
   const handleMakeAdmin = async (userId) => {
     if (window.confirm("Are you sure you want to promote this user to admin?")) {
       try {
-        const response = await axios.put(`https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/makeAdmin/${userId}`);
+        const token = localStorage.getItem("authToken") || "";  // Get the token from localStorage
+        const response = await axios.put(
+          `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/makeAdmin/${userId}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,  // Add the token to the headers
+            },
+          }
+        )
         if (response.data.success) {
-          alert("User promoted to admin successfully!");
-          fetchUsers(); // Refresh user list
+          alert("User promoted to admin successfully!")
+          fetchUsers() // Refresh user list
         } else {
-          alert(response.data.message);
+          alert(response.data.message)
         }
       } catch (err) {
-        alert("Error promoting user to admin: " + err.message);
+        alert("Error promoting user to admin: " + err.message)
       }
     }
-  };
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <Aymen />
@@ -116,7 +145,7 @@ const Admin = () => {
               <div className="flex items-center space-x-4">
                 <FontAwesomeIcon icon={faUsers} className="text-blue-500 text-3xl" />
                 <div>
-                  <h2 className="text-xl font-semibold text-gray-700">Nombre total d'utilisateurs</h2>
+                  <h2 className="text-xl font-semibold text-gray-700">Total Users</h2>
                   <p className="text-2xl font-bold text-blue-600">{loading ? "Loading..." : users.length}</p>
                 </div>
               </div>
@@ -126,7 +155,7 @@ const Admin = () => {
           <div className="mb-4 relative">
             <input
               type="text"
-              placeholder="Rechercher des utilisateurs par nom"
+              placeholder="Search users by name"
               value={searchTerm}
               onChange={handleSearchChange}
               className="w-full px-4 py-2 pl-10 pr-4 text-gray-700 bg-white border rounded-lg focus:border-blue-500 focus:outline-none focus:ring"
@@ -145,51 +174,40 @@ const Admin = () => {
               <table className="w-full text-sm text-left text-gray-500">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
-                    Nom
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Email
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Admin
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      <span className="sr-only">Actions</span>
-                    </th>
+                    <th scope="col" className="px-6 py-3">Name</th>
+                    <th scope="col" className="px-6 py-3">Email</th>
+                    <th scope="col" className="px-6 py-3">Admin</th>
+                    <th scope="col" className="px-6 py-3"><span className="sr-only">Actions</span></th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredUsers.map(({ id, name, email, isAdmin }) => (
                     <tr key={id} className="bg-white border-b hover:bg-gray-50">
-                      <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        {name}
-                      </th>
+                      <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{name}</th>
                       <td className="px-6 py-4">{email}</td>
                       <td className="px-6 py-4">{isAdmin ? "Yes" : "No"}</td>
                       <td className="px-6 py-4 text-right">
-  <button
-    onClick={() => handleViewDetails(id)}
-    className="font-medium text-blue-600 hover:underline mr-2"
-  >
-    Voir les détails
-  </button>
-  {!isAdmin && (
-    <button
-      onClick={() => handleMakeAdmin(id)}
-      className="font-medium text-black hover:underline mr-2"
-
-  >
-      transformer en administrateur
-    </button>
-  )}
-  <button
-    onClick={() => handleDeleteUser(id)}
-    className="font-medium text-red-600 hover:underline"
-  >
-    Supprimer
-  </button>
-</td>
+                        <button
+                          onClick={() => handleViewDetails(id)}
+                          className="font-medium text-blue-600 hover:underline mr-2"
+                        >
+                          View Details
+                        </button>
+                        {!isAdmin && (
+                          <button
+                            onClick={() => handleMakeAdmin(id)}
+                            className="font-medium text-black hover:underline mr-2"
+                          >
+                            Make Admin
+                          </button>
+                        )}
+                        <button
+                          onClick={() => handleDeleteUser(id)}
+                          className="font-medium text-red-600 hover:underline"
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -203,4 +221,3 @@ const Admin = () => {
 }
 
 export default Admin
-
