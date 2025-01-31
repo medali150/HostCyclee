@@ -1,128 +1,117 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faSearch } from "@fortawesome/free-solid-svg-icons";
-import Aymen from "../dash/header";
-import Sidebar from "../Chat/Chat1";
+import React, { useEffect, useState } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faUsers, faSearch } from "@fortawesome/free-solid-svg-icons"
+import Aymen from "../dash/header"
+import Sidebar from "../Chat/Chat1"
 
 const Admin = () => {
-  const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const navigate = useNavigate();
+  const [users, setUsers] = useState([])
+  const [filteredUsers, setFilteredUsers] = useState([])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const navigate = useNavigate()
 
   const fetchUsers = async () => {
     try {
-      setLoading(true);
-
-      const token = localStorage.getItem("token"); // Get the stored token (if any)
-
-      if (!token) {
-        alert("Please log in again.");
-        navigate("/login");
-        return;
-      }
-
+      setLoading(true)
+      const token = localStorage.getItem("authToken") || "";  // Get the token from localStorage
       const { data } = await axios.get(
         "https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/user/getAllUsers",
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Send the token in the headers
+            Authorization: `Bearer ${token}`,  // Add the token to the headers
           },
         }
-      );
+      )
 
       if (data.success) {
-        setUsers(data.users);
-        setFilteredUsers(data.users);
+        setUsers(data.users)
+        setFilteredUsers(data.users)
       } else {
-        setError(data.message);
+        setError(data.message)
       }
     } catch (err) {
-      if (err.response && err.response.status === 401) {
-        alert("Session expired. Please log in again.");
-        navigate("/login");
-      } else {
-        setError(`Error fetching users: ${err.message}`);
-      }
+      setError(`Error fetching users: ${err.message}`)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    fetchUsers()
+  }, [])
 
   useEffect(() => {
     const filtered = users.filter((user) =>
       user.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredUsers(filtered);
-  }, [searchTerm, users]);
+    )
+    setFilteredUsers(filtered)
+  }, [searchTerm, users])
 
   const handleViewDetails = (userId) => {
-    navigate(`/User/${userId}`);
-  };
+    navigate(`/User/${userId}`)
+  }
 
   const handleDeleteUser = async (userId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
+        const token = localStorage.getItem("authToken") || "";  // Get the token from localStorage
         const response = await axios.delete(
           `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/deleteUser/${userId}`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token to delete request
+              Authorization: `Bearer ${token}`,  // Add the token to the headers
             },
           }
-        );
+        )
         if (response.data.success) {
-          alert("User deleted successfully");
-          fetchUsers();
+          alert("User deleted successfully")
+          fetchUsers()
         } else {
-          alert(response.data.message);
+          alert(response.data.message)
         }
       } catch (err) {
-        alert("Error deleting user: " + err.message);
+        alert("Error deleting user: " + err.message)
       }
     }
-  };
+  }
 
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
+    setSearchTerm(e.target.value)
+  }
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+    setIsSidebarOpen(!isSidebarOpen)
+  }
 
   const handleMakeAdmin = async (userId) => {
     if (window.confirm("Are you sure you want to promote this user to admin?")) {
       try {
+        const token = localStorage.getItem("authToken") || "";  // Get the token from localStorage
         const response = await axios.put(
           `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/makeAdmin/${userId}`,
           {},
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token to the request
+              Authorization: `Bearer ${token}`,  // Add the token to the headers
             },
           }
-        );
+        )
         if (response.data.success) {
-          alert("User promoted to admin successfully!");
-          fetchUsers(); // Refresh user list
+          alert("User promoted to admin successfully!")
+          fetchUsers() // Refresh user list
         } else {
-          alert(response.data.message);
+          alert(response.data.message)
         }
       } catch (err) {
-        alert("Error promoting user to admin: " + err.message);
+        alert("Error promoting user to admin: " + err.message)
       }
     }
-  };
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
@@ -157,9 +146,7 @@ const Admin = () => {
                 <FontAwesomeIcon icon={faUsers} className="text-blue-500 text-3xl" />
                 <div>
                   <h2 className="text-xl font-semibold text-gray-700">Total Users</h2>
-                  <p className="text-2xl font-bold text-blue-600">
-                    {loading ? "Loading..." : users.length}
-                  </p>
+                  <p className="text-2xl font-bold text-blue-600">{loading ? "Loading..." : users.length}</p>
                 </div>
               </div>
             </div>
@@ -190,17 +177,13 @@ const Admin = () => {
                     <th scope="col" className="px-6 py-3">Name</th>
                     <th scope="col" className="px-6 py-3">Email</th>
                     <th scope="col" className="px-6 py-3">Admin</th>
-                    <th scope="col" className="px-6 py-3">
-                      <span className="sr-only">Actions</span>
-                    </th>
+                    <th scope="col" className="px-6 py-3"><span className="sr-only">Actions</span></th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredUsers.map(({ id, name, email, isAdmin }) => (
                     <tr key={id} className="bg-white border-b hover:bg-gray-50">
-                      <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        {name}
-                      </th>
+                      <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{name}</th>
                       <td className="px-6 py-4">{email}</td>
                       <td className="px-6 py-4">{isAdmin ? "Yes" : "No"}</td>
                       <td className="px-6 py-4 text-right">
@@ -215,7 +198,7 @@ const Admin = () => {
                             onClick={() => handleMakeAdmin(id)}
                             className="font-medium text-black hover:underline mr-2"
                           >
-                            Promote to Admin
+                            Make Admin
                           </button>
                         )}
                         <button
@@ -234,7 +217,7 @@ const Admin = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Admin;
+export default Admin
