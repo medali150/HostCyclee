@@ -18,7 +18,7 @@ const Admin = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true)
-      const { data } = await axios.get("http://localhost:4000/api/user/getAllUsers")
+      const { data } = await axios.get("https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/user/getAllUsers")
 
       if (data.success) {
         setUsers(data.users)
