@@ -1,6 +1,6 @@
 import express from 'express';
 import {  addHostingCycleToCart, deleteAdmin, deleteHostingCycle, deleteUser, deleteWebsite, getAllHostingCycles,  isAuthenticated, login, logout, makeAdmin, register, registerHostingCycle, registerWebsite, resetPassword, sendResetOtp, sendVerifyOtp, verifyAdmin, verifyEmail } from '../controllers/authController.js';
-import userAuth from '../middleware/userAuth.js';
+import { userAuth } from '../middleware/userAuth.js'; 
 import { addnamewebsite } from '../controllers/userController.js';
 
 

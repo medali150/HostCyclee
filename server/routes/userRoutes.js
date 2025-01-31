@@ -1,5 +1,5 @@
 import express from "express"
-import userAuth from "../middleware/userAuth.js";
+import { userAuth } from '../middleware/userAuth.js'; 
 import {  getAllUsers, getUserById, getUserData } from "../controllers/userController.js";
 import { addHostingCycleToCart, deleteUser } from "../controllers/authController.js";
 
