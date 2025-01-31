@@ -72,7 +72,7 @@ const Admin = () => {
   const handleMakeAdmin = async (userId) => {
     if (window.confirm("Are you sure you want to promote this user to admin?")) {
       try {
-        const response = await axios.put(`http://localhost:4000/api/auth/makeAdmin/${userId}`);
+        const response = await axios.put(`https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/makeAdmin/${userId}`);
         if (response.data.success) {
           alert("User promoted to admin successfully!");
           fetchUsers(); // Refresh user list
