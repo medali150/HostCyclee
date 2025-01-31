@@ -6,7 +6,7 @@ import { addHostingCycleToCart, deleteUser } from "../controllers/authController
 const userRouter= express.Router();
 
 userRouter.get('/data',userAuth,getUserData);
-userRouter.get('/getAllUsers',userAuth,getAllUsers);
+userRouter.get('/getAllUsers',getAllUsers);
 userRouter.get('/:userId',userAuth,getUserById);
 
 userRouter.delete('/users/:id', deleteUser); 
