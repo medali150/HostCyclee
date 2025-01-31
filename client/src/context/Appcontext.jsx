@@ -13,7 +13,7 @@ export const AppContextProvider = (props) => {
     
     const getAuthState=async ()=>{
         try {
-            const {data}=await axios.get('https://host-cycle-ji9x-git-main-aymens-projects-9ad69811.vercel.app/api/auth/isAuthenticated')  
+            const {data}=await axios.get('https://host-cycle.vercel.app/api/auth/isAuthenticated')  
             if(data.success){
                 setIsLogin(true)
                 getUserData()
@@ -29,7 +29,7 @@ export const AppContextProvider = (props) => {
     
     const getUserData =async ()=>{
     try {
-        const {data} =await axios.get('https://host-cycle-ji9x-git-main-aymens-projects-9ad69811.vercel.app/api/user/data')    
+        const {data} =await axios.get('https://host-cycle.vercel.app/api/user/data')    
         data.success ? setUserData(data.userData):toast.error(data.message)
     } catch (error) {
         toast.error(error.message)
