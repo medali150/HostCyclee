@@ -753,7 +753,7 @@ export const registerWebsite = async (req, res) => {
   };
 
 
-  const checkAndSendNotifications = async () => {
+const checkAndSendNotifications = async () => {
     try {
       console.log("Running hosting cycle notification check...");
       
@@ -765,7 +765,7 @@ export const registerWebsite = async (req, res) => {
         for (const hostingCycle of user.cart) {
           const expiryDate = new Date(hostingCycle.endDate);
           const timeDiff = expiryDate - today;
-          const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Calculate days left
+          const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // gedech b9a 
   
           if (daysLeft === 1) {
             // Configure mail transporter
@@ -790,7 +790,7 @@ export const registerWebsite = async (req, res) => {
               `,
             };
   
-            // Send the email
+           
             await transporter.sendMail(mailOptions);
             console.log(`Notification sent to ${user.email} for hosting cycle "${hostingCycle.namePAckage}"`);
           }
@@ -801,7 +801,7 @@ export const registerWebsite = async (req, res) => {
     }
   };
   
-  // Schedule the cron job to run daily at midnight
+  
   cron.schedule("0 0 * * *", async () => {
     await checkAndSendNotifications();
   });
