@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { backendUrl, setIsLogin, getUserData } = useContext(AppContent);
+  const { setIsLogin, getUserData } = useContext(AppContent);
   const [state, setState] = useState('sign up');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -16,36 +16,41 @@ const Login = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-      axios.defaults.withCredentials = true;
+      axios.defaults.withCredentials = true; // Ensure cookies are sent with requests
+
       if (state === 'sign up') {
-        const { data } = await axios.post(`https://host-cycle-ji9x-git-main-aymens-projects-9ad69811.vercel.app/api/auth/register`, {
+        const { data } = await axios.post('https://host-cycle-ji9x-git-main-aymens-projects-9ad69811.vercel.app/api/auth/register', {
           name,
           email,
           password,
           Contry,
         });
+
         if (data.success) {
           setIsLogin(true);
           getUserData();
+          setName(''); setEmail(''); setPassword(''); setContry(''); // Reset form
           navigate('/Home');
         } else {
           toast.error(data.message);
         }
       } else if (state === 'login') {
-        const { data } = await axios.post(`https://host-cycle-ji9x-git-main-aymens-projects-9ad69811.vercel.app/api/auth/login`, {
+        const { data } = await axios.post('https://host-cycle-ji9x-git-main-aymens-projects-9ad69811.vercel.app/api/auth/login', {
           email,
           password,
         });
+
         if (data.success) {
           setIsLogin(true);
           getUserData();
+          setEmail(''); setPassword('');  // Reset form
           navigate('/Home');
         } else {
           toast.error(data.message);
         }
       }
     } catch (error) {
-      toast.error('Something went wrong. Please try again.');
+      toast.error(error?.response?.data?.message || 'Something went wrong. Please try again.');
     }
   };
 
@@ -86,7 +91,7 @@ const Login = () => {
                 <label
                   className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
                 >
-                  Email 
+                  Email
                 </label>
               </div>
               <div className="relative">
@@ -128,16 +133,14 @@ const Login = () => {
             <div className="text-center mt-4">
               {state === 'sign up' ? (
                 <p>
-                 Vous avez déjà un compte?{' '}
+                  Vous avez déjà un compte?{' '}
                   <span
                     onClick={() => setState('login')}
                     className="text-cyan-500 cursor-pointer"
                   >
                     Connectez-vous ici
                   </span>
-                 
                 </p>
-                
               ) : (
                 <p>
                   Vous n'avez pas de compte ?{' '}
@@ -147,7 +150,9 @@ const Login = () => {
                   >
                     Sign up here
                   </span><br />
-                  <span className='text-cyan-500 cursor-pointer' onClick={()=>navigate('/Resetpassword')}>forget password</span>
+                  <span className="text-cyan-500 cursor-pointer" onClick={() => navigate('/Resetpassword')}>
+                    Forget password
+                  </span>
                 </p>
               )}
             </div>
