@@ -35,7 +35,7 @@ const HostingCycles = () => {
   const deleteHostingCycle = async (id) => {
     if (window.confirm("Are you sure you want to delete this hosting cycle?")) {
       try {
-        const response = await axios.delete(`http://localhost:4000/api/auth/hostingCycles/${id}`, {
+        const response = await axios.delete(`https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/hostingCycles/${id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
