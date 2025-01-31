@@ -15,8 +15,14 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 // Configurer CORS avec une approche plus dynamique
-const allowedOrigins = [process.env.CLIENT_URL || 'http://localhost:3000'];
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+const allowedOrigins = [
+  process.env.CLIENT_URL || 'http://localhost:3000', // For local testing
+  'https://host-cycle.vercel.app', // Vercel production URL
+];
+app.use(cors({
+  origin: allowedOrigins, // Allow these origins
+  credentials: true, // Allow sending cookies
+}));
 
 // Middleware de sécurité
 app.use(helmet());
