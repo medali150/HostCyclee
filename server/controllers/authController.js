@@ -136,41 +136,45 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = async(req,res)=>{
-    const {email,password}=req.body;
-    if(!email || !password){
-        return res.json({success:false, message:'email and password are required '})
-      
-    }
-    try{
-        const user= await userModel.findOne({email});
-        if(!user){
-            return res.json({success:false,message:"user not fond"})
-        }
-        const isMatch=await bcrypt.compare(password,user.password);
-        if(!isMatch){
-            return res.json({success:false,message:"password not fond"})
-        }
-        const token=jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:'7d'}); 
-   
-     res.cookie('token',token,{
-        httpOnly:true,
-        secure:process.env.NODE_ENV==='production',
-        sameSite:process.env.NODE_ENV==='production' ?
-        'none':'strict',
-        maxAge:7*24*60*60*1000//7days
 
-     })
-       return res.json({success:true})
+export const login = async (req, res) => {
+  const { email, password } = req.body;
 
-    }
-    
-    catch(error){
-        return res.json({success: false, message: error.message}) //lmessage ili 3y5arjah error
+  // Ensure both email and password are provided
+  if (!email || !password) {
+      return res.json({ success: false, message: 'Email and password are required' });
+  }
 
-    }
+  try {
+      const user = await userModel.findOne({ email });
+      if (!user) {
+          return res.json({ success: false, message: 'User not found' });
+      }
 
-}
+      // Check if the password matches
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+          return res.json({ success: false, message: 'Password is incorrect' });
+      }
+
+      // Create the JWT token
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+      // Set the token in a cookie
+      res.cookie('token', token, {
+          httpOnly: true, // To protect against cross-site scripting attacks
+          secure: process.env.NODE_ENV === 'production', // Set to true in production
+          sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Strict', // Required for cross-origin cookies in production
+          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      });
+
+      return res.json({ success: true, message: 'Login successful' });
+
+  } catch (error) {
+      console.error('Error in login:', error.message);  // Log the error for debugging
+      return res.json({ success: false, message: error.message }); // Return error message to the user
+  }
+};
 export const logout=async(req,res)=>{
     try{
         res.clearCookie('token',{
