@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 
 // userAuth.js (Named export)
-export const userAuth = async (req, res, next) => {
+ export const userAuth = async (req, res, next) => {
+    console.log("Cookies:", req.cookies);  // Add this line for debugging
     const { token } = req.cookies;
     if (!token) {
         return res.json({ success: false, message: "Not authorized, login again." });
@@ -15,6 +16,7 @@ export const userAuth = async (req, res, next) => {
         }
         next();
     } catch (error) {
+        console.error("Error verifying token:", error); // Log the error
         res.json({ success: false, message: "Not authorized, login again." });
     }
 };
