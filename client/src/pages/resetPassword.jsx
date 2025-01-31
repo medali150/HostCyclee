@@ -29,7 +29,7 @@ const ResetPassword = () => {
   const onSubmitEmail = async (e) => {
     e.preventDefault()
     try {
-      const { data } = await axios.post(`http://localhost:4000/api/auth/sendResetOtp`, { email })
+      const { data } = await axios.post(`https://host-cycle-ji9x-git-main-aymens-projects-9ad69811.vercel.app/api/auth/sendResetOtp`, { email })
       data.success ? toast.success(data.message) : toast.error(data.message)
       data.success && setIsEmailSent(true)
     } catch (error) {
