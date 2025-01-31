@@ -14,7 +14,7 @@ const UserProfile = () => {
   const handleDeleteWebsite = async (websiteId) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/auth/delete-website/${user._id}/${websiteId}`,
+        `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/delete-website/${user._id}/${websiteId}`,
         { method: 'DELETE' }
       );
       const data = await response.json();
@@ -38,7 +38,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/api/user/${userId}`);
+        const response = await axios.get(`https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/user/${userId}`);
         if (response.data.success) {
           setUser(response.data.user);
         } else {
@@ -115,7 +115,7 @@ const UserProfile = () => {
                   <img
                     src={
                       user.image
-                        ? `https://host-cycle-ji9x.vercel.app/${user.image}`
+                        ? `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/${user.image}`
                         : "https://via.placeholder.com/150"
                     }
                     alt="Profile"
