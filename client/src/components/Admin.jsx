@@ -49,7 +49,7 @@ const Admin = () => {
   const handleDeleteUser = async (userId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        const response = await axios.delete(`http://localhost:4000/api/auth/deleteUser/${userId}`)
+        const response = await axios.delete(`https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/deleteUser/${userId}`)
         if (response.data.success) {
           alert("User deleted successfully")
           fetchUsers()
