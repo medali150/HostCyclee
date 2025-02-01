@@ -8,7 +8,7 @@ import {
   Trash,
 } from "lucide-react";
 
-const UserProfile = () => {
+const User = () => {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
@@ -231,4 +231,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default User;
