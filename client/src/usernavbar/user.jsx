@@ -1,40 +1,9 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
-const API_BASE_URL = "http://localhost:5000"; // Assurez-vous que c'est l'URL correcte du backend
-
 const User = () => {
   const [activeSection, setActiveSection] = useState("profile");
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      setError("Unauthorized: Please login.");
-      setLoading(false);
-      return;
-    }
-
-    axios
-      .get(`${API_BASE_URL}/api/user/profile`, {
-        headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true,
-      })
-      .then((response) => {
-        setUser(response.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching user:", err);
-        setError("Unauthorized: Please login.");
-        setLoading(false);
-      });
-  }, []);
 
   const toggleMenu = () => {
     const menu = document.querySelector(".action_menu");
@@ -45,14 +14,6 @@ const User = () => {
     setActiveSection(section);
     document.querySelector(".action_menu").style.display = "none";
   };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/login"; // Redirection après logout
-  };
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
 
   return (
     <div>
@@ -87,16 +48,17 @@ const User = () => {
               Pending Requests
             </li>
             <li>
-              <a href="/Chat">Messenger</a>
+                <a href="/Chat">
+              Messenger</a>
             </li>
-            <li onClick={handleLogout}>LogOut</li>
+            <li onClick={() => alert("Logged out!")}>LogOut</li>
           </ul>
         </div>
       </ul>
 
       {/* Content */}
       <div style={{ marginTop: "70px" }}>
-        {activeSection === "profile" && <Profile user={user} />}
+        {activeSection === "profile" && <Profile />}
         {activeSection === "allUsers" && <Placeholder title="All Users" />}
         {activeSection === "friends" && <Placeholder title="My Friends" />}
         {activeSection === "friendRequests" && (
@@ -111,13 +73,11 @@ const User = () => {
 };
 
 // Profile Component
-const Profile = ({ user }) => {
+const Profile = () => {
   return (
     <div className="col-12 col-lg-10 offset-lg-1">
       <div style={{ textAlign: "center" }}>
         <img
-          src={user?.avatar || "https://via.placeholder.com/150"}
-          alt="profile"
           style={{
             backgroundColor: "white",
             width: "150px",
@@ -126,6 +86,7 @@ const Profile = ({ user }) => {
             border: "5px solid white",
             boxShadow: "0px 0px 10px 5px gray",
           }}
+          alt="profile"
         />
       </div>
       <br />
@@ -138,7 +99,7 @@ const Profile = ({ user }) => {
           paddingBottom: "3px",
         }}
       >
-        {user?.name || "Demo"}
+        Demo
       </h2>
       <div>
         <div
@@ -154,19 +115,19 @@ const Profile = ({ user }) => {
           </h3>
           <ul className="list-group">
             <li className="list-group-item list-group-item-info text-center">
-              Email: {user?.email || "demo@example.com"}
+              Email: demo@example.com
             </li>
             <br />
             <li className="list-group-item list-group-item-info text-center">
-              Phone: {user?.phone || "123-456-7890"}
+              Phone: 123-456-7890
             </li>
             <br />
             <li className="list-group-item list-group-item-info text-center">
-              DOB: {user?.dob || "Jan 1, 2000"}
+              DOB: Jan 1, 2000
             </li>
             <br />
             <li className="list-group-item list-group-item-info text-center">
-              Address: {user?.address || "123 Demo Street"}
+              Address: 123 Demo Street
             </li>
           </ul>
         </div>
