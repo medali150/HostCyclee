@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react"; 
-import { useParams } from "react-router-dom"; 
-import axios from "axios"; 
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import { Mail, Calendar, DollarSign, Clock, Pencil, Globe, ExternalLink, Trash } from "lucide-react";
 
 const UserProfile = () => {
@@ -11,17 +11,11 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(false);
   const [showDescription, setShowDescription] = useState(null);
 
-  // Delete website function
   const handleDeleteWebsite = async (websiteId) => {
     try {
       const response = await fetch(
         `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/delete-website/${user._id}/${websiteId}`,
-        { 
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem("token")}`  // Ajouter le token d'authentification
-          }
-        }
+        { method: 'DELETE' }
       );
       const data = await response.json();
       if (data.success) {
@@ -41,15 +35,10 @@ const UserProfile = () => {
     setShowDescription(prevIndex => (prevIndex === index ? null : index));
   };
 
-  // Fetch user details from the API
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/user/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}` // Ajouter le token d'authentification
-          }
-        });
+        const response = await axios.get(`https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/user/${userId}`);
         if (response.data.success) {
           setUser(response.data.user);
         } else {
@@ -138,7 +127,7 @@ const UserProfile = () => {
                       <Mail className="w-4 h-4 mr-2" /> {user.email}
                     </p>
                     <p className="text-gray-600 flex items-center">
-                      <Globe className="w-4 h-4 mr-2" /> {user.Country || "N/A"}
+                      <Globe className="w-4 h-4 mr-2" /> {user.Contry || "N/A"}
                     </p>
                   </div>
                 </div>
@@ -176,7 +165,9 @@ const UserProfile = () => {
                   <button
                     onClick={handleImageUpload}
                     disabled={loading}
-                    className={`mt-4 w-full px-4 py-2 rounded-md text-white font-medium ${loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"} transition duration-300 ease-in-out`}
+                    className={`mt-4 w-full px-4 py-2 rounded-md text-white font-medium ${
+                      loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
+                    } transition duration-300 ease-in-out`}
                   >
                     {loading ? "Uploading..." : "Upload Image"}
                   </button>
@@ -192,9 +183,15 @@ const UserProfile = () => {
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">URL</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Name
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          URL
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Actions
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -224,16 +221,17 @@ const UserProfile = () => {
                               </button>
                               <button
                                 onClick={() => handleDeleteWebsite(website._id)}
-                                className="text-red-600 hover:text-red-900"
+                                className="text-red-600 hover:text-red-900 flex items-center"
                               >
-                                <Trash className="h-5 w-5" />
+                                <Trash className="mr-1 h-4 w-4" />
+                                Delete
                               </button>
                             </td>
                           </tr>
                           {showDescription === index && (
-                            <tr className="bg-gray-100">
-                              <td colSpan="3" className="px-6 py-4 text-sm text-gray-500">
-                                {website.description}
+                            <tr>
+                              <td colSpan={3} className="px-6 py-4 whitespace-normal">
+                                <p className="text-sm text-gray-500">{website.description}</p>
                               </td>
                             </tr>
                           )}
@@ -243,13 +241,14 @@ const UserProfile = () => {
                   </table>
                 </div>
               ) : (
-                <p className="text-gray-500 italic">No websites found.</p>
+                <p className="text-gray-500 italic">No websites added.</p>
               )}
             </div>
           </div>
         ) : (
-          <div className="text-center py-10">
-            <p className="text-xl text-gray-500">{error || 'Loading user details...'}</p>
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
+            <p className="mt-4 text-xl text-gray-600">Loading user details...</p>
           </div>
         )}
       </div>
