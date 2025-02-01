@@ -7,7 +7,7 @@ const userRouter= express.Router();
 
 userRouter.get('/data',userAuth,getUserData);
 userRouter.get('/getAllUsers',getAllUsers);
-userRouter.get('/:userId',userAuth,getUserById);
+userRouter.get('/:userId',getUserById);
 
 userRouter.delete('/users/:id', deleteUser); 
 userRouter.post("/addHostingCycleToCart/:userId",userAuth,addHostingCycleToCart);
