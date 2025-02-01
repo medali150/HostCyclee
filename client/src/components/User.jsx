@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; 
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Mail, Calendar, DollarSign, Clock, Pencil, Globe, ExternalLink, Trash } from "lucide-react";
@@ -38,14 +38,28 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/user/${userId}`);
+        const token = localStorage.getItem("token"); // Récupérer le token du stockage local
+        if (!token) {
+          setError("Unauthorized: Please login.");
+          return;
+        }
+
+        const response = await axios.get(
+          `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/user/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Ajouter le token à l'en-tête
+            },
+          }
+        );
+
         if (response.data.success) {
           setUser(response.data.user);
         } else {
-          setError(response.data.message || 'Failed to fetch user details.');
+          setError(response.data.message || "Failed to fetch user details.");
         }
       } catch (err) {
-        setError('Error fetching user details: ' + err.message);
+        setError("Error fetching user details: " + err.message);
       }
     };
 
