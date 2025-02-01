@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";  
+import React, { useEffect, useState } from "react"; 
 import { useParams } from "react-router-dom"; 
 import axios from "axios"; 
-import { Mail, Globe, ExternalLink, Trash } from "lucide-react";
+import { Mail, Calendar, DollarSign, Clock, Pencil, Globe, ExternalLink, Trash } from "lucide-react";
 
 const UserProfile = () => {
   const { userId } = useParams();
@@ -11,37 +11,15 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(false);
   const [showDescription, setShowDescription] = useState(null);
 
-  // Check if the user is authenticated
-  const isAuthenticated = () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      return false; // Token not found, user is not authenticated
-    }
-    // Here you could further validate the token if needed
-    return true;
-  };
-
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!isAuthenticated()) {
-      window.location.href = "/login"; // Redirect to login page
-    }
-  }, []);
-
   // Delete website function
   const handleDeleteWebsite = async (websiteId) => {
-    if (!isAuthenticated()) {
-      alert("You need to log in first.");
-      return;
-    }
-
     try {
       const response = await fetch(
         `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/delete-website/${user._id}/${websiteId}`,
         { 
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem("token")}` // Add auth token
+            'Authorization': `Bearer ${localStorage.getItem("token")}`  // Ajouter le token d'authentification
           }
         }
       );
@@ -66,20 +44,12 @@ const UserProfile = () => {
   // Fetch user details from the API
   useEffect(() => {
     const fetchUserDetails = async () => {
-      if (!isAuthenticated()) {
-        alert("You need to log in first.");
-        return;
-      }
-
       try {
-        const response = await axios.get(
-          `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/user/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}` // Add auth token
-            }
+        const response = await axios.get(`https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/user/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}` // Ajouter le token d'authentification
           }
-        );
+        });
         if (response.data.success) {
           setUser(response.data.user);
         } else {
@@ -101,11 +71,6 @@ const UserProfile = () => {
   };
 
   const handleImageUpload = async () => {
-    if (!isAuthenticated()) {
-      alert("You need to log in first.");
-      return;
-    }
-
     if (!image) {
       setError('Please select an image to upload.');
       return;
@@ -159,7 +124,11 @@ const UserProfile = () => {
               <div className="md:col-span-2 space-y-6">
                 <div className="flex items-center space-x-4">
                   <img
-                    src={user.image ? `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/${user.image}` : "https://via.placeholder.com/150"}
+                    src={
+                      user.image
+                        ? `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/${user.image}`
+                        : "https://via.placeholder.com/150"
+                    }
                     alt="Profile"
                     className="w-24 h-24 rounded-full object-cover border-4 border-blue-200"
                   />
