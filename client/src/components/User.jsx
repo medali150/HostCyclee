@@ -29,7 +29,7 @@ const UserProfile = () => {
         }
 
         const response = await axios.get(
-          `${API_BASE_URL}/api/user/${userId}`,
+          `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/user/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -71,7 +71,7 @@ const UserProfile = () => {
       }
 
       const response = await axios.post(
-        `${API_BASE_URL}/api/user/upload-profile-image/${userId}`,
+        `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/user/upload-profile-image/${userId}`,
         formData,
         {
           headers: {
@@ -106,7 +106,7 @@ const UserProfile = () => {
       }
 
       const response = await axios.delete(
-        `${API_BASE_URL}/api/auth/delete-website/${user._id}/${websiteId}`,
+        `https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/delete-website/${user._id}/${websiteId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
