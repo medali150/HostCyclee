@@ -52,15 +52,17 @@ const Hero = () => {
         {isMenuOpen && (
           <div className="md:hidden" id="mobile-menu">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              <a href="#features" className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Fonctionnalités</a>
-              <a href="#pricing" className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Tarifs</a>
-              <a href="#testimonials" className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Témoignages</a>
+              <a href="#features" className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
+              Features</a>
+              <a href="#pricing" className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Prices</a>
+              <a href="#testimonials" className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
+              Testimonials</a>
               <a href="#contact" className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Contact</a>
             </div>
             <div className="pt-4 pb-3 border-t border-gray-700">
               <div className="flex items-center px-5">
                 <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300 w-full">
-                  Commencer
+                Start
                 </button>
               </div>
             </div>
@@ -73,11 +75,11 @@ const Hero = () => {
         <div className="text-center">
         {!userData ? (<>
           <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            <span className="block">Simplifiez la gestion de vos</span>
-            <span className="block text-blue-600">cycles d'hébergement</span>
+            <span className="block">Simplify the management of your</span>
+            <span className="block text-blue-600">hosting cycles</span>
           </h1>
           <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-            HostCycle centralise les informations de vos clients et assure un suivi proactif des échéances d'hébergement pour une gestion sans souci.
+          HostCycle centralizes your customers' information and proactively tracks hosting deadlines for worry-free management.
           </p></>) : ( 
             <>
           <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
@@ -85,7 +87,7 @@ const Hero = () => {
           
           <span className="blinking-cursor">|</span>
           <h1><span className="block text-blue-600">
-          Êtes-vous prêt à commencer avec nous ?</span></h1>
+          Are you ready to get started with us?</span></h1>
           
        
           
