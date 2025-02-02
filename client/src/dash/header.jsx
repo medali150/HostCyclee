@@ -83,12 +83,12 @@ const Aymen = () => {
             <ul className="lg:flex lg:items-center gap-x-5 space-y-3 lg:space-y-0 mt-4 lg:mt-0">
               <li className="border-b lg:border-b-0 py-3 lg:py-0 px-3">
                 <a href="/Home" className="hover:text-blue-500 text-blue-500 font-bold block text-base">
-                  Accueil
+                  Home
                 </a>
               </li>
               <li className="border-b lg:border-b-0 py-3 lg:py-0 px-3">
                 <a href="/Commerce" className="hover:text-blue-500 text-gray-600 font-bold block text-base">
-                  Nouvelles
+                  News
                 </a>
               </li>
 
@@ -96,7 +96,7 @@ const Aymen = () => {
                 <>
                   <li className="border-b lg:border-b-0 py-3 lg:py-0 px-3">
                     <a href="/Compte" className="hover:text-blue-500 text-gray-600 font-bold block text-base">
-                      Compte
+                      account
                     </a>
                   </li>
                   {userData.isAdmin && (
