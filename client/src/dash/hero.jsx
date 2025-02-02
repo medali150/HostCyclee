@@ -79,7 +79,7 @@ const Hero = () => {
             <span className="block text-blue-600">hosting cycles</span>
           </h1>
           <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-          HostCycle centralizes your customers' information and proactively tracks hosting deadlines for worry-free management.
+          HostCycle centralise les informations de vos clients et assure un suivi proactif des échéances d'hébergement pour une gestion sans souci.
           </p></>) : ( 
             <>
           <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
@@ -93,7 +93,7 @@ const Hero = () => {
           
         </h1>
           <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-            HostCycle centralise les informations de vos clients et assure un suivi proactif des échéances d'hébergement pour une gestion sans souci.
+          HostCycle centralise les informations de vos clients et assure un suivi proactif des échéances d'hébergement pour une gestion sans souci.
           </p>
           </>
           )}
@@ -101,12 +101,12 @@ const Hero = () => {
           <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
             <div className="rounded-md shadow">
               <a href="#" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
-                Essai gratuit
+                Free trial
               </a>
             </div>
             <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
               <a href="#" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
-                En savoir plus
+              Learn more
               </a>
             </div>
           </div>)}
@@ -117,10 +117,11 @@ const Hero = () => {
       <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-white">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Fonctionnalités principales
+           
+          Main features
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-            Découvrez comment HostCycle peut simplifier votre gestion d'hébergement
+          Learn how HostCycle can simplify your hosting management
           </p>
         </div>
         <div className="mt-20 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -128,36 +129,42 @@ const Hero = () => {
             <div className="flex items-center justify-center h-16 w-16 rounded-md bg-blue-500 text-white">
               <Users className="h-8 w-8" />
             </div>
-            <h3 className="mt-8 text-lg font-medium text-gray-900">Enregistrement des clients</h3>
+            <h3 className="mt-8 text-lg font-medium text-gray-900">
+            Customer registration</h3>
             <p className="mt-2 text-base text-gray-500 text-center">
-              Stockez facilement les informations de vos clients et les détails de leurs sites hébergés.
+       
+Easily store your clients' information and details of their hosted sites.
             </p>
           </div>
           <div className="flex flex-col items-center">
             <div className="flex items-center justify-center h-16 w-16 rounded-md bg-blue-500 text-white">
               <Calendar className="h-8 w-8" />
             </div>
-            <h3 className="mt-8 text-lg font-medium text-gray-900">Gestion des cycles</h3>
+            <h3 className="mt-8 text-lg font-medium text-gray-900">
+            Cycle management</h3>
             <p className="mt-2 text-base text-gray-500 text-center">
-              Définissez la durée du cycle (1 an ou 6 mois) et enregistrez les coûts d'hébergement.
+              
+Set the cycle duration (1 year or 6 months) and record hosting costs.
             </p>
           </div>
           <div className="flex flex-col items-center">
             <div className="flex items-center justify-center h-16 w-16 rounded-md bg-blue-500 text-white">
               <Bell className="h-8 w-8" />
             </div>
-            <h3 className="mt-8 text-lg font-medium text-gray-900">Rappels automatisés</h3>
+            <h3 className="mt-8 text-lg font-medium text-gray-900">
+            Automated reminders</h3>
             <p className="mt-2 text-base text-gray-500 text-center">
-              Recevez des e-mails de rappel avant l'expiration de l'hébergement pour une gestion proactive.
+            Receive reminder emails before hosting expires for proactive management.
             </p>
           </div>
           <div className="flex flex-col items-center">
             <div className="flex items-center justify-center h-16 w-16 rounded-md bg-blue-500 text-white">
               <Activity className="h-8 w-8" />
             </div>
-            <h3 className="mt-8 text-lg font-medium text-gray-900">Tableau de bord intuitif</h3>
+            <h3 className="mt-8 text-lg font-medium text-gray-900">Intuitive dashboard</h3>
             <p className="mt-2 text-base text-gray-500 text-center">
-              Visualisez facilement la liste des clients, leurs cycles et les prochaines échéances.
+              
+Easily view the list of customers, their cycles and upcoming deadlines.
             </p>
           </div>
         </div>
@@ -167,39 +174,39 @@ const Hero = () => {
       <section id="pricing" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-gray-100">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Tarifs simples et transparents
+          Simple and transparent pricing
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-            Choisissez le plan qui convient le mieux à vos besoins
-          </p>
+          
+Choose the plan that best suits your needs        </p>
         </div>
         <div className="mt-20 grid grid-cols-1 gap-8 md:grid-cols-3">
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="px-6 py-8">
-              <h3 className="text-2xl font-semibold text-gray-900">Débutant</h3>
-              <p className="mt-4 text-gray-500">Parfait pour les petites entreprises</p>
+              <h3 className="text-2xl font-semibold text-gray-900">Beginner</h3>
+              <p className="mt-4 text-gray-500">Perfect for small businesses</p>
               <p className="mt-8">
-                <span className="text-4xl font-extrabold text-gray-900">19€</span>
-                <span className="text-base font-medium text-gray-500">/mois</span>
+                <span className="text-4xl font-extrabold text-gray-900">19$</span>
+                <span className="text-base font-medium text-gray-500">/mounth</span>
               </p>
               <ul className="mt-8 space-y-4">
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Jusqu'à 10 clients</span>
+                  <span>Up to 10 customers</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Rappels par e-mail</span>
+                  <span>Email reminders</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Tableau de bord basique</span>
+                  <span>Basic dashboard</span>
                 </li>
               </ul>
             </div>
             <div className="px-6 py-8 bg-gray-50">
               <button className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
-                Commencer
+                Start
               </button>
             </div>
           </div>
