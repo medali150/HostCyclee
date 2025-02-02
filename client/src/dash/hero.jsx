@@ -15,7 +15,7 @@ const Hero = () => {
 
   const phrases = [
     `
-How are you ${userData?.name || 'visiteur'}?`
+How are you ${userData?.name || 'visiteur'} ?`
   ];
 
   useEffect(() => {
