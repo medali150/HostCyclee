@@ -15,7 +15,7 @@ const Hero = () => {
 
   const phrases = [
     `
-How are you ${userData?.name.toUpperCase()|| 'visiteur'} ?`
+How are you ${userData?.name.toUpperCase() || 'visiteur'} ?`
   ];
 
   useEffect(() => {
