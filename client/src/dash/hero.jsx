@@ -213,66 +213,72 @@ Choose the plan that best suits your needs        </p>
           <div className="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-blue-500">
             <div className="px-6 py-8">
               <h3 className="text-2xl font-semibold text-gray-900">Pro</h3>
-              <p className="mt-4 text-gray-500">Idéal pour les entreprises en croissance</p>
+              <p className="mt-4 text-gray-500">Ideal for growing businesses</p>
               <p className="mt-8">
-                <span className="text-4xl font-extrabold text-gray-900">49€</span>
-                <span className="text-base font-medium text-gray-500">/mois</span>
+                <span className="text-4xl font-extrabold text-gray-900">49$</span>
+                <span className="text-base font-medium text-gray-500">/mounth</span>
               </p>
               <ul className="mt-8 space-y-4">
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Jusqu'à 50 clients</span>
+                  <span>Up to 50 customers</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Rappels par e-mail et SMS</span>
+                  <span>Email and SMS reminders</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Tableau de bord avancé</span>
+                  <span>Advanced dashboard</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Rapports personnalisés</span>
+                  <span>
+                  Custom Reports</span>
                 </li>
               </ul>
             </div>
             <div className="px-6 py-8 bg-gray-50">
               <button className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
-                Commencer
+                Start
               </button>
             </div>
           </div>
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="px-6 py-8">
-              <h3 className="text-2xl font-semibold text-gray-900">Entreprise</h3>
-              <p className="mt-4 text-gray-500">Pour les grandes organisations</p>
+              <h3 className="text-2xl font-semibold text-gray-900">Business</h3>
+              <p className="mt-4 text-gray-500">
+              For large organizations</p>
               <p className="mt-8">
                 <span className="text-4xl font-extrabold text-gray-900mt-8">
-                <span className="text-4xl font-extrabold text-gray-900">99€</span>
-                <span className="text-base font-medium text-gray-500">/mois</span>
+                <span className="text-4xl font-extrabold text-gray-900">99$</span>
+                <span className="text-base font-medium text-gray-500">/mounth</span>
                 </span>
               </p>
               <ul className="mt-8 space-y-4">
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Clients illimités</span>
+                  <span>
+                  Unlimited customers</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Rappels multicanaux</span>
+                  <span>
+                  Multi-channel reminders</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Tableau de bord personnalisable</span>
+                  <span>
+                  Customizable dashboard</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-2" />
-                  <span>API pour intégrations</span>
+                  <span>API for integrations</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="h-5 w-5 text-green-500 mr-2" />
-                  <span>Support prioritaire</span>
+                  <span>
+                  Priority Support</span>
                 </li>
               </ul>
             </div>
