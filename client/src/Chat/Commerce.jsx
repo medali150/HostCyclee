@@ -126,14 +126,14 @@ const Commerce = () => {
                   className="w-full py-3 bg-blue-600 text-white text-lg font-semibold rounded-md hover:bg-blue-700 transition duration-300 ease-in-out disabled:bg-blue-400"
                   disabled={cartLoading}
                 >
-                  {cartLoading ? "Adding..." : "Héberger votre site"}
+                  {cartLoading ? "Adding..." : "Host your site"}
                 </button>):(<button
                   type="button"
                   
                   className="w-full py-3 bg-blue-600 text-white text-lg font-semibold rounded-md hover:bg-blue-700 transition duration-300 ease-in-out disabled:bg-blue-400"
                   disabled={cartLoading}
                 >
-                  {cartLoading ? "Adding..." : "Si vous souhaitez plus d'informations, abonnez-vous avec nous"}
+                  {cartLoading ? "Adding..." : "If you want more information, subscribe with us"}
                 </button>)}
                 {cartError && <div className="text-red-600 mt-2 text-center">{cartError}</div>}
               </div>
