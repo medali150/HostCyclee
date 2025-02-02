@@ -57,20 +57,21 @@
                                                 <Link to="/Package" className="flex items-center p-2 text-gray-900 rounded-lg">
                                                     <FontAwesomeIcon icon={faPlus} className="me-2" />
                                                     
-                                                Ajouter un paquet
+                                                
+                                                  Add a package
                                                 </Link>
                                             </li>
                                             <li>
                                                 <Link to="/showhostingCycleSchema" className="flex items-center p-2 text-gray-900 rounded-lg">
                                                     <FontAwesomeIcon icon={faEye} className="me-2" />
                                                     
-                                                Voir le forfait
+                                                    See the package
                                                 </Link>
                                             </li>
                                             <li>
                                                 <Link to="/Admin" className="flex items-center p-2 text-gray-900 rounded-lg">
                                                     <FontAwesomeIcon icon={faUsers} className="me-2" />
-                                                    Voir les utilisateurs
+                                                    View users
                                                 </Link>
                                             </li>
                                         </ul>
