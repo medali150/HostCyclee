@@ -165,7 +165,7 @@ End date</label>
                             />
                         </div>
                         <div className="form-group">
-                            <label className="block text-lg font-semibold mb-2">Durée</label>
+                            <label className="block text-lg font-semibold mb-2">Duration</label>
                             <select
                                 name="duration"
                                 value={formData.duration}

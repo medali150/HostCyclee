@@ -92,11 +92,11 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100  py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
         <div className="bg-blue-600 px-6 py-4">
           <h3 className="text-2xl font-bold text-white">User Profile</h3>
-          <p className="mt-1 text-blue-200">Information about {user.name} and their activities.</p>
+          <p className="mt-1 text-blue-200">Information about the user and their activities.</p>
         </div>
 
         {error && (
