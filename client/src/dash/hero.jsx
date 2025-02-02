@@ -307,7 +307,7 @@ Choose the plan that best suits your needs        </p>
             <p className="text-gray-600 italic">"
             HostCycle has revolutionized the way we manage our customers' hosting. We never miss a deadline again! HostCycle has revolutionized the way we manage our customers' hosting. We never miss a deadline again!"</p>
             <div className="mt-4 flex items-center">
-              <img src="/placeholder.svg?height=40&width=40" alt="Sophie Martin" className="w-10 h-10 rounded-full mr-4" />
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBT-e9_wwxLqG6SgcGXMVtWxpDBuR8MAJ64Q&s" alt="Sophie Martin" className="w-10 h-10 rounded-full mr-4" />
               <div>
                 <p className="font-semibold">Sophie Martin</p>
                 <p className="text-gray-500 text-sm">Director, WebSolutions</p>
@@ -318,7 +318,7 @@ Choose the plan that best suits your needs        </p>
             <p className="text-gray-600 italic">"
             Using HostCycle, we were able to automate our reminders and significantly reduce the time spent managing renewals."</p>
             <div className="mt-4 flex items-center">
-              <img src="/placeholder.svg?height=40&width=40" alt="Thomas Dubois" className="w-10 h-10 rounded-full mr-4" />
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrtvcjtT2LXqNEw2p89EAVjvxD04sbPegiRQ&s" alt="Thomas Dubois" className="w-10 h-10 rounded-full mr-4" />
               <div>
                 <p className="font-semibold">Thomas Dubois</p>
                 <p className="text-gray-500 text-sm">Fondateur, HostPro</p>
@@ -328,7 +328,7 @@ Choose the plan that best suits your needs        </p>
           <div className="bg-gray-100 rounded-lg p-8">
             <p className="text-gray-600 italic">"The intuitive dashboard allows us to have a clear overview of all our clients and their deadlines. It is an essential tool for our business."</p>
             <div className="mt-4 flex items-center">
-              <img src="/placeholder.svg?height=40&width=40" alt="Marie Leroy" className="w-10 h-10 rounded-full mr-4" />
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSffW4weIsjQDtUgmbVCLZzRx-4GKdBiZDHNQ&s" alt="Marie Leroy" className="w-10 h-10 rounded-full mr-4" />
               <div>
                 <p className="font-semibold">Marie Leroy</p>
                 <p className="text-gray-500 text-sm">Responsable IT, TechHost</p>
