@@ -284,7 +284,7 @@ Choose the plan that best suits your needs        </p>
             </div>
             <div className="px-6 py-8 bg-gray-50">
               <button className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
-                Nous contacter
+              Contact us
               </button>
             </div>
           </div>
@@ -295,25 +295,27 @@ Choose the plan that best suits your needs        </p>
       <section id="testimonials" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-white">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Ce que disent nos clients
+          What our customers say
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-            Découvrez comment HostCycle a aidé d'autres entreprises à simplifier leur gestion d'hébergement
+          Learn how HostCycle has helped other businesses simplify their hosting management Learn how HostCycle has helped other businesses simplify their hosting management
           </p>
         </div>
         <div className="mt-20 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           <div className="bg-gray-100 rounded-lg p-8">
-            <p className="text-gray-600 italic">"HostCycle a révolutionné notre façon de gérer les hébergements de nos clients. Nous ne manquons plus jamais une échéance !"</p>
+            <p className="text-gray-600 italic">"
+            HostCycle has revolutionized the way we manage our customers' hosting. We never miss a deadline again! HostCycle has revolutionized the way we manage our customers' hosting. We never miss a deadline again!"</p>
             <div className="mt-4 flex items-center">
               <img src="/placeholder.svg?height=40&width=40" alt="Sophie Martin" className="w-10 h-10 rounded-full mr-4" />
               <div>
                 <p className="font-semibold">Sophie Martin</p>
-                <p className="text-gray-500 text-sm">Directrice, WebSolutions</p>
+                <p className="text-gray-500 text-sm">Director, WebSolutions</p>
               </div>
             </div>
           </div>
           <div className="bg-gray-100 rounded-lg p-8">
-            <p className="text-gray-600 italic">"Grâce à HostCycle, nous avons pu automatiser nos rappels et réduire considérablement le temps passé à gérer les renouvellements."</p>
+            <p className="text-gray-600 italic">"
+            Using HostCycle, we were able to automate our reminders and significantly reduce the time spent managing renewals."</p>
             <div className="mt-4 flex items-center">
               <img src="/placeholder.svg?height=40&width=40" alt="Thomas Dubois" className="w-10 h-10 rounded-full mr-4" />
               <div>
@@ -323,7 +325,7 @@ Choose the plan that best suits your needs        </p>
             </div>
           </div>
           <div className="bg-gray-100 rounded-lg p-8">
-            <p className="text-gray-600 italic">"Le tableau de bord intuitif nous permet de avoir une vue d'ensemble claire de tous nos clients et de leurs échéances. C'est un outil indispensable pour notre entreprise."</p>
+            <p className="text-gray-600 italic">"The intuitive dashboard allows us to have a clear overview of all our clients and their deadlines. It is an essential tool for our business."</p>
             <div className="mt-4 flex items-center">
               <img src="/placeholder.svg?height=40&width=40" alt="Marie Leroy" className="w-10 h-10 rounded-full mr-4" />
               <div>
@@ -339,17 +341,18 @@ Choose the plan that best suits your needs        </p>
       <section id="contact" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-gray-100">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Contactez-nous
+          Contact us
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-            Vous avez des questions ? Notre équipe est là pour vous aider.
+          
+Do you have any questions? Our team is here to help you.
           </p>
         </div>
         <div className="mt-20 grid grid-cols-1 gap-8 md:grid-cols-2">
           <div>
             <form className="grid grid-cols-1 gap-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nom</label>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
                 <input type="text" name="name" id="name" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
               </div>
               <div>
@@ -362,13 +365,14 @@ Choose the plan that best suits your needs        </p>
               </div>
               <div>
                 <button type="submit" className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
-                  Envoyer
+                  send
                 </button>
               </div>
             </form>
           </div>
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <h3 className="text-xl font-semibold mb-4">Nos coordonnées</h3>
+            <h3 className="text-xl font-semibold mb-4">
+            Our contact details</h3>
             <div className="space-y-4">
               <div className="flex items-center">
                 <Mail className="h-6 w-6 text-blue-500 mr-2" />
@@ -392,27 +396,29 @@ Choose the plan that best suits your needs        </p>
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Société</h3>
+              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Company</h3>
               <ul className="mt-4 space-y-4">
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">À propos</a></li>
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">About</a></li>
                 <li><a href="#" className="text-base text-gray-300 hover:text-white">Blog</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Emplois</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Presse</a></li>
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">
+                Jobs</a></li>
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">Press</a></li>
               </ul>
             </div>
             <div>
               <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Support</h3>
               <ul className="mt-4 space-y-4">
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Centre d'aide</a></li>
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">help center</a></li>
                 <li><a href="#" className="text-base text-gray-300 hover:text-white">Documentation</a></li>
                 <li><a href="#" className="text-base text-gray-300 hover:text-white">Guides</a></li>
                 <li><a href="#" className="text-base text-gray-300 hover:text-white">API Status</a></li>
               </ul>
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Légal</h3>
+              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Legal</h3>
               <ul className="mt-4 space-y-4">
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Confidentialité</a></li>
+                <li><a href="#" className="text-base text-gray-300 hover:text-white">
+                Confidentiality</a></li>
                 <li><a href="#" className="text-base text-gray-300 hover:text-white">Conditions</a></li>
               </ul>
             </div>
