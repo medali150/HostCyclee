@@ -14,7 +14,8 @@ const Hero = () => {
   const [index, setIndex] = useState(0);
 
   const phrases = [
-    `Comment vas-tu ${userData?.name || 'visiteur'}?`
+    `
+How are you ${userData?.name || 'visiteur'}?`
   ];
 
   useEffect(() => {

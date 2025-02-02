@@ -95,19 +95,20 @@ const Package = () => {
                             <li>
                                 <Link to="/Package" className="flex items-center p-2 text-gray-900 rounded-lg">
                                     <FontAwesomeIcon icon={faPlus} className="me-2" />
-                                    Ajouter un paquet
+                                    Add a package
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/showhostingCycleSchema" className="flex items-center p-2 text-gray-900 rounded-lg">
                                     <FontAwesomeIcon icon={faEye} className="me-2" />
-                                    Voir le forfait
-                                </Link>
+
+                                    See the package                                </Link>
                             </li>
                             <li>
                                 <Link to="/Admin" className="flex items-center p-2 text-gray-900 rounded-lg">
                                     <FontAwesomeIcon icon={faUsers} className="me-2" />
-                                    Voir les utilisateurs
+                                    
+View users
                                 </Link>
                             </li>
                         </ul>
@@ -116,10 +117,11 @@ const Package = () => {
 
                 <div className="admin-dashboard">
                     <h1 className="text-center text-3xl font-bold mb-6">
-                    Ajouter un cycle d'hébergement</h1>
+                    Add a hosting cycle</h1>
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="form-group">
-                            <label className="block text-lg font-semibold mb-2">Nom du paquet</label>
+                            <label className="block text-lg font-semibold mb-2">
+                            Package name</label>
                             <input
                                 type="text"
                                 name="namePAckage"
@@ -130,7 +132,7 @@ const Package = () => {
                         </div>
                         <div className="form-group">
                             <label className="block text-lg font-semibold mb-2">
-                            Date de début</label>
+                            Start date</label>
                             <input
                                 type="date"
                                 name="startDate"
@@ -141,7 +143,8 @@ const Package = () => {
                         </div>
                         <div className="form-group">
                             <label className="block text-lg font-semibold mb-2">
-                            Date de fin</label>
+                            
+End date</label>
                             <input
                                 type="date"
                                 name="endDate"
@@ -152,7 +155,7 @@ const Package = () => {
                         </div>
                         <div className="form-group">
                             <label className="block text-lg font-semibold mb-2">
-                            Coût</label>
+                            Cost</label>
                             <input
                                 type="number"
                                 name="cost"
@@ -169,9 +172,10 @@ const Package = () => {
                                 onChange={handleChange}
                                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                             >
-                                <option value="">Sélectionnez la durée</option>
-                                <option value="6 months">6 mois</option>
-                                <option value="1 year">1 an</option>
+                                <option value="">Select duration</option>
+                                <option value="6 months">
+                                6 months</option>
+                                <option value="1 year">1 year</option>
                             </select>
                         </div>
                         <div className="form-group">
@@ -201,7 +205,8 @@ const Package = () => {
                             className="w-full py-3 mt-4 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         >
                             
-Ajouter un cycle d'hébergement
+
+                            Add a hosting cycle
                         </button>
                     </form>
                 </div>

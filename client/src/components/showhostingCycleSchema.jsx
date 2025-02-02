@@ -97,7 +97,7 @@ const HostingCycles = () => {
           </button>
 
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-800">Tous les cycles d'hébergement</h1>
+            <h1 className="text-3xl font-bold text-gray-800">All hosting cycles</h1>
             <div className="mt-4 bg-white rounded-lg shadow p-4 inline-block">
               <div className="flex items-center space-x-4">
                 <FontAwesomeIcon icon={faBox} className="text-blue-500 text-3xl" />
