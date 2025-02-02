@@ -60,7 +60,7 @@ const UserAccount = () => {
           <h1 className="text-3xl font-bold text-gray-900 mb-8">Account Dashboard</h1>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="bg-white shadow rounded-lg p-6">
-              <h2 className="text-xl font-semibold mb-4">Informations utilisateur</h2>
+              <h2 className="text-xl font-semibold mb-4">User information</h2>
               <div className="flex items-center justify-center mb-4">
                 <img 
                   src={userData.image || "https://via.placeholder.com/150"} // Display the user's image or a default placeholder
@@ -80,13 +80,14 @@ const UserAccount = () => {
               />
             </div>
             <div className="bg-white shadow rounded-lg p-6 lg:col-span-2">
-              <h2 className="text-xl font-semibold mb-4">Vos sites Web</h2>
+              <h2 className="text-xl font-semibold mb-4">
+              Your websites</h2>
               {userData.websites && userData.websites.length > 0 ? (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm text-left text-gray-500">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                       <tr>
-                        <th scope="col" className="px-6 py-3">Nom du site Web</th>
+                        <th scope="col" className="px-6 py-3">Website Name</th>
                         <th scope="col" className="px-6 py-3">URL</th>
                         <th scope="col" className="px-6 py-3">Action</th>
                       </tr>
@@ -118,7 +119,7 @@ const UserAccount = () => {
                               className="bg-red-600 text-white hover:bg-red-700 px-3 py-2 rounded flex items-center"
                             >
                               <Trash className="mr-1 h-4 w-4" />
-                              Supprimer
+                              delete
                             </button>
                           </td>
                           {showDescription === index && (
@@ -137,13 +138,15 @@ const UserAccount = () => {
                 <div className="text-center py-8">
                   <Globe className="mx-auto h-12 w-12 text-gray-400" />
                   <h3 className="mt-2 text-sm font-medium text-gray-900">
-                    Aucun site Web
+                    
+No website
                   </h3>
-                  <p className="mt-1 text-sm text-gray-500">Commencez par ajouter votre premier site Web.</p>
+                  <p className="mt-1 text-sm text-gray-500">
+                  Start by adding your first website.</p>
                   <div className="mt-6">
                     <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
                       <Globe className="mr-2 h-4 w-4" />
-                      Ajouter un site Web
+                      Add a website
                     </button>
                   </div>
                 </div>
