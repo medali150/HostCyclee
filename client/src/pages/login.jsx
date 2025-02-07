@@ -11,11 +11,18 @@ const Login = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [Contry, setContry] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState(''); // New state for confirm password
+  const [country, setCountry] = useState('');
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try {
+      // Validate passwords match in sign up
+      if (state === 'sign up' && password !== confirmPassword) {
+        toast.error("Passwords do not match");
+        return;
+      }
+
       axios.defaults.withCredentials = true; // Ensure cookies are sent with requests
 
       if (state === 'sign up') {
@@ -23,13 +30,13 @@ const Login = () => {
           name,
           email,
           password,
-          Contry,
+          country,
         });
 
         if (data.success) {
           setIsLogin(true);
           getUserData();
-          setName(''); setEmail(''); setPassword(''); setContry(''); // Reset form
+          setName(''); setEmail(''); setPassword(''); setConfirmPassword(''); setCountry(''); // Reset form
           navigate('/Home');
         } else {
           toast.error(data.message);
@@ -110,12 +117,28 @@ const Login = () => {
               </div>
               {state === 'sign up' && (
                 <div className="relative">
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-cyan-500"
+                    placeholder="Confirm Password"
+                  />
+                  <label
+                    className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                  >
+                    Confirm Password
+                  </label>
+                </div>
+              )}
+              {state === 'sign up' && (
+                <div className="relative">
                   <select
-                    value={Contry}
-                    onChange={(e) => setContry(e.target.value)}
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
                     className="w-full border-b-2 border-gray-300 focus:outline-none focus:border-cyan-500"
                   >
-                    <option value="">Select Pays</option>
+                    <option value="">Select Country</option>
                     <option value="Tunisia">Tunisia</option>
                     <option value="Morocco">Morocco</option>
                     <option value="Algeria">Algeria</option>
@@ -133,7 +156,7 @@ const Login = () => {
             <div className="text-center mt-4">
               {state === 'sign up' ? (
                 <p>
-                 Already have an account?{' '}
+                  Already have an account?{' '}
                   <span
                     onClick={() => setState('login')}
                     className="text-cyan-500 cursor-pointer"
@@ -143,7 +166,7 @@ const Login = () => {
                 </p>
               ) : (
                 <p>
-                 Don't have an account?{' '}
+                  Don't have an account?{' '}
                   <span
                     onClick={() => setState('sign up')}
                     className="text-cyan-500 cursor-pointer"
