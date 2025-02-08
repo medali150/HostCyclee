@@ -13,6 +13,8 @@ const Admin = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 5; // Number of users to show per page
   const navigate = useNavigate();
 
   const fetchUsers = async () => {
@@ -49,6 +51,7 @@ const Admin = () => {
       user.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredUsers(filtered);
+    setCurrentPage(1); // Reset to first page on new search
   }, [searchTerm, users]);
 
   const handleViewDetails = (userId) => {
@@ -110,6 +113,14 @@ const Admin = () => {
       }
     }
   };
+
+  // Determine the current users for the current page
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+  
+  // Total number of pages
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
@@ -186,7 +197,7 @@ const Admin = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredUsers.map(({ id, name, email, isAdmin }) => (
+                {currentUsers.map(({ id, name, email, isAdmin }) => (
                   <tr key={id} className="bg-white border-b hover:bg-gray-50">
                     <td className="w-4 p-4">
                       <div className="flex items-center">
@@ -208,6 +219,27 @@ const Admin = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Pagination Controls */}
+          <div className="flex justify-between items-center mt-4">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="p-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
+            >
+              Previous
+            </button>
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="p-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
