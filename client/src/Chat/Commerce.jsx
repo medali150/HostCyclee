@@ -18,23 +18,11 @@ const Commerce = () => {
     description: "",
   });
 
-  const { userData } = useContext(AppContent);
+  const { userData, setIsLogin, setUserData } = useContext(AppContent);
 
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-
-  // State to handle checkbox filters
-  const [selectedCategories, setSelectedCategories] = useState([]);
-
-  // Define your custom categories here
-  const categories = [
-    { name: "Shared Hosting", count: 45 },
-    { name: "VPS Hosting", count: 60 },
-    { name: "Dedicated Hosting", count: 30 },
-    { name: "Cloud Hosting", count: 50 },
-    { name: "WordPress Hosting", count: 70 },
-  ];
 
   useEffect(() => {
     const fetchHostingCycles = async () => {
@@ -111,29 +99,18 @@ const Commerce = () => {
     }
   };
 
-  // Filter function
   const filteredHostingCycles = hostingCycles.filter((cycle) => {
     const price = parseFloat(cycle.cost);
 
     const minPriceFilter = minPrice === "" || price >= parseFloat(minPrice);
     const maxPriceFilter = maxPrice === "" || price <= parseFloat(maxPrice);
+
     const searchTermFilter =
       searchTerm === "" ||
       cycle.namePAckage.toLowerCase().includes(searchTerm.toLowerCase());
-    const categoryFilter =
-      selectedCategories.length === 0 ||
-      selectedCategories.includes(cycle.category); // Assuming each cycle has a `category` attribute
 
-    return minPriceFilter && maxPriceFilter && searchTermFilter && categoryFilter;
+    return minPriceFilter && maxPriceFilter && searchTermFilter;
   });
-
-  const handleCheckboxChange = (category) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
-    );
-  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -141,62 +118,41 @@ const Commerce = () => {
       <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">
         Our offers
       </h1>
-
-      <div className="flex items-center justify-center p-4">
-        <button
-          id="dropdownDefault"
-          onClick={() => document.getElementById("dropdown").classList.toggle("hidden")}
-          className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center"
-          type="button"
-        >
-          Filter by category
-          <svg
-            className="w-4 h-4 ml-2"
-            aria-hidden="true"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M19 9l-7 7-7-7"
-            ></path>
-          </svg>
-        </button>
-
-        {/* Dropdown menu */}
-        <div
-          id="dropdown"
-          className="z-10 hidden w-56 p-3 bg-white rounded-lg shadow"
-        >
-          <h6 className="mb-3 text-sm font-medium text-gray-900">
-            Category
-          </h6>
-          <ul className="space-y-2 text-sm">
-            {categories.map((category) => (
-              <li className="flex items-center" key={category.name}>
-                <input
-                  type="checkbox"
-                  id={category.name}
-                  value={category.name}
-                  checked={selectedCategories.includes(category.name)}
-                  onChange={() => handleCheckboxChange(category.name)}
-                  className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
-                />
-
-                <label htmlFor={category.name} className="ml-2 text-sm font-medium text-gray-900">
-                  {category.name} ({category.count})
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
       <div className="container mx-auto px-4 py-8">
+        <div>
+          <div className="flex items-center space-x-4 mb-4">
+            <label htmlFor="minPrice">Min Price:</label>
+            <input
+              type="number"
+              id="minPrice"
+              placeholder="Min"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              className="border rounded py-2 px-3"
+            />
+            <label htmlFor="maxPrice">Max Price:</label>
+            <input
+              type="number"
+              id="maxPrice"
+              placeholder="Max"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              className="border rounded py-2 px-3"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="searchTerm">Search Package Name:</label>
+            <input
+              type="text"
+              id="searchTerm"
+              placeholder="Enter package name"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full border rounded py-2 px-3"
+            />
+          </div>
+        </div>
+
         {loading && (
           <div className="text-center text-xl text-gray-600">Loading...</div>
         )}
