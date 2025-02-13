@@ -27,6 +27,15 @@ const Commerce = () => {
   // State to handle checkbox filters
   const [selectedCategories, setSelectedCategories] = useState([]);
 
+  // Define your custom categories here
+  const categories = [
+    { name: "Shared Hosting", count: 45 },
+    { name: "VPS Hosting", count: 60 },
+    { name: "Dedicated Hosting", count: 30 },
+    { name: "Cloud Hosting", count: 50 },
+    { name: "WordPress Hosting", count: 70 },
+  ];
+
   useEffect(() => {
     const fetchHostingCycles = async () => {
       try {
@@ -167,19 +176,19 @@ const Commerce = () => {
             Category
           </h6>
           <ul className="space-y-2 text-sm">
-            {["Apple", "Fitbit", "Dell", "Asus", "Logitech", "MSI", "Bosch", "Sony", "Samsung", "Canon", "Microsoft", "Razor"].map((category) => (
-              <li className="flex items-center" key={category}>
+            {categories.map((category) => (
+              <li className="flex items-center" key={category.name}>
                 <input
                   type="checkbox"
-                  id={category}
-                  value={category}
-                  checked={selectedCategories.includes(category)}
-                  onChange={() => handleCheckboxChange(category)}
+                  id={category.name}
+                  value={category.name}
+                  checked={selectedCategories.includes(category.name)}
+                  onChange={() => handleCheckboxChange(category.name)}
                   className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
                 />
 
-                <label htmlFor={category} className="ml-2 text-sm font-medium text-gray-900">
-                  {category} ({Math.floor(Math.random() * 100)}) {/* Placeholder for counts */}
+                <label htmlFor={category.name} className="ml-2 text-sm font-medium text-gray-900">
+                  {category.name} ({category.count})
                 </label>
               </li>
             ))}
