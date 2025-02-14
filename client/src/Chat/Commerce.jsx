@@ -58,7 +58,7 @@ const Commerce = () => {
 
             try {
                 let targetCurrency;
-                switch (userData.country) {
+                switch (userData.Contry) {
                     case "Tunisia":
                         targetCurrency = "TND";
                         break;
