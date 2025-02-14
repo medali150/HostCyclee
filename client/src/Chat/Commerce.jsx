@@ -175,6 +175,7 @@ const Commerce = () => {
                             onChange={(e) => setMinPrice(e.target.value)}
                             className="border rounded py-2 px-3"
                         />
+                        
                         <label htmlFor="maxPrice">Max Price:</label>
                         <input
                             type="number"
