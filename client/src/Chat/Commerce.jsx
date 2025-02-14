@@ -80,7 +80,7 @@ const Commerce = () => {
                 }
 
                 // *** CRITICAL: Check if the API key is available ***
-                const apiKey = process.env.NEXT_PUBLIC_CURRENCY_FREAKS_API_KEY; // Ensure you've set this in your environment variables.
+                const apiKey = "423a4b1835674f31a92fbf097294afda"; // Ensure you've set this in your environment variables.
                 if (!apiKey) {
                     console.error("API key not found in environment variables!");
                     setError("API key not found. Currency conversion may not work.");
