@@ -79,14 +79,32 @@ const Commerce = () => {
             targetCurrency = "USD";
             break;
         }
-          console.log("Target Currency:", targetCurrency); // Check targetCurrency
+        console.log("Target Currency:", targetCurrency); // Check targetCurrency
+
+        const apiKey = process.env.NEXT_PUBLIC_CURRENCY_FREAKS_API_KEY; // Access the API key from environment variables.  Add NEXT_PUBLIC_ prefix for client side rendering
+        if (!apiKey) {
+          console.error("API key not found in environment variables!");
+          setError("API key not found. Currency conversion may not work.");
+          setExchangeRate(1);
+          setCurrency("USD");
+          return; // Exit the function if the API key is missing
+        }
+
         const response = await axios.get(
-          `https://api.currencyfreaks.com/v2.0/rates/latest?apikey=423a4b1835674f31a92fbf097294afda&base=USD&symbols=${targetCurrency}&format=json`
+          `https://api.currencyfreaks.com/v2.0/rates/latest?apikey=${apiKey}&base=USD&symbols=${targetCurrency}&format=json`
         );
 
         console.log("API Response:", response.data);
         const newExchangeRate = response.data.rates[targetCurrency];
         console.log("Exchange Rate:", newExchangeRate);
+
+        if (newExchangeRate === undefined) {
+            console.error("Exchange rate is undefined.  Check API response and target currency.");
+            setError("Could not retrieve exchange rate for " + targetCurrency);
+            setExchangeRate(1);
+            setCurrency("USD");
+            return;
+        }
 
         setExchangeRate(newExchangeRate);
         setCurrency(targetCurrency);
@@ -99,7 +117,6 @@ const Commerce = () => {
     };
 
     fetchExchangeRate();
-
   }, [userData]); //  depend on userData, so it updates when userData changes
 
   const handleAddToCart = (hostingCycleId) => {
