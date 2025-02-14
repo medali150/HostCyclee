@@ -185,7 +185,7 @@ const Commerce = () => {
                             className="border rounded py-2 px-3"
                         />
                     </div>
-                    <div className="md:w-1/4 ">
+                    <div className="md:w-1/4 h-56 grid-cols-3 content-start gap-4">
                         <label htmlFor="searchTerm ">Search Package Name:</label>
                         <input
                             type="text"
