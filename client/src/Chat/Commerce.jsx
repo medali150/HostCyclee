@@ -99,11 +99,13 @@ const Commerce = () => {
         console.log("Exchange Rate:", newExchangeRate);
 
         if (newExchangeRate === undefined) {
-            console.error("Exchange rate is undefined.  Check API response and target currency.");
-            setError("Could not retrieve exchange rate for " + targetCurrency);
-            setExchangeRate(1);
-            setCurrency("USD");
-            return;
+          console.error(
+            "Exchange rate is undefined.  Check API response and target currency."
+          );
+          setError("Could not retrieve exchange rate for " + targetCurrency);
+          setExchangeRate(1);
+          setCurrency("USD");
+          return;
         }
 
         setExchangeRate(newExchangeRate);
@@ -192,7 +194,6 @@ const Commerce = () => {
         Our offers
       </h1>
       <div className="container mx-auto px-4 py-8">
-
         <div>
           <div className="flex items-center space-x-4 mb-4">
             <label htmlFor="minPrice">Min Price:</label>
@@ -236,11 +237,15 @@ const Commerce = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredHostingCycles.map((cycle) => {
-            const cost = parseFloat(cycle.cost);
-            const originalCost = parseFloat(cycle.originalCost);
+            const cost = parseFloat(cycle.cost || 0); // Use 0 as default
+            const originalCost = parseFloat(cycle.originalCost || 0); // Use 0 as default
 
             if (isNaN(cost) || isNaN(originalCost)) {
-              console.error("Invalid cost or originalCost:", cycle.cost, cycle.originalCost);
+              console.error(
+                "Invalid cost or originalCost:",
+                cycle.cost,
+                cycle.originalCost
+              );
               return null; // Or handle the error as appropriate (e.g., display a default value)
             }
 
