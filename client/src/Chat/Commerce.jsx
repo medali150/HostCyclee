@@ -81,7 +81,7 @@ const Commerce = () => {
         }
         console.log("Target Currency:", targetCurrency); // Check targetCurrency
 
-        const apiKey = process.env.NEXT_PUBLIC_CURRENCY_FREAKS_API_KEY; // Access the API key from environment variables.  Add NEXT_PUBLIC_ prefix for client side rendering
+        const apiKey = "423a4b1835674f31a92fbf097294afda"; // Access the API key from environment variables.  Add NEXT_PUBLIC_ prefix for client side rendering
         if (!apiKey) {
           console.error("API key not found in environment variables!");
           setError("API key not found. Currency conversion may not work.");
@@ -91,7 +91,7 @@ const Commerce = () => {
         }
 
         const response = await axios.get(
-          `https://api.currencyfreaks.com/v2.0/rates/latest?apikey=423a4b1835674f31a92fbf097294afda&base=USD&symbols=${targetCurrency}&format=json`
+          `https://api.currencyfreaks.com/v2.0/rates/latest?apikey=${apiKey}&base=USD&symbols=${targetCurrency}&format=json`
         );
 
         console.log("API Response:", response.data);
