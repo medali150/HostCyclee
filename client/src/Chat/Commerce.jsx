@@ -165,7 +165,8 @@ const Commerce = () => {
             <div className="container mx-auto px-4 py-8">
                 <div>
                     <div className="flex items-center space-x-4 mb-4">
-                        <label htmlFor="minPrice">Min Price:</label>
+                      
+                        <la bel htmlFor="minPrice">Min Price:</la>
                         <input
                             type="number"
                             id="minPrice"
@@ -184,8 +185,8 @@ const Commerce = () => {
                             className="border rounded py-2 px-3"
                         />
                     </div>
-                    <div className="mb-4">
-                        <label htmlFor="searchTerm">Search Package Name:</label>
+                    <div className="md:w-1/4 ">
+                        <label htmlFor="searchTerm ">Search Package Name:</label>
                         <input
                             type="text"
                             id="searchTerm"
