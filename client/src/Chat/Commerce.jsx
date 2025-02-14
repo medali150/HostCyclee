@@ -48,73 +48,46 @@ const Commerce = () => {
     }, []);
 
     useEffect(() => {
-        const fetchExchangeRate = async () => {
-            if (!userData || !userData._id) {
-                // If no user data or country, default to USD
-                setCurrency("USD");
-                setExchangeRate(1);
-                return;
+        // Manually set exchange rate based on user's country
+        if (userData && userData.country) {
+            let targetCurrency = "USD";
+            let newExchangeRate = 1;
+
+            switch (userData.country) {
+                case "Tunisia":
+                    targetCurrency = "TND";
+                    newExchangeRate = 3.1; // Example rate - UPDATE THIS!
+                    break;
+                case "Morocco":
+                    targetCurrency = "MAD";
+                    newExchangeRate = 10.1; // Example rate - UPDATE THIS!
+                    break;
+                case "Algeria":
+                    targetCurrency = "DZD";
+                    newExchangeRate = 135.5; // Example rate - UPDATE THIS!
+                    break;
+                case "Egypt":
+                    targetCurrency = "EGP";
+                    newExchangeRate = 30.9; // Example rate - UPDATE THIS!
+                    break;
+                case "Libya":
+                    targetCurrency = "LYD";
+                    newExchangeRate = 4.8; // Example rate - UPDATE THIS!
+                    break;
+                default:
+                    targetCurrency = "USD";
+                    newExchangeRate = 1;
+                    break;
             }
 
-            try {
-                let targetCurrency;
-                switch (userData.Contry) {
-                    case "Tunisia":
-                        targetCurrency = "TND";
-                        break;
-                    case "Morocco":
-                        targetCurrency = "MAD";
-                        break;
-                    case "Algeria":
-                        targetCurrency = "DZD";
-                        break;
-                    case "Egypt":
-                        targetCurrency = "EGP";
-                        break;
-                    case "Libya":
-                        targetCurrency = "LYD";
-                        break;
-                    default:
-                        targetCurrency = "USD";
-                        break;
-                }
-
-                // *** CRITICAL: Check if the API key is available ***
-                const apiKey = "423a4b1835674f31a92fbf097294afda"; // Ensure you've set this in your environment variables.
-                if (!apiKey) {
-                    console.error("API key not found in environment variables!");
-                    setError("API key not found. Currency conversion may not work.");
-                    setExchangeRate(1);
-                    setCurrency("USD");
-                    return;
-                }
-
-                // ** DEVELOPMENT ONLY: Using CORS Anywhere **
-                const corsAnywhereUrl = "https://cors-anywhere.herokuapp.com/";
-                const apiUrl = `https://api.currencyfreaks.com/v2.0/rates/latest?apikey=${apiKey}&base=USD&symbols=${targetCurrency}&format=json`;
-
-                const response = await axios.get(corsAnywhereUrl + apiUrl);
-
-                // Log the API response for debugging
-                console.log("API Response:", response.data);
-
-                const newExchangeRate = parseFloat(response.data.rates[targetCurrency]);
-                // Check if the newExchangeRate was retrieved correctly
-                if (isNaN(newExchangeRate)) {
-                    throw new Error(`No exchange rate found for ${targetCurrency}`);
-                }
-
-                setExchangeRate(newExchangeRate);
-                setCurrency(targetCurrency);
-            } catch (error) {
-                console.error("Error fetching exchange rate:", error);
-                setExchangeRate(1); // Fallback to 1 if the API fails
-                setCurrency("USD");
-                setError(`Failed to fetch exchange rate. Using USD. Error: ${error.message}`);
-            }
-        };
-
-        fetchExchangeRate();
+            setCurrency(targetCurrency);
+            setExchangeRate(newExchangeRate);
+            setError(""); // Clear any previous errors
+        } else {
+            // No user data, default to USD
+            setCurrency("USD");
+            setExchangeRate(1);
+        }
     }, [userData]);
 
     const handleAddToCart = (hostingCycleId) => {
