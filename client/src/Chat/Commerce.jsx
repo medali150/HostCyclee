@@ -49,11 +49,11 @@ const Commerce = () => {
 
     useEffect(() => {
         // Manually set exchange rate based on user's country
-        if (userData && userData.country) {
+        if (userData && userData.Contry) {
             let targetCurrency = "USD";
             let newExchangeRate = 1;
 
-            switch (userData.country) {
+            switch (userData.Contry) {
                 case "Tunisia":
                     targetCurrency = "TND";
                     newExchangeRate = 3.1; // Example rate - UPDATE THIS!
