@@ -79,17 +79,22 @@ const Commerce = () => {
             targetCurrency = "USD";
             break;
         }
-
+          console.log("Target Currency:", targetCurrency); // Check targetCurrency
         const response = await axios.get(
           `https://api.currencyfreaks.com/v2.0/rates/latest?apikey=423a4b1835674f31a92fbf097294afda&base=USD&symbols=${targetCurrency}&format=json`
         );
 
-        setExchangeRate(response.data.rates[targetCurrency]);
+        console.log("API Response:", response.data);
+        const newExchangeRate = response.data.rates[targetCurrency];
+        console.log("Exchange Rate:", newExchangeRate);
+
+        setExchangeRate(newExchangeRate);
         setCurrency(targetCurrency);
       } catch (error) {
         console.error("Error fetching exchange rate:", error);
         setExchangeRate(1); // Fallback to 1 if the API fails
         setCurrency("USD");
+        setError("Failed to fetch exchange rate. Using USD.");
       }
     };
 
@@ -214,8 +219,16 @@ const Commerce = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredHostingCycles.map((cycle) => {
-            const convertedCost = (cycle.cost * exchangeRate).toFixed(2);
-            const convertedOriginalCost = (cycle.originalCost * exchangeRate).toFixed(2);
+            const cost = parseFloat(cycle.cost);
+            const originalCost = parseFloat(cycle.originalCost);
+
+            if (isNaN(cost) || isNaN(originalCost)) {
+              console.error("Invalid cost or originalCost:", cycle.cost, cycle.originalCost);
+              return null; // Or handle the error as appropriate (e.g., display a default value)
+            }
+
+            const convertedCost = (cost * exchangeRate).toFixed(2);
+            const convertedOriginalCost = (originalCost * exchangeRate).toFixed(2);
 
             return (
               <div
