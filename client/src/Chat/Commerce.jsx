@@ -91,7 +91,7 @@ const Commerce = () => {
         }
 
         const response = await axios.get(
-          `https://api.currencyfreaks.com/v2.0/rates/latest?apikey=${apiKey}&base=USD&symbols=${targetCurrency}&format=json`
+          `https://api.currencyfreaks.com/v2.0/rates/latest?apikey=423a4b1835674f31a92fbf097294afda&base=USD&symbols=${targetCurrency}&format=json`
         );
 
         console.log("API Response:", response.data);
