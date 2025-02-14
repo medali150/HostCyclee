@@ -10,7 +10,8 @@ const Commerce = () => {
   const [error, setError] = useState("");
   const [cartLoading, setCartLoading] = useState(false);
   const [cartError, setCartError] = useState("");
-
+  const [currency, setCurrency] = useState("USD"); // Default currency
+  const [exchangeRate, setExchangeRate] = useState(1); // Default exchange rate
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     namewebsite: "",
@@ -45,6 +46,56 @@ const Commerce = () => {
     };
     fetchHostingCycles();
   }, []);
+
+  useEffect(() => {
+    // Fetch exchange rate when userData.country changes
+    const fetchExchangeRate = async () => {
+      if (!userData || !userData.country) {
+        // If no user data or country, default to USD
+        setCurrency("USD");
+        setExchangeRate(1);
+        return;
+      }
+
+      try {
+        let targetCurrency;
+        switch (userData.country) {
+          case "Tunisia":
+            targetCurrency = "TND";
+            break;
+          case "Morocco":
+            targetCurrency = "MAD";
+            break;
+          case "Algeria":
+            targetCurrency = "DZD";
+            break;
+          case "Egypt":
+            targetCurrency = "EGP";
+            break;
+          case "Libya":
+            targetCurrency = "LYD";
+            break;
+          default:
+            targetCurrency = "USD";
+            break;
+        }
+
+        const response = await axios.get(
+          `https://api.currencyfreaks.com/v2.0/rates/latest?apikey=423a4b1835674f31a92fbf097294afda&base=USD&symbols=${targetCurrency}&format=json`
+        );
+
+        setExchangeRate(response.data.rates[targetCurrency]);
+        setCurrency(targetCurrency);
+      } catch (error) {
+        console.error("Error fetching exchange rate:", error);
+        setExchangeRate(1); // Fallback to 1 if the API fails
+        setCurrency("USD");
+      }
+    };
+
+    fetchExchangeRate();
+
+  }, [userData]); //  depend on userData, so it updates when userData changes
 
   const handleAddToCart = (hostingCycleId) => {
     if (!userData || !userData._id) {
@@ -119,6 +170,7 @@ const Commerce = () => {
         Our offers
       </h1>
       <div className="container mx-auto px-4 py-8">
+
         <div>
           <div className="flex items-center space-x-4 mb-4">
             <label htmlFor="minPrice">Min Price:</label>
@@ -161,55 +213,60 @@ const Commerce = () => {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredHostingCycles.map((cycle) => (
-            <div
-              key={cycle._id}
-              className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105"
-            >
-              <div className="p-6">
-                <img
-                  src={cycle.image || "/placeholder.svg"}
-                  alt={cycle.namePAckage}
-                  className="w-full h-48 object-contain mb-4"
-                />
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">
-                  {cycle.namePAckage}
-                </h3>
-                <p className="text-gray-600 mb-4">{cycle.description}</p>
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-3xl font-bold text-green-600">
-                    ${cycle.cost}
-                  </span>
-                  <span className="text-xl text-gray-500 line-through">
-                    ${cycle.originalCost}
-                  </span>
+          {filteredHostingCycles.map((cycle) => {
+            const convertedCost = (cycle.cost * exchangeRate).toFixed(2);
+            const convertedOriginalCost = (cycle.originalCost * exchangeRate).toFixed(2);
+
+            return (
+              <div
+                key={cycle._id}
+                className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105"
+              >
+                <div className="p-6">
+                  <img
+                    src={cycle.image || "/placeholder.svg"}
+                    alt={cycle.namePAckage}
+                    className="w-full h-48 object-contain mb-4"
+                  />
+                  <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                    {cycle.namePAckage}
+                  </h3>
+                  <p className="text-gray-600 mb-4">{cycle.description}</p>
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-3xl font-bold text-green-600">
+                      {currency} {convertedCost}
+                    </span>
+                    <span className="text-xl text-gray-500 line-through">
+                      {currency} {convertedOriginalCost}
+                    </span>
+                  </div>
+                  {userData ? (
+                    <button
+                      type="button"
+                      onClick={() => handleAddToCart(cycle._id)}
+                      className="w-full py-3 bg-blue-600 text-white text-lg font-semibold rounded-md hover:bg-blue-700 transition duration-300 ease-in-out disabled:bg-blue-400"
+                      disabled={cartLoading}
+                    >
+                      {cartLoading ? "Adding..." : "Host your site"}
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="w-full py-3 bg-blue-600 text-white text-lg font-semibold rounded-md hover:bg-blue-700 transition duration-300 ease-in-out disabled:bg-blue-400"
+                      disabled={cartLoading}
+                    >
+                      {cartLoading
+                        ? "Adding..."
+                        : "If you want more information, subscribe with us"}
+                    </button>
+                  )}
+                  {cartError && (
+                    <div className="text-red-600 mt-2 text-center">{cartError}</div>
+                  )}
                 </div>
-                {userData ? (
-                  <button
-                    type="button"
-                    onClick={() => handleAddToCart(cycle._id)}
-                    className="w-full py-3 bg-blue-600 text-white text-lg font-semibold rounded-md hover:bg-blue-700 transition duration-300 ease-in-out disabled:bg-blue-400"
-                    disabled={cartLoading}
-                  >
-                    {cartLoading ? "Adding..." : "Host your site"}
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="w-full py-3 bg-blue-600 text-white text-lg font-semibold rounded-md hover:bg-blue-700 transition duration-300 ease-in-out disabled:bg-blue-400"
-                    disabled={cartLoading}
-                  >
-                    {cartLoading
-                      ? "Adding..."
-                      : "If you want more information, subscribe with us"}
-                  </button>
-                )}
-                {cartError && (
-                  <div className="text-red-600 mt-2 text-center">{cartError}</div>
-                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {showForm && (
