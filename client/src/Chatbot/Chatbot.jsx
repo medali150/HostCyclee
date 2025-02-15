@@ -1,10 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import axios from "axios";
 import Aymen from "../dash/header"; // Assuming this is the correct path
+import { AppContent } from '../context/Appcontext';
 
 const Chatbot = () => {
+  const { userData } = useContext(AppContent);
   const [messages, setMessages] = useState([
-    { text: "Welcome! How can I assist you today?", sender: "bot" },
+    { text: `Welcome! ${userData?.name || 'visitor'} How can I assist you today?`, sender: "bot" },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -14,20 +16,22 @@ const Chatbot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(scrollToBottom, [messages]); // Scroll to bottom when messages change
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]); // Scroll to bottom when messages change
 
   const handleSend = async () => {
     if (!input.trim()) {
-      console.log("Input is empty.  Not sending.");  // Debugging: Don't send empty messages
+      console.log("Input is empty. Not sending.");
       return;
     }
 
     const userMessage = { text: input, sender: "user" };
-    const newMessages = [...messages, userMessage]; // Add user message immediately
+    const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput("");
     setIsLoading(true);
-    console.log("Sending message:", input); // Debugging: Log what we're sending
+    console.log("Sending message:", input);
 
     try {
       let botResponse = "";
@@ -40,26 +44,26 @@ const Chatbot = () => {
       } else if (input.toLowerCase().includes("features")) {
         botResponse = "HostCycle offers features like client registration, hosting cycle management, automated reminders, and a user-friendly dashboard.";
       } else {
-        console.log("Sending API request..."); // Debugging:  Show that we're sending to API
+        console.log("Sending API request...");
         const response = await axios.post(
           "https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/Chat", // Use relative path (or environment variable)
           { message: input },
           {
-            withCredentials: true, // Keep this if needed for authentication
+            withCredentials: true,
             headers: {
               "Content-Type": "application/json",
             },
           }
         );
-        console.log("API Response:", response); // Debugging: Log the entire response
+        console.log("API Response:", response);
         botResponse = response.data.reply;
       }
       const botMessage = { text: botResponse, sender: "bot" };
-      setMessages([...newMessages, botMessage]);  // Add bot response
+      setMessages([...newMessages, botMessage]);
     } catch (error) {
       console.error("Error:", error);
       const errorMessage = { text: "Error: Unable to get response", sender: "bot" };
-      setMessages([...newMessages, errorMessage]); // Show the error message to user
+      setMessages([...newMessages, errorMessage]);
     } finally {
       setIsLoading(false);
     }
