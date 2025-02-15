@@ -10,6 +10,11 @@ const Chatbot = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  
+  const [userData, setUserData] = useState({
+    name: "",  // Store the user's name or other relevant info
+    previousMessages: []  // Optionally, keep track of all previous user messages
+  });
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -33,11 +38,15 @@ const Chatbot = () => {
     let botResponse = "";
 
     try {
-      // Check if the input includes a specific request that could reference past messages
-      if (input.toLowerCase().includes("what did i say") || input.toLowerCase().includes("what's the history")) {
-        const conversationHistory = messages.map((msg) => `${msg.sender === 'user' ? 'You' : 'Bot'}: ${msg.text}`).join("\n");
-        botResponse = `Here's what you've said so far:\n${conversationHistory}`;
+      // Automatically store user's name if mentioned
+      if (input.toLowerCase().includes("my name is")) {
+        const name = input.replace(/.*my name is (.*)/i, "$1").trim();
+        setUserData((prevState) => ({ ...prevState, name }));
+        botResponse = `Got it, your name is ${name}!`;
+      } else if (userData.name && input.toLowerCase().includes("what is my name")) {
+        botResponse = `Your name is ${userData.name}.`;
       } else {
+        // Simple fallback or API request if no special conditions met
         console.log("Sending API request...");
         const response = await axios.post(
           "https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/Chat", 
