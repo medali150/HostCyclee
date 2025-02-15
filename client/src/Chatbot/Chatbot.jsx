@@ -6,7 +6,7 @@ import { AppContent } from '../context/Appcontext';
 const Chatbot = () => {
   const { userData } = useContext(AppContent);
   const [messages, setMessages] = useState([
-    { text: `Welcome! ${userData?.name || 'visitor'} How can I assist you today?`, sender: "bot" },
+    { text: `Welcome! ${userData?.name|| 'visiteur'}  How can I assist you today?`, sender: "bot" },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
