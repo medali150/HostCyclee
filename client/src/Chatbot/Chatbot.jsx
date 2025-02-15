@@ -35,7 +35,7 @@ const Chatbot = () => {
         botResponse = "HostCycle offers features like client registration, hosting cycle management, automated reminders, and a user-friendly dashboard.";
       } else {
         const response = await axios.post(
-          "/api/auth/Chat", // Use relative path (or environment variable)
+          "https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/Chat", // Use relative path (or environment variable)
           { message: input },
           {
             withCredentials: true, // Keep this if needed for authentication
