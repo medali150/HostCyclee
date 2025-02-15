@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import Aymen from "../dash/header";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([
@@ -28,6 +27,10 @@ const Chatbot = () => {
       let botResponse = "";
       if (input.toLowerCase().includes("your name")) {
         botResponse = "My name is HostCycleChat.";
+      } else if (input.toLowerCase().includes("hostcycle")) {
+        botResponse = "HostCycle is a platform for managing hosting cycles, centralizing client information, and ensuring proactive tracking of hosting expiration dates.";
+      } else if (input.toLowerCase().includes("features")) {
+        botResponse = "HostCycle offers features like client registration, hosting cycle management, automated reminders, and a user-friendly dashboard.";
       } else {
         const response = await axios.post(
           "http://localhost:4000/api/auth/Chat",
@@ -52,8 +55,6 @@ const Chatbot = () => {
   };
 
   return (
-    <>
-    <Aymen/>
     <div className="flex flex-col h-screen bg-gray-100">
       <div className="flex-1 overflow-hidden py-4 px-6">
         <div className="max-w-3xl mx-auto">
@@ -107,7 +108,6 @@ const Chatbot = () => {
         </div>
       </div>
     </div>
-    </>
   );
 };
 
