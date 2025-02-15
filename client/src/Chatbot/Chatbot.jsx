@@ -42,12 +42,21 @@ const Chatbot = () => {
       if (input.toLowerCase().includes("tell me what i've said")) {
         botResponse = `You've said: ${newMemory.join(", ")}`;
       } else if (input.toLowerCase().includes("what did i say about")) {
-        // User could ask about a specific topic they've mentioned
-        const query = input.replace("what did i say about", "").trim();
-        const relevantMessages = newMemory.filter(msg => msg.toLowerCase().includes(query));
-        botResponse = relevantMessages.length
-          ? `You mentioned: ${relevantMessages.join(", ")}`
-          : "I don't remember you mentioning that.";
+        // Extract the topic from the query, after "what did i say about"
+        const query = input.replace("what did i say about", "").trim().toLowerCase();
+
+        if (query) {
+          // Filter memory to find messages containing the query keyword
+          const relevantMessages = newMemory.filter(msg => msg.toLowerCase().includes(query));
+
+          if (relevantMessages.length > 0) {
+            botResponse = `You mentioned ${query} in these messages: ${relevantMessages.join(", ")}`;
+          } else {
+            botResponse = `I don't remember you mentioning anything about '${query}'.`;
+          }
+        } else {
+          botResponse = "Please specify a topic after 'What did I say about'.";
+        }
       } else {
         // If no special queries, proceed with the usual API request
         console.log("Sending API request...");
