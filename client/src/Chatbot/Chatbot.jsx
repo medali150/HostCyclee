@@ -4,7 +4,7 @@ import Aymen from "../dash/header";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([
-    { text: "Welcome! How can I assist you with hosting, websites, or technology today?", sender: "bot" }
+    { text: "Welcome! How can I assist you today?", sender: "bot" }
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
