@@ -73,7 +73,7 @@ const Chatbot = () => {
         <div className="flex-1 overflow-hidden py-4 px-6">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-              8anjou chat
+              HostCycleChat
             </h2>
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="h-[60vh] overflow-y-auto p-4 space-y-4">
