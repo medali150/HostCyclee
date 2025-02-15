@@ -839,7 +839,7 @@ exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
 import dotenv from "dotenv";
 import axios from "axios";
 
-dotenv.config();const API_KEY = process.env.GEMINI_API_KEY;
+dotenv.config();
 
 export const chatWithGemini = async (req, res) => {
   const { message } = req.body;
@@ -850,7 +850,7 @@ export const chatWithGemini = async (req, res) => {
 
   try {
     const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAxDppnMB-Ea2osPGKHr96c1XnZqspY5ZA`,
       {
         contents: [
           {
