@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import Aymen from "../dash/header";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([
@@ -55,6 +56,8 @@ const Chatbot = () => {
   };
 
   return (
+    <>
+    <Aymen/>
     <div className="flex flex-col h-screen bg-gray-100">
       <div className="flex-1 overflow-hidden py-4 px-6">
         <div className="max-w-3xl mx-auto">
@@ -108,6 +111,7 @@ const Chatbot = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
