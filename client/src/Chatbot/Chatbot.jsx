@@ -29,7 +29,7 @@ const Chatbot = () => {
       if (input.toLowerCase().includes("your name")) {
         botResponse = "My name is HostCycleChat.";
       } else if (input.toLowerCase().includes("hostcycle")) {
-        botResponse = "HostCycle is a platform for managing hosting cycles, centralizing client information, and ensuring proactive tracking of hosting expiration dates.";
+        botResponse = "HostCycle is a platform for managing hosting cycles.";
       } else if (input.toLowerCase().includes("features")) {
         botResponse = "HostCycle offers features like client registration, hosting cycle management, automated reminders, and a user-friendly dashboard.";
       } else {
