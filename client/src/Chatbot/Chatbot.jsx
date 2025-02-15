@@ -9,7 +9,6 @@ const Chatbot = () => {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [userName, setUserName] = useState(""); // State to store user's name
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -20,12 +19,12 @@ const Chatbot = () => {
 
   const handleSend = async () => {
     if (!input.trim()) {
-      console.log("Input is empty.  Not sending.");  // Debugging: Don't send empty messages
+      console.log("Input is empty.  Not sending.");
       return;
     }
 
     const userMessage = { text: input, sender: "user" };
-    const newMessages = [...messages, userMessage];
+    const newMessages = [...messages, userMessage];  // Add user message immediately
     setMessages(newMessages);
     setInput("");
     setIsLoading(true);
@@ -34,18 +33,12 @@ const Chatbot = () => {
     let botResponse = "";
 
     try {
-      if (input.toLowerCase().includes("your name")) {
-        // Use stored userName if it's set, else ask for the name
-        botResponse = userName ? `Your name is ${userName}.` : "I don't know your name yet. What's your name?";
-      } else if (input.toLowerCase().includes("my name is")) {
-        // Capture the user's name
-        const name = input.split("my name is")[1].trim();
-        setUserName(name);  // Store the name
-        botResponse = `Nice to meet you, ${name}!`;
-      } else if (input.toLowerCase().includes("hostcycle")) {
-        botResponse = "HostCycle is a platform for managing hosting cycles.";
+      // Check if the input includes a specific request that could reference past messages
+      if (input.toLowerCase().includes("what did i say") || input.toLowerCase().includes("what's the history")) {
+        const conversationHistory = messages.map((msg) => `${msg.sender === 'user' ? 'You' : 'Bot'}: ${msg.text}`).join("\n");
+        botResponse = `Here's what you've said so far:\n${conversationHistory}`;
       } else {
-        console.log("Sending API request..."); // Debugging:  Show that we're sending to API
+        console.log("Sending API request...");
         const response = await axios.post(
           "https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/Chat", 
           { message: input },
@@ -61,11 +54,11 @@ const Chatbot = () => {
       }
 
       const botMessage = { text: botResponse, sender: "bot" };
-      setMessages([...newMessages, botMessage]);
+      setMessages([...newMessages, botMessage]);  // Add bot response
     } catch (error) {
       console.error("Error:", error);
       const errorMessage = { text: "Error: Unable to get response", sender: "bot" };
-      setMessages([...newMessages, errorMessage]);
+      setMessages([...newMessages, errorMessage]); // Show the error message to user
     } finally {
       setIsLoading(false);
     }
