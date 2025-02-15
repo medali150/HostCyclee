@@ -1,21 +1,22 @@
-import React, { useState, useRef, useEffect } from "react";
-import axios from "axios";
-import Aymen from "../dash/header"; // Assuming this is the correct path
+import React, { useState, useRef, useEffect } from "react"; 
+import axios from "axios"; 
+import Aymen from "../dash/header"; // Assuming this is the correct path 
 import { AppContent } from '../context/Appcontext';
+
 const Chatbot = () => {
-  
   const [messages, setMessages] = useState([
     { text: 'Welcome! How can I assist you today?', sender: "bot" },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [userName, setUserName] = useState(""); // State to store user's name
   const messagesEndRef = useRef(null);
- 
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(scrollToBottom, [messages]); // Scroll to bottom when messages change
+  useEffect(scrollToBottom, [messages]);
 
   const handleSend = async () => {
     if (!input.trim()) {
@@ -24,43 +25,47 @@ const Chatbot = () => {
     }
 
     const userMessage = { text: input, sender: "user" };
-    const newMessages = [...messages, userMessage]; // Add user message immediately
+    const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput("");
     setIsLoading(true);
     console.log("Sending message:", input); // Debugging: Log what we're sending
 
-    try {
-      let botResponse = "";
+    let botResponse = "";
 
-      // Simple chatbot logic (move this to backend for better design)
+    try {
       if (input.toLowerCase().includes("your name")) {
-        botResponse = "My name is HostCycleChat.";
+        // Use stored userName if it's set, else ask for the name
+        botResponse = userName ? `Your name is ${userName}.` : "I don't know your name yet. What's your name?";
+      } else if (input.toLowerCase().includes("my name is")) {
+        // Capture the user's name
+        const name = input.split("my name is")[1].trim();
+        setUserName(name);  // Store the name
+        botResponse = `Nice to meet you, ${name}!`;
       } else if (input.toLowerCase().includes("hostcycle")) {
         botResponse = "HostCycle is a platform for managing hosting cycles.";
-      } else if (input.toLowerCase().includes("features")) {
-        botResponse = "HostCycle offers features like client registration, hosting cycle management, automated reminders, and a user-friendly dashboard.";
       } else {
         console.log("Sending API request..."); // Debugging:  Show that we're sending to API
         const response = await axios.post(
-          "https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/Chat", // Use relative path (or environment variable)
+          "https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/Chat", 
           { message: input },
           {
-            withCredentials: true, // Keep this if needed for authentication
+            withCredentials: true,
             headers: {
               "Content-Type": "application/json",
             },
           }
         );
-        console.log("API Response:", response); // Debugging: Log the entire response
+        console.log("API Response:", response);
         botResponse = response.data.reply;
       }
+
       const botMessage = { text: botResponse, sender: "bot" };
-      setMessages([...newMessages, botMessage]);  // Add bot response
+      setMessages([...newMessages, botMessage]);
     } catch (error) {
       console.error("Error:", error);
       const errorMessage = { text: "Error: Unable to get response", sender: "bot" };
-      setMessages([...newMessages, errorMessage]); // Show the error message to user
+      setMessages([...newMessages, errorMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -80,16 +85,10 @@ const Chatbot = () => {
                 {messages.map((msg, index) => (
                   <div
                     key={index}
-                    className={`flex ${
-                      msg.sender === "user" ? "justify-end" : "justify-start"
-                    }`}
+                    className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
                   >
                     <div
-                      className={`max-w-[80%] px-4 py-2 rounded-lg ${
-                        msg.sender === "user"
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-200 text-gray-800"
-                      }`}
+                      className={`max-w-[80%] px-4 py-2 rounded-lg ${msg.sender === "user" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
                     >
                       <p>{msg.text}</p>
                     </div>
