@@ -14,19 +14,25 @@ const Chatbot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(scrollToBottom, [messages]);
+  useEffect(scrollToBottom, [messages]); // Scroll to bottom when messages change
 
   const handleSend = async () => {
-    if (!input.trim()) return;
+    if (!input.trim()) {
+      console.log("Input is empty.  Not sending.");  // Debugging: Don't send empty messages
+      return;
+    }
 
-    const newMessages = [...messages, { text: input, sender: "user" }];
+    const userMessage = { text: input, sender: "user" };
+    const newMessages = [...messages, userMessage]; // Add user message immediately
     setMessages(newMessages);
     setInput("");
     setIsLoading(true);
+    console.log("Sending message:", input); // Debugging: Log what we're sending
 
     try {
       let botResponse = "";
 
+      // Simple chatbot logic (move this to backend for better design)
       if (input.toLowerCase().includes("your name")) {
         botResponse = "My name is HostCycleChat.";
       } else if (input.toLowerCase().includes("hostcycle")) {
@@ -34,6 +40,7 @@ const Chatbot = () => {
       } else if (input.toLowerCase().includes("features")) {
         botResponse = "HostCycle offers features like client registration, hosting cycle management, automated reminders, and a user-friendly dashboard.";
       } else {
+        console.log("Sending API request..."); // Debugging:  Show that we're sending to API
         const response = await axios.post(
           "https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/Chat", // Use relative path (or environment variable)
           { message: input },
@@ -44,18 +51,17 @@ const Chatbot = () => {
             },
           }
         );
+        console.log("API Response:", response); // Debugging: Log the entire response
         botResponse = response.data.reply;
       }
-
-      setMessages([...newMessages, { text: botResponse, sender: "bot" }]);
+      const botMessage = { text: botResponse, sender: "bot" };
+      setMessages([...newMessages, botMessage]);  // Add bot response
     } catch (error) {
       console.error("Error:", error);
-      setMessages([
-        ...newMessages,
-        { text: "Error: Unable to get response", sender: "bot" },
-      ]);
+      const errorMessage = { text: "Error: Unable to get response", sender: "bot" };
+      setMessages([...newMessages, errorMessage]); // Show the error message to user
     } finally {
-      setIsLoading(false); // Ensure loading is set to false even on error
+      setIsLoading(false);
     }
   };
 
