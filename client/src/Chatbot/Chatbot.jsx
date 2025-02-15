@@ -10,11 +10,8 @@ const Chatbot = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
-  
-  const [userData, setUserData] = useState({
-    name: "",  // Store the user's name or other relevant info
-    previousMessages: []  // Optionally, keep track of all previous user messages
-  });
+
+  const [memory, setMemory] = useState([]);  // To store all user messages dynamically
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -35,18 +32,24 @@ const Chatbot = () => {
     setIsLoading(true);
     console.log("Sending message:", input); // Debugging: Log what we're sending
 
+    const newMemory = [...memory, input];  // Save the new user message to memory
+    setMemory(newMemory);
+
     let botResponse = "";
 
     try {
-      // Automatically store user's name if mentioned
-      if (input.toLowerCase().includes("my name is")) {
-        const name = input.replace(/.*my name is (.*)/i, "$1").trim();
-        setUserData((prevState) => ({ ...prevState, name }));
-        botResponse = `Got it, your name is ${name}!`;
-      } else if (userData.name && input.toLowerCase().includes("what is my name")) {
-        botResponse = `Your name is ${userData.name}.`;
+      // Check if the user has asked for something related to past messages
+      if (input.toLowerCase().includes("tell me what i've said")) {
+        botResponse = `You've said: ${newMemory.join(", ")}`;
+      } else if (input.toLowerCase().includes("what did i say about")) {
+        // User could ask about a specific topic they've mentioned
+        const query = input.replace("what did i say about", "").trim();
+        const relevantMessages = newMemory.filter(msg => msg.toLowerCase().includes(query));
+        botResponse = relevantMessages.length
+          ? `You mentioned: ${relevantMessages.join(", ")}`
+          : "I don't remember you mentioning that.";
       } else {
-        // Simple fallback or API request if no special conditions met
+        // If no special queries, proceed with the usual API request
         console.log("Sending API request...");
         const response = await axios.post(
           "https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/Chat", 
