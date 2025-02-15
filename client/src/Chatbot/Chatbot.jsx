@@ -1,119 +1,114 @@
-// src/components/ChatBot.js
-import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
-import { AppContent } from '../context/Appcontext'; 
+import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import Aymen from "../dash/header";
 
-const ChatBot = () => {
-  const { isLogin, userData } = useContext(AppContent);
-  const [userMessage, setUserMessage] = useState('');
-  const [botReply, setBotReply] = useState('');
-  const [chatHistory, setChatHistory] = useState([]);
+const Chatbot = () => {
+  const [messages, setMessages] = useState([
+    { text: "Welcome! How can I assist you with hosting, websites, or technology today?", sender: "bot" }
+  ]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef(null);
 
-  // Fetch chat history when the component mounts
-  useEffect(() => {
-    const fetchChatHistory = async () => {
-      try {
-        const response = await axios.get('http://localhost:4000/api/auth/chatHistory', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`, // Assuming you're using JWT
-          },
-        });
-        setChatHistory(response.data);
-      } catch (error) {
-        console.error('Error fetching chat history:', error);
-      }
-    };
-    if (isLogin) {
-      fetchChatHistory();
-    }
-  }, [isLogin]);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
-  // Handle sending a new chat message
-  const handleSendMessage = async () => {
+  useEffect(scrollToBottom, [messages]);
+
+  const handleSend = async () => {
+    if (!input.trim()) return;
+
+    const newMessages = [...messages, { text: input, sender: "user" }];
+    setMessages(newMessages);
+    setInput("");
+    setIsLoading(true);
+
     try {
-      const response = await axios.post(
-        '/api/chat',
-        { userMessage, botReply },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`, // Assuming you're using JWT
-          },
-        }
-      );
-      console.log(response.data);
-      // Update the chat history
-      setChatHistory((prevHistory) => [
-        ...prevHistory,
-        { userMessage, botReply },
-      ]);
-      setUserMessage('');
-      setBotReply('');
+      let botResponse = "";
+      if (input.toLowerCase().includes("your name")) {
+        botResponse = "My name is HostCycleChat.";
+      } else {
+        const response = await axios.post(
+          "http://localhost:4000/api/auth/Chat",
+          { message: input },
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        botResponse = response.data.reply;
+      }
+
+      setMessages([...newMessages, { text: botResponse, sender: "bot" }]);
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error("Error:", error);
+      setMessages([...newMessages, { text: "Error: Unable to get response", sender: "bot" }]);
     }
+
+    setIsLoading(false);
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="text-center mb-4">Chat with the Bot</h2>
-
-      <div className="chat-container p-4 border rounded shadow-lg">
-        {/* Chat History Section */}
-        <div className="chat-history mb-4">
-          <h4 className="mb-3">Chat History</h4>
-          <ul className="list-group">
-            {chatHistory.map((chat, index) => (
-              <li key={index} className="list-group-item">
-                <strong>User:</strong> {chat.userMessage}
-                <br />
-                <strong>Bot:</strong> {chat.botReply}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* User Input Section */}
-        <div className="mb-3">
-          <div className="input-group">
-            <input
-              type="text"
-              placeholder="Type your message"
-              value={userMessage}
-              onChange={(e) => setUserMessage(e.target.value)}
-              className="form-control"
-            />
-            <button
-              onClick={() => setBotReply('Hello, how can I help you?')}
-              className="btn btn-outline-secondary"
-            >
-              Set Bot Reply (For demonstration)
-            </button>
+    <>
+    <Aymen/>
+    <div className="flex flex-col h-screen bg-gray-100">
+      <div className="flex-1 overflow-hidden py-4 px-6">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">HostCycleChat</h2>
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="h-[500px] overflow-y-auto p-4 space-y-4">
+              {messages.map((msg, index) => (
+                <div key={index} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
+                  <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                    msg.sender === "user" 
+                      ? "bg-blue-500 text-white" 
+                      : "bg-gray-200 text-gray-800"
+                  }`}>
+                    <p>{msg.text}</p>
+                  </div>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg">
+                    <p>Thinking...</p>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+            <div className="border-t border-gray-200 px-4 py-4 sm:mb-0">
+              <div className="relative flex">
+                <input
+                  type="text"
+                  placeholder="Type your message..."
+                  className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-4 bg-gray-100 rounded-full py-3"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                />
+                <div className="absolute right-0 items-center inset-y-0 hidden sm:flex">
+                  <button
+                    type="button"
+                    className="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-600 focus:outline-none"
+                    onClick={handleSend}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-6 w-6 transform rotate-90">
+                      <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-
-        {/* Bot Reply Section */}
-        <div className="mb-3">
-          <input
-            type="text"
-            placeholder="Bot's reply"
-            value={botReply}
-            onChange={(e) => setBotReply(e.target.value)}
-            className="form-control"
-          />
-        </div>
-
-        {/* Send Message Button */}
-        <div className="text-center">
-          <button
-            onClick={handleSendMessage}
-            className="btn btn-primary"
-          >
-            Send
-          </button>
         </div>
       </div>
     </div>
+    </>
   );
 };
 
-export default ChatBot;
+export default Chatbot;

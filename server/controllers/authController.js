@@ -835,3 +835,43 @@ exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
 
 
 /***************************************************"ili ymsou 5atini ana raw mouch rajel :ama ka t7eb tstanfa3 mino 7el chof: "{https://devendrajohari9.medium.com/nodejs-authentication-authorisation-ee04ff744c80} */
+
+import dotenv from "dotenv";
+import axios from "axios";
+
+dotenv.config();const API_KEY = process.env.GEMINI_API_KEY;
+
+export const chatWithGemini = async (req, res) => {
+  const { message } = req.body;
+
+  if (!message) {
+    return res.json({ success: false, message: "Message is required." });
+  }
+
+  try {
+    const response = await axios.post(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
+      {
+        contents: [
+          {
+            parts: [{ text: message }]
+          }
+        ]
+      },
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    const reply =
+      response.data.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "I didn't understand.";
+
+    return res.json({ success: true, reply });
+  } catch (error) {
+    console.error("Error:", error.response ? error.response.data : error.message);
+    return res.json({ success: false, message: "Failed to communicate with Gemini API." });
+  }
+};
