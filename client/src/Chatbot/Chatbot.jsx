@@ -38,6 +38,10 @@ const Chatbot = () => {
     let botResponse = "";
 
     try {
+      if (input.toLowerCase().includes("what is your religion")) {
+        botResponse="my religion is Islam"
+        
+      }
       // Check if the user has asked for something related to past messages
       if (input.toLowerCase().includes("tell me what i've said")) {
         botResponse = `You've said: ${newMemory.join(", ")}`;
