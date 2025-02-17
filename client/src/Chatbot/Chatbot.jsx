@@ -38,7 +38,9 @@ const Chatbot = () => {
     try {
       if (input.toLowerCase().includes("what is your religion")) {
         botResponse = "My religion is Islam.";
-      } else if (input.toLowerCase().includes("tell me what i've said")) {
+      } else if (input.toLowerCase().includes("your religion")) {
+        botResponse = "My religion is Islam.";
+      }else if (input.toLowerCase().includes("tell me what i've said")) {
         botResponse = `You've said: ${newMemory.join(", ")}`;
       } else if (input.toLowerCase().includes("what did i say about")) {
         const query = input.replace("what did i say about", "").trim().toLowerCase();
