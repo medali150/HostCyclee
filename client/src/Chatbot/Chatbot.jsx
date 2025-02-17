@@ -39,9 +39,8 @@ const Chatbot = () => {
 
     try {
       if (input.toLowerCase().includes("what is your religion")) {
-        botResponse="my religion is Islam"
-        
-      
+        botResponse = "my religion is Islam .";
+      }
       // Check if the user has asked for something related to past messages
       if (input.toLowerCase().includes("tell me what i've said")) {
         botResponse = `You've said: ${newMemory.join(", ")}`;
@@ -80,7 +79,7 @@ const Chatbot = () => {
 
       const botMessage = { text: botResponse, sender: "bot" };
       setMessages([...newMessages, botMessage]);  // Add bot response
-    }} catch (error) {
+    } catch (error) {
       console.error("Error:", error);
       const errorMessage = { text: "Error: Unable to get response", sender: "bot" };
       setMessages([...newMessages, errorMessage]); // Show the error message to user
