@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react"; 
 import axios from "axios"; 
 import Aymen from "../dash/header"; // Assuming this is the correct path 
-import { AppContent } from '../context/Appcontext';
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([
@@ -10,7 +9,6 @@ const Chatbot = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
-
   const [memory, setMemory] = useState([]);  // To store all user messages dynamically
 
   const scrollToBottom = () => {
@@ -21,68 +19,56 @@ const Chatbot = () => {
 
   const handleSend = async () => {
     if (!input.trim()) {
-      console.log("Input is empty.  Not sending.");
+      console.log("Input is empty. Not sending.");
       return;
     }
 
     const userMessage = { text: input, sender: "user" };
-    const newMessages = [...messages, userMessage];  // Add user message immediately
+    const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput("");
     setIsLoading(true);
-    console.log("Sending message:", input); // Debugging: Log what we're sending
+    console.log("Sending message:", input);
 
-    const newMemory = [...memory, input];  // Save the new user message to memory
+    const newMemory = [...memory, input];
     setMemory(newMemory);
 
     let botResponse = "";
 
     try {
       if (input.toLowerCase().includes("what is your religion")) {
-        botResponse = "my religion is Islam .";
-      }
-      // Check if the user has asked for something related to past messages
-      if (input.toLowerCase().includes("tell me what i've said")) {
+        botResponse = "My religion is Islam.";
+      } else if (input.toLowerCase().includes("tell me what i've said")) {
         botResponse = `You've said: ${newMemory.join(", ")}`;
       } else if (input.toLowerCase().includes("what did i say about")) {
-        // Extract the topic from the query, after "what did i say about"
         const query = input.replace("what did i say about", "").trim().toLowerCase();
 
         if (query) {
-          // Filter memory to find messages containing the query keyword
           const relevantMessages = newMemory.filter(msg => msg.toLowerCase().includes(query));
-
-          if (relevantMessages.length > 0) {
-            botResponse = `You mentioned ${query} in these messages: ${relevantMessages.join(", ")}`;
-          } else {
-            botResponse = `I don't remember you mentioning anything about '${query}'.`;
-          }
+          botResponse = relevantMessages.length > 0 
+            ? `You mentioned ${query} in these messages: ${relevantMessages.join(", ")}`
+            : `I don't remember you mentioning anything about '${query}'.`;
         } else {
           botResponse = "Please specify a topic after 'What did I say about'.";
         }
       } else {
-        // If no special queries, proceed with the usual API request
         console.log("Sending API request...");
         const response = await axios.post(
-          "https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/Chat", 
+          "https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/Chat",
           { message: input },
           {
             withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
           }
         );
         console.log("API Response:", response);
         botResponse = response.data.reply;
       }
 
-      const botMessage = { text: botResponse, sender: "bot" };
-      setMessages([...newMessages, botMessage]);  // Add bot response
+      setMessages([...newMessages, { text: botResponse, sender: "bot" }]);
     } catch (error) {
       console.error("Error:", error);
-      const errorMessage = { text: "Error: Unable to get response", sender: "bot" };
-      setMessages([...newMessages, errorMessage]); // Show the error message to user
+      setMessages([...newMessages, { text: "Error: Unable to get response", sender: "bot" }]);
     } finally {
       setIsLoading(false);
     }
