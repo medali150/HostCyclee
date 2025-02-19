@@ -168,6 +168,7 @@ export const login = async (req, res) => {
       return res.json({ success: false, message: error.message });
   }
 };
+
 export const logout=async(req,res)=>{
     try{
         res.clearCookie('token',{
@@ -374,7 +375,9 @@ export const sendResetOtp = async (req, res) => {
   } catch (error) {
       return res.json({ success: false, message: error.message });
   }
-};//reset user password 
+};
+
+//reset user password 
 export const resetPassword=async (req,res)=>{
     const {email ,otp,newPassword}=req.body;
 if (!otp || !email || !newPassword) {
@@ -503,6 +506,7 @@ export const getAllHostingCycles = async (req, res) => {
       });
     }
   };
+  
   export const verifyAdmin = async (req, res) => {
     try {
       const userId = req.session.userId; // Assuming you're storing the user ID in the session
@@ -524,7 +528,9 @@ export const getAllHostingCycles = async (req, res) => {
     } catch (error) {
       return res.status(500).json({ success: false, message: error.message });
     }
-  }; // Add an item to the user's cart// Adjust path if needed
+  };
+  // Add an item to the user's cart// Adjust path if needed
+
   // Add an item to the user's cart
   export const removePackageFromCart = async (req, res) => {
     try {
@@ -549,8 +555,11 @@ export const getAllHostingCycles = async (req, res) => {
         return res.status(500).json({ success: false, message: error.message });
     }
 };
+
   // Endpoint to simulate user clicking 'Add to Cart' and receiving the updated cart
   // Assuming this is the endpoint the frontend hits when the user clicks the 'Add to Cart' button.
+  
+
 // Get the user's cart
 export const getUserCart = async (req, res) => {
     const { userId } = req.body; // Assuming userId is passed in the request body
@@ -571,6 +580,7 @@ export const getUserCart = async (req, res) => {
         return res.status(500).json({ success: false, message: error.message });
     }
 };
+
 export const deleteAdmin = async (req, res) => {
     try {
       const { id } = req.params;
@@ -664,42 +674,7 @@ export const registerWebsite = async (req, res) => {
       user.websites.push(newWebsite._id);
   
       await user.save();
-      const transporter = nodemailer.createTransport({
-        service: "gmail", //  Or your email service (e.g., 'SendGrid')
-        auth: {
-            user: process.env.SENDER_EMAIL,
-            pass: process.env.SENDER_PASS,
-        },
-    });
-
-    // Email content
-    const mailOptions = {
-        from: process.env.SENDER_EMAIL,
-        to: user.email,
-        subject: `Your Website "${name}" Has Been Registered`,
-        html: `
-            <html>
-            <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
-                <div style="max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 8px;">
-                    <h2 style="color: #333;">Congratulations, ${user.name}!</h2>
-                    <p>Your website has been successfully registered.</p>
-                    <h3>Website Details:</h3>
-                    <ul>
-                        <li><strong>Website Name:</strong> ${name}</li>
-                        <li><strong>Website URL:</strong> <a href="${url}" target="_blank">${url}</a></li>
-                        <li><strong>Description:</strong> ${description}</li>
-                    </ul>
-                    <p>We hope you enjoy our services. If you have any questions, feel free to contact us.</p>
-                    <br>
-                    <p>Best Regards,<br> Your Company Team</p>
-                </div>
-            </body>
-            </html>
-        `,
-    };
-
-    // Send email
-    await transporter.sendMail(mailOptions);
+  
       // Return success response with the newly created website
       return res.json({
         success: true,
@@ -774,6 +749,8 @@ export const registerWebsite = async (req, res) => {
       });
     }
   };
+
+
 const checkAndSendNotifications = async () => {
     try {
       console.log("Running hosting cycle notification check...");
@@ -821,6 +798,8 @@ const checkAndSendNotifications = async () => {
       console.error("Error in checkAndSendNotifications:", error.message);
     }
   };
+  
+  
   cron.schedule("0 0 * * *", async () => {
     await checkAndSendNotifications();
   });
@@ -828,7 +807,35 @@ const checkAndSendNotifications = async () => {
   cron.schedule('* * * * *', async () => {
     await checkAndSendNotifications();
   });
+  
+
+
+
+  
+/***************************************Update user Role “user” <-> “admin”***********************************
+// Update user role
+exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email,
+        role: req.body.role
+    }
+
+    //  We will add cloudinary later
+    const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    });
+   res.status(200).json({
+    success: true,
+    message: "Role Updated Successfully"
+   })
+});*/
+
+
 /***************************************************"ili ymsou 5atini ana raw mouch rajel :ama ka t7eb tstanfa3 mino 7el chof: "{https://devendrajohari9.medium.com/nodejs-authentication-authorisation-ee04ff744c80} */
+
 import dotenv from "dotenv";
 import axios from "axios";
 
@@ -868,4 +875,3 @@ export const chatWithGemini = async (req, res) => {
     return res.json({ success: false, message: "Failed to communicate with Gemini API." });
   }
 };
-
