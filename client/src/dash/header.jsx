@@ -87,8 +87,16 @@ const Aymen = () => {
                 </a>
               </li>
               </ul>
-              </div>
-              <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
+              <li className="relative">
+                    <button
+                      ref={buttonRef}
+                      className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center"
+                      onClick={toggleDropdown}
+                    >
+                      {userData.name[0].toUpperCase()}
+                    </button>
+                    {showDropdown && (
+                      <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
                         <ul className="py-2">
                           {!userData.isAcconuntVerified && (
                             <li onClick={sendVerificationOTP} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
@@ -100,6 +108,10 @@ const Aymen = () => {
                           </li>
                         </ul>
                       </div>
+                    )}
+                  </li>
+              </div>
+              
 
             </> ):( <>
           
