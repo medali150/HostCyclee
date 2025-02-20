@@ -48,14 +48,14 @@ How are you ${userData?.name|| 'visiteur'} ? `
   }, [text, isDeleting, index]);
   useEffect(() => {
     const handleTyping = () => {
-      const currentPhrase = phrases[index % phrases.length];
+      const currentPhrase = phrases[index1 % phrases.length];
       const isTypingComplete = text1 === currentPhrase;
 
       if (isTypingComplete && !isDeleting) {
         setTimeout(() => setIsDeleting(true), 1000); // Pause before deleting
       } else if (isDeleting && text1 === '') {
         setIsDeleting(false);
-        setIndex((prevIndex) => prevIndex + 1);
+        setIndex1((prevIndex) => prevIndex + 1);
       } else {
         const updatedText = isDeleting
           ? currentPhrase.substring(0, text1.length - 1)
@@ -68,7 +68,7 @@ How are you ${userData?.name|| 'visiteur'} ? `
     const timer = setTimeout(handleTyping, typingSpeed);
 
     return () => clearTimeout(timer);
-  }, [text1, isDeleting, index]);
+  }, [text1, isDeleting, index1]);
 
 
   return (
