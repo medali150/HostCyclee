@@ -638,87 +638,83 @@ export const deleteAdmin = async (req, res) => {
       return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
   };
-  // Delete a user
-export const registerWebsite = async (req, res) => {
-    const { name, url, description, ownerId } = req.body;
+  import nodemailer from 'nodemailer'; // Ensure you have nodemailer imported
+  import websiteModel from '../models/websiteSchema.js';
+  import userModel from '../models/userModel.js';
   
-    // Check if all required fields are provided
-    if (!name || !url || !ownerId) {
-      return res.json({ success: false, message: "Missing required fields" });
-    }
+  // Other imports...
   
-    try {
-      // Check if the website with the same URL already exists
-      const existingWebsite = await websiteModel.findOne({ url });
-      if (existingWebsite) {
-        return res.json({ success: false, message: "Website already exists." });
+  export const registerWebsite = async (req, res) => {
+      const { name, url, description, ownerId } = req.body;
+  
+      // Check if all required fields are provided
+      if (!name || !url || !ownerId) {
+          return res.status(400).json({ success: false, message: "Missing required fields" });
       }
   
-      // Create a new website entry
-      const newWebsite = new websiteModel({
-        name,
-        url,
-        description,
-        owner: ownerId,
-      });
+      try {
+          // Check if the website with the same URL already exists
+          const existingWebsite = await websiteModel.findOne({ url });
+          if (existingWebsite) {
+              return res.status(409).json({ success: false, message: "Website already exists." });
+          }
   
-      await newWebsite.save();
-              // Set up email transporter
-            
-    
-            // Email content
-            const mailOptions = {
-                from: process.env.SENDER_EMAIL,
-                to: ownerId.email,
-                subject: `Your Website "${websiteName}" Has Been Registered`,
-                html: `
-                    <html>
-                    <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
-                        <div style="max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 8px;">
-                            <h2 style="color: #333;">Congratulations,!</h2>
-                            <p>Your website has been successfully registered.</p>
-                            <h3>Website Details:</h3>
-                            <ul>
-                                <li><strong>Website Name:</strong> ${websiteName}</li>
-                                <li><strong>Website URL:</strong> <a href="${websiteURL}" target="_blank">${websiteURL}</a></li>
-                                <li><strong>Package:</strong> ${packageType}</li>
-                                <li><strong>Description:</strong> ${description}</li>
-                                <li><strong>Price:</strong> $${price}</li>
-                            </ul>
-                            <p>We hope you enjoy our services. If you have any questions, feel free to contact us.</p>
-                            <br>
-                            <p>Best Regards,<br> Your Company Team</p>
-                        </div>
-                    </body>
-                    </html>
-                `,
-            };
-    
-            // Send email
-            await transporter.sendMail(mailOptions);
-    
+          // Create a new website entry
+          const newWebsite = new websiteModel({
+              name,
+              url,
+              description,
+              owner: ownerId,
+          });
   
-      // Find the user and add the new website's ID to their websites array
-      const user = await userModel.findById(ownerId);
-      if (!user) {
-        return res.json({ success: false, message: "User not found." });
+          await newWebsite.save();
+  
+          // Find the user and add the new website's ID to their websites array
+          const user = await userModel.findById(ownerId);
+          if (!user) {
+              return res.status(404).json({ success: false, message: "User not found." });
+          }
+  
+          // Add the new website to the user's websites array
+          user.websites.push(newWebsite._id);
+          await user.save();
+  
+          // Send congratulatory email to the user
+          const mailOptions = {
+              from: process.env.SENDER_EMAIL, // Ensure this environment variable is set
+              to: user.email, // User email
+              subject: 'Congratulations on Your New Website!',
+              html: `
+                <html>
+                <body>
+                    <h1>Congratulations, ${user.name}!</h1>
+                    <p>Your website "<strong>${newWebsite.name}</strong>" has been registered successfully.</p>
+                    <p>Here are the details:</p>
+                    <ul>
+                        <li><strong>URL:</strong> ${newWebsite.url}</li>
+                        <li><strong>Description:</strong> ${newWebsite.description}</li>
+                    </ul>
+                    <p>Thank you for using our services!</p>
+                    <p>Best Regards,<br>Your App Team</p>
+                </body>
+                </html>
+              `
+          };
+  
+          await transporter.sendMail(mailOptions);
+          console.log(`Congratulatory email sent to ${user.email} for website "${newWebsite.name}"`);
+  
+          // Return success response with the newly created website
+          return res.status(201).json({
+              success: true,
+              message: "Website registered successfully",
+              website: newWebsite,
+          });
+      } catch (error) {
+          // Return error response if something goes wrong
+          console.error("Error while registering website:", error);
+          return res.status(500).json({ success: false, message: error.message });
       }
-  
-      // Add the new website to the user's websites array
-      user.websites.push(newWebsite._id);
-  
-      await user.save();
-  
-      // Return success response with the newly created website
-      return res.json({
-        success: true,
-        message: "Website registered successfully",
-        website: newWebsite,
-      });
-    } catch (error) {
-      // Return error response if something goes wrong
-      return res.json({ success: false, message: error.message });
-    }
   };
   export const deleteWebsite = async (req, res) => {
     const { userId, websiteId } = req.params; // Get userId and websiteId from params
