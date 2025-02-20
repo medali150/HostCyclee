@@ -10,14 +10,19 @@ const Hero = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   const [text, setText] = useState('');
+  const [text1, setText1] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [index, setIndex] = useState(0);
+  const [index1, setIndex1] = useState(0);
 
   const phrases = [
     `
 How are you ${userData?.name|| 'visiteur'} ? `
   ];
-
+  const ph = [
+    `Could you please verify your account, ${userData?.name}?`
+  ];
+  
   useEffect(() => {
     const handleTyping = () => {
       const currentPhrase = phrases[index % phrases.length];
@@ -41,6 +46,29 @@ How are you ${userData?.name|| 'visiteur'} ? `
 
     return () => clearTimeout(timer);
   }, [text, isDeleting, index]);
+  useEffect(() => {
+    const handleTyping = () => {
+      const currentPhrase = phrases[index % phrases.length];
+      const isTypingComplete = text1 === currentPhrase;
+
+      if (isTypingComplete && !isDeleting) {
+        setTimeout(() => setIsDeleting(true), 1000); // Pause before deleting
+      } else if (isDeleting && text1 === '') {
+        setIsDeleting(false);
+        setIndex((prevIndex) => prevIndex + 1);
+      } else {
+        const updatedText = isDeleting
+          ? currentPhrase.substring(0, text1.length - 1)
+          : currentPhrase.substring(0, text1.length + 1);
+        setText1(updatedText);
+      }
+    };
+
+    const typingSpeed = isDeleting ? 50 : 150; // Faster when deleting
+    const timer = setTimeout(handleTyping, typingSpeed);
+
+    return () => clearTimeout(timer);
+  }, [text1, isDeleting, index]);
 
 
   return (
@@ -83,7 +111,7 @@ How are you ${userData?.name|| 'visiteur'} ? `
           HostCycle centralise les informations de vos clients et assure un suivi proactif des échéances d'hébergement pour une gestion sans souci.
           </p></>) : !userData.isAcconuntVerified ? ( <>
             <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            Could you please verify your account, ${userData?.name}?
+            {text1}
           
           <span className="blinking-cursor">|</span>
           
