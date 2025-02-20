@@ -638,9 +638,7 @@ export const deleteAdmin = async (req, res) => {
       return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
   };
-  import nodemailer from 'nodemailer'; // Ensure you have nodemailer imported
-  import websiteModel from '../models/websiteSchema.js';
-  import userModel from '../models/userModel.js';
+  
   
   // Other imports...
   
