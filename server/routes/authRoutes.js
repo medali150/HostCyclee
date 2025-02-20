@@ -58,7 +58,6 @@ authRouter.delete("/delete-website/:userId/:websiteId", deleteWebsite);
 
 authRouter.put("/makeAdmin/:id", makeAdmin);
 authRouter.post('/Chat',chatWithGemini);
-
 export default authRouter;
 
 
