@@ -675,7 +675,7 @@ export const registerWebsite = async (req, res) => {
                     <html>
                     <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
                         <div style="max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 8px;">
-                            <h2 style="color: #333;">Congratulations, ${user.name}!</h2>
+                            <h2 style="color: #333;">Congratulations,!</h2>
                             <p>Your website has been successfully registered.</p>
                             <h3>Website Details:</h3>
                             <ul>
