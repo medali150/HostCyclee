@@ -8,7 +8,7 @@ const authRouter = express.Router(); // Correction du nom du routeur
 authRouter.post('/register', register);
 authRouter.post('/login', login);
 authRouter.post('/logout', logout);
-authRouter.post('/sendVerifyOtp',userAuth,sendVerifyOtp);
+authRouter.post('/sendVerifyOtp',sendVerifyOtp);
 authRouter.post('/verifyEmail',userAuth,verifyEmail);
 authRouter.get('/isAuthenticated',userAuth,isAuthenticated);
 authRouter.post('/sendResetOtp',sendResetOtp);
@@ -28,7 +28,7 @@ authRouter.post('/login', login);
 authRouter.post('/logout', logout);
 
 // Email Verification Routes
-authRouter.post('/sendVerifyOtp', userAuth, sendVerifyOtp);
+authRouter.post('/sendVerifyOtp',sendVerifyOtp);
 authRouter.post('/verifyEmail', userAuth, verifyEmail);
 
 // User Authentication Check
