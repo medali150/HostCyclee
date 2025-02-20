@@ -663,6 +663,46 @@ export const registerWebsite = async (req, res) => {
       });
   
       await newWebsite.save();
+              // Set up email transporter
+              const transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: process.env.SENDER_EMAIL,
+                    pass: process.env.SENDER_PASS,
+                },
+            });
+    
+            // Email content
+            const mailOptions = {
+                from: process.env.SENDER_EMAIL,
+                to: user.email,
+                subject: `Your Website "${websiteName}" Has Been Registered`,
+                html: `
+                    <html>
+                    <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+                        <div style="max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 8px;">
+                            <h2 style="color: #333;">Congratulations, ${user.name}!</h2>
+                            <p>Your website has been successfully registered.</p>
+                            <h3>Website Details:</h3>
+                            <ul>
+                                <li><strong>Website Name:</strong> ${websiteName}</li>
+                                <li><strong>Website URL:</strong> <a href="${websiteURL}" target="_blank">${websiteURL}</a></li>
+                                <li><strong>Package:</strong> ${packageType}</li>
+                                <li><strong>Description:</strong> ${description}</li>
+                                <li><strong>Price:</strong> $${price}</li>
+                            </ul>
+                            <p>We hope you enjoy our services. If you have any questions, feel free to contact us.</p>
+                            <br>
+                            <p>Best Regards,<br> Your Company Team</p>
+                        </div>
+                    </body>
+                    </html>
+                `,
+            };
+    
+            // Send email
+            await transporter.sendMail(mailOptions);
+    
   
       // Find the user and add the new website's ID to their websites array
       const user = await userModel.findById(ownerId);
