@@ -65,7 +65,7 @@ How are you ${userData?.name|| 'visiteur'} ? `
     };
 
     const typingSpeed = isDeleting ? 50 : 150; // Faster when deleting
-    const timer = setTimeout(handleTyping, typingSpeed);
+    const timer = setTimeout(handleTyping1, typingSpeed);
 
     return () => clearTimeout(timer);
   }, [text1, isDeleting, index1]);
