@@ -28,7 +28,7 @@ authRouter.post('/login', login);
 authRouter.post('/logout', logout);
 
 // Email Verification Routes
-authRouter.post('/sendVerifyOtp', userAuth, sendVerifyOtp);
+authRouter.post('/sendVerifyOtp', sendVerifyOtp);
 authRouter.post('/verifyEmail', userAuth, verifyEmail);
 
 // User Authentication Check
