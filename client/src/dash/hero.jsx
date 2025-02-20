@@ -48,7 +48,7 @@ How are you ${userData?.name|| 'visiteur'} ? `
   }, [text, isDeleting, index]);
   useEffect(() => {
     const handleTyping1 = () => {
-      const currentPhrase = ph[index1 % phrases.length];
+      const currentPhrase = ph[index1 % ph.length];
       const isTypingComplete = text1 === currentPhrase;
 
       if (isTypingComplete && !isDeleting) {
