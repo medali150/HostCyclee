@@ -97,7 +97,7 @@ const Aymen = () => {
                 </a>
               </li>
 
-              {userData ? (
+              {userData && userData.isAcconuntVerified ?(
                 <>
                   <li className="border-b lg:border-b-0 py-3 lg:py-0 px-3">
                     <a href="/Compte" className="hover:text-blue-500 text-gray-600 font-bold block text-base">
