@@ -78,7 +78,44 @@ const Aymen = () => {
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+          {userData  && !userData.isAcconuntVerified ? (<>
+            <div className={`${isMenuOpen ? "block" : "hidden"} lg:block w-full lg:w-auto`}>
+            <ul className="lg:flex lg:items-center gap-x-5 space-y-3 lg:space-y-0 mt-4 lg:mt-0">
+              <li className="border-b lg:border-b-0 py-3 lg:py-0 px-3">
+                <a href="/Home" className="hover:text-blue-500 text-blue-500 font-bold block text-base">
+                  Home
+                </a>
+              </li>
+              <li className="relative">
+                    <button
+                      ref={buttonRef}
+                      className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center"
+                      onClick={toggleDropdown}
+                    >
+                      {userData.name[0].toUpperCase()}
+                    </button>
+                    {showDropdown && (
+                      <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
+                        <ul className="py-2">
+                          {!userData.isAcconuntVerified && (
+                            <li onClick={sendVerificationOTP} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                              Verify Email
+                            </li>
+                          )}
+                          <li onClick={logout} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            Logout
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                  </li>
+              </ul>
+             
+              </div>
+              
 
+            </> ):( <>
+          
           <div className={`${isMenuOpen ? "block" : "hidden"} lg:block w-full lg:w-auto`}>
             <ul className="lg:flex lg:items-center gap-x-5 space-y-3 lg:space-y-0 mt-4 lg:mt-0">
               <li className="border-b lg:border-b-0 py-3 lg:py-0 px-3">
@@ -97,7 +134,7 @@ const Aymen = () => {
                 </a>
               </li>
 
-              {userData ? (
+              {userData  ?(
                 <>
                   <li className="border-b lg:border-b-0 py-3 lg:py-0 px-3">
                     <a href="/Compte" className="hover:text-blue-500 text-gray-600 font-bold block text-base">
@@ -148,7 +185,9 @@ const Aymen = () => {
               )}
             </ul>
           </div>
+          </> )}
         </div>
+        
       </nav>
     </div>
   )
