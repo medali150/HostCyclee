@@ -83,7 +83,7 @@ How are you ${userData?.name|| 'visiteur'} ? `
           HostCycle centralise les informations de vos clients et assure un suivi proactif des échéances d'hébergement pour une gestion sans souci.
           </p></>) : !userData.isAcconuntVerified ? ( <>
             <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            Can you verified you account pls ${userData?.name} ? 
+            Could you please verify your account, ${userData?.name}?
           
           <span className="blinking-cursor">|</span>
           
