@@ -20,7 +20,7 @@ const Hero = () => {
 How are you ${userData?.name|| 'visiteur'} ? `
   ];
   const ph = [
-    `Could you please verify your account, ${userData?.name}?`
+    `Could you please verify your account, ${userData.name}?`
   ];
   
   useEffect(() => {
