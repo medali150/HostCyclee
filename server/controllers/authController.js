@@ -669,7 +669,7 @@ export const registerWebsite = async (req, res) => {
             // Email content
             const mailOptions = {
                 from: process.env.SENDER_EMAIL,
-                to: user.email,
+                to: ownerId.email,
                 subject: `Your Website "${websiteName}" Has Been Registered`,
                 html: `
                     <html>
