@@ -17,17 +17,19 @@ const Aymen = () => {
     try {
       const { data } = await axios.post(
         "https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/sendVerifyOtp",
-      )
+        { userId: userData._id } // <-- Envoi du userId
+      );
       if (data.success) {
-        toast.success(data.message)
-        navigate("/EmailVerify")
+        toast.success(data.message);
+        navigate("/EmailVerify");
       } else {
-        toast.error(data.message)
+        toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
-  }
+  };
+  
 
   const logout = async () => {
     try {

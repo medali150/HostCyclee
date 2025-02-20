@@ -259,9 +259,7 @@ export const sendVerifyOtp= async(req,res)=>{
               </html>
           `
       };
-      
-
-        await transporter.sendMail((mailoptions),(error,info)=>{
+      await transporter.sendMail((mailoptions),(error,info)=>{
             if (error){
                 return res.json({success:false,message:error.message});
             }else{
