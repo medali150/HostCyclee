@@ -20,7 +20,7 @@ const Hero = () => {
 How are you ${userData?.name|| 'visiteur'} ? `
   ];
   const ph = [
-    `Could you please verify your account, ${userData.name}?`
+    `${userData.name}?`
   ];
   
   useEffect(() => {
@@ -112,7 +112,7 @@ How are you ${userData?.name|| 'visiteur'} ? `
           HostCycle centralise les informations de vos clients et assure un suivi proactif des échéances d'hébergement pour une gestion sans souci.
           </p></>) : !userData.isAcconuntVerified ? ( <>
             <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            {text1}
+            Could you please verify your account, {text1}
           
           <span className="blinking-cursor">|</span>
           
