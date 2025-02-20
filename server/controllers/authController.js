@@ -664,13 +664,7 @@ export const registerWebsite = async (req, res) => {
   
       await newWebsite.save();
               // Set up email transporter
-              const transporter = nodemailer.createTransport({
-                service: "gmail",
-                auth: {
-                    user: process.env.SENDER_EMAIL,
-                    pass: process.env.SENDER_PASS,
-                },
-            });
+            
     
             // Email content
             const mailOptions = {
