@@ -175,7 +175,7 @@ export const logout = async (req, res) => {
           httpOnly: true,
           secure: true, // Important pour HTTPS
           sameSite: 'none', // Autoriser Vercel & Cross-Origin
-          domain: '.vercel.app', // Spécifier le domaine (facultatif)
+          domain: 'https://host-cycle-ji9x.vercel.app', // Spécifier le domaine (facultatif)
           expires: new Date(0) // Expire immédiatement
       });
 
