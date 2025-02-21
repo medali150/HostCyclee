@@ -33,27 +33,15 @@ const Aymen = () => {
 
   const logout = async () => {
     try {
-      const { data } = await axios.get(
-        'https://host-cycle-ji9x-git-main-aymens-projects-9ad69811.vercel.app/api/auth/logout',
-        { withCredentials: true }
-      );
-  
+      const { data } = await axios.post("https://host-cycle-ji9x-aymens-projects-9ad69811.vercel.app/api/auth/logout")
       if (data.success) {
-        localStorage.removeItem("userData"); // Supprimer les données utilisateur stockées
-        sessionStorage.removeItem("userData");
-        setIsLogin(false); // Déconnecter côté frontend
-        toast.success(data.message);
-        
-        // 🚀 Attendre un petit délai avant de naviguer
-        setTimeout(() => {
-          navigate('/login');
-        }, 500);
-        
-      } else {
-        toast.error(data.message);
+        setIsLogin(false)
+        setUserData(null)
+        setShowDropdown(false)
+        navigate("/Home")
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Logout failed. Please try again.");
+      toast.error(error.message)
     }
   }
 
