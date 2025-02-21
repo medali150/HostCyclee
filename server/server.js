@@ -62,7 +62,7 @@ app.use((err, req, res, next) => {
 });
 
 // Démarrer le serveur
-app.listen(port, () => consoe.log(`✅ Serlver started on port: ${port}`));
+app.listen(port, () => console.log(`✅ Serlver started on port: ${port}`));
 
 
 
