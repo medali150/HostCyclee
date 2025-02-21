@@ -174,7 +174,7 @@ export const logout = async (req, res) => {
       res.clearCookie('token', {
           httpOnly: true,
           secure: true, // Important pour HTTPS
-          sameSite: 'yes', // Autoriser Vercel & Cross-Origin
+          sameSite: 'none', // Autoriser Vercel & Cross-Origin
           domain: '.vercel.app', // Spécifier le domaine (facultatif)
           expires: new Date(0) // Expire immédiatement
       });
